@@ -1,0 +1,8 @@
+prefix=/home/bhertel/catkin_ws/devel
+
+Name: ur_modern_driver
+Description: Description of ur_modern_driver
+Version: 0.1.0
+Cflags: -I/home/bhertel/catkin_ws/src/ur_modern_driver/include
+Libs: -L/home/bhertel/catkin_ws/devel/lib -lur_hardware_interface
+Requires: actionlib control_msgs controller_manager geometry_msgs hardware_interface industrial_msgs roscpp sensor_msgs trajectory_msgs ur_msgs

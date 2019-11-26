@@ -1,0 +1,8 @@
+prefix=/home/bhertel/catkin_ws/devel
+
+Name: robotiq_3f_gripper_articulated_gazebo_plugins
+Description: Description of robotiq_3f_gripper_articulated_gazebo_plugins
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/bhertel/catkin_ws/devel/lib 
+Requires: gazebo_plugins gazebo_ros robotiq_3f_gripper_articulated_msgs roscpp
