@@ -3,4 +3,6 @@ Catkin workspace for the PeARL laboratory at University of Massachusetts - Lowel
 
 Managed be Brendan Hertel (brendan_hertel@student.uml.edu)
 
+11/3/2019: Created repository with current state of local catkin_ws
+
 11/26/2019: pushed new changes to repository. Changes included current state of demonstration recorder node and test nodes associated with demonstration recorder
