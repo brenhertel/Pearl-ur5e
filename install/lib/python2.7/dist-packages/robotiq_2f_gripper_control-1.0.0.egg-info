@@ -1,0 +1,11 @@
+Metadata-Version: 1.1
+Name: robotiq_2f_gripper_control
+Version: 1.0.0
+Summary: Package to control a 2-Finger Gripper from Robotiq inc.
+Home-page: http://ros.org/wiki/robotiq
+Author: Jean-Philippe Roberge
+Author-email: ros@robotiq.com
+License: BSD
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires: rospy

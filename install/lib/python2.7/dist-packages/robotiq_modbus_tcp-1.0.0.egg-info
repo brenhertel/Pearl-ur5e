@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: robotiq_modbus_tcp
+Version: 1.0.0
+Summary: A stack to communicate with Robotiq grippers using the Modbus TCP protocol
+Home-page: http://wiki.ros.org/robotiq
+Author: Jean-Philippe Roberge
+Author-email: ros@robotiq.com
+License: BSD
+Description: UNKNOWN
+Platform: UNKNOWN

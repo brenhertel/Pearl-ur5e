@@ -1,0 +1,10 @@
+(cl:defpackage brendan_ur5e-srv
+  (:use )
+  (:export
+   "SHUTDOWN_REQUEST"
+   "<SHUTDOWN_REQUEST-REQUEST>"
+   "SHUTDOWN_REQUEST-REQUEST"
+   "<SHUTDOWN_REQUEST-RESPONSE>"
+   "SHUTDOWN_REQUEST-RESPONSE"
+  ))
+

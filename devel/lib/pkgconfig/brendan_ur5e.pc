@@ -3,6 +3,6 @@ prefix=/home/bhertel/catkin_ws/devel
 Name: brendan_ur5e
 Description: Description of brendan_ur5e
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/bhertel/catkin_ws/devel/include
 Libs: -L/home/bhertel/catkin_ws/devel/lib 
 Requires: 
