@@ -13,3 +13,5 @@ where XXX.XXX.XXX.XXX is the ip address of the robot. This launch file establish
 11/3/2019: Created repository with current state of local catkin_ws.
 
 11/26/2019: pushed new changes to repository. Changes included current state of demonstration recorder node and test nodes associated with demonstration recorder.
+
+12/3/2019: pushed new changes to repository. Changes included current state of demonstration recorder node and attempts to update/fix urdf files associated with gripper. Currently running into issues establishing gripper model connection.
