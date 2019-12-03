@@ -113,13 +113,14 @@ import struct
 
 
 class shutdown_requestResponse(genpy.Message):
-  _md5sum = "d41d8cd98f00b204e9800998ecf8427e"
+  _md5sum = "b5a3c6284d5ab11e232db053f443f102"
   _type = "brendan_ur5e/shutdown_requestResponse"
   _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _full_text = """int64 b
+
 """
-  __slots__ = []
-  _slot_types = []
+  __slots__ = ['b']
+  _slot_types = ['int64']
 
   def __init__(self, *args, **kwds):
     """
@@ -129,7 +130,7 @@ class shutdown_requestResponse(genpy.Message):
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       
+       b
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -137,6 +138,11 @@ class shutdown_requestResponse(genpy.Message):
     """
     if args or kwds:
       super(shutdown_requestResponse, self).__init__(*args, **kwds)
+      #message fields cannot be None, assign default values for those that are
+      if self.b is None:
+        self.b = 0
+    else:
+      self.b = 0
 
   def _get_types(self):
     """
@@ -150,7 +156,7 @@ class shutdown_requestResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      pass
+      buff.write(_get_struct_q().pack(self.b))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -161,6 +167,9 @@ class shutdown_requestResponse(genpy.Message):
     """
     try:
       end = 0
+      start = end
+      end += 8
+      (self.b,) = _get_struct_q().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -173,7 +182,7 @@ class shutdown_requestResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      pass
+      buff.write(_get_struct_q().pack(self.b))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -185,6 +194,9 @@ class shutdown_requestResponse(genpy.Message):
     """
     try:
       end = 0
+      start = end
+      end += 8
+      (self.b,) = _get_struct_q().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -193,8 +205,14 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
+_struct_q = None
+def _get_struct_q():
+    global _struct_q
+    if _struct_q is None:
+        _struct_q = struct.Struct("<q")
+    return _struct_q
 class shutdown_request(object):
   _type          = 'brendan_ur5e/shutdown_request'
-  _md5sum = '019706110004b728d56d8baaa8e32797'
+  _md5sum = 'f16097f93022db785b2cc9436c158893'
   _request_class  = shutdown_requestRequest
   _response_class = shutdown_requestResponse

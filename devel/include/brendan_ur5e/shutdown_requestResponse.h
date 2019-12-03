@@ -24,14 +24,17 @@ struct shutdown_requestResponse_
   typedef shutdown_requestResponse_<ContainerAllocator> Type;
 
   shutdown_requestResponse_()
-    {
+    : b(0)  {
     }
   shutdown_requestResponse_(const ContainerAllocator& _alloc)
-    {
+    : b(0)  {
   (void)_alloc;
     }
 
 
+
+   typedef int64_t _b_type;
+  _b_type b;
 
 
 
@@ -111,12 +114,12 @@ struct MD5Sum< ::brendan_ur5e::shutdown_requestResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "d41d8cd98f00b204e9800998ecf8427e";
+    return "b5a3c6284d5ab11e232db053f443f102";
   }
 
   static const char* value(const ::brendan_ur5e::shutdown_requestResponse_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xd41d8cd98f00b204ULL;
-  static const uint64_t static_value2 = 0xe9800998ecf8427eULL;
+  static const uint64_t static_value1 = 0xb5a3c6284d5ab11eULL;
+  static const uint64_t static_value2 = 0x232db053f443f102ULL;
 };
 
 template<class ContainerAllocator>
@@ -135,7 +138,8 @@ struct Definition< ::brendan_ur5e::shutdown_requestResponse_<ContainerAllocator>
 {
   static const char* value()
   {
-    return "\n\
+    return "int64 b\n\
+\n\
 ";
   }
 
@@ -152,8 +156,10 @@ namespace serialization
 
   template<class ContainerAllocator> struct Serializer< ::brendan_ur5e::shutdown_requestResponse_<ContainerAllocator> >
   {
-    template<typename Stream, typename T> inline static void allInOne(Stream&, T)
-    {}
+    template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
+    {
+      stream.next(m.b);
+    }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
   }; // struct shutdown_requestResponse_
@@ -169,8 +175,11 @@ namespace message_operations
 template<class ContainerAllocator>
 struct Printer< ::brendan_ur5e::shutdown_requestResponse_<ContainerAllocator> >
 {
-  template<typename Stream> static void stream(Stream&, const std::string&, const ::brendan_ur5e::shutdown_requestResponse_<ContainerAllocator>&)
-  {}
+  template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::brendan_ur5e::shutdown_requestResponse_<ContainerAllocator>& v)
+  {
+    s << indent << "b: ";
+    Printer<int64_t>::stream(s, indent + "  ", v.b);
+  }
 };
 
 } // namespace message_operations

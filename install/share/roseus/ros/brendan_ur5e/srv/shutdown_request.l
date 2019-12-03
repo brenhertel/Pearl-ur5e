@@ -77,27 +77,57 @@
 
 (defclass brendan_ur5e::shutdown_requestResponse
   :super ros::object
-  :slots ())
+  :slots (_b ))
 
 (defmethod brendan_ur5e::shutdown_requestResponse
   (:init
    (&key
+    ((:b __b) 0)
     )
    (send-super :init)
+   (setq _b (round __b))
    self)
+  (:b
+   (&optional __b)
+   (if __b (setq _b __b)) _b)
   (:serialization-length
    ()
    (+
-    0
+    ;; int64 _b
+    8
     ))
   (:serialize
    (&optional strm)
    (let ((s (if strm strm
               (make-string-output-stream (send self :serialization-length)))))
+     ;; int64 _b
+#+(or :alpha :irix6 :x86_64)
+       (progn (sys::poke _b (send s :buffer) (send s :count) :long) (incf (stream-count s) 8))
+#-(or :alpha :irix6 :x86_64)
+       (cond ((and (class _b) (= (length (_b . bv)) 2)) ;; bignum
+              (write-long (ash (elt (_b . bv) 0) 0) s)
+              (write-long (ash (elt (_b . bv) 1) -1) s))
+             ((and (class _b) (= (length (_b . bv)) 1)) ;; big1
+              (write-long (elt (_b . bv) 0) s)
+              (write-long (if (>= _b 0) 0 #xffffffff) s))
+             (t                                         ;; integer
+              (write-long _b s)(write-long (if (>= _b 0) 0 #xffffffff) s)))
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
    (buf &optional (ptr- 0))
+   ;; int64 _b
+#+(or :alpha :irix6 :x86_64)
+      (setf _b (prog1 (sys::peek buf ptr- :long) (incf ptr- 8)))
+#-(or :alpha :irix6 :x86_64)
+      (setf _b (let ((b0 (prog1 (sys::peek buf ptr- :integer) (incf ptr- 4)))
+                  (b1 (prog1 (sys::peek buf ptr- :integer) (incf ptr- 4))))
+              (cond ((= b1 -1) b0)
+                     ((and (= b1  0)
+                           (<= lisp::most-negative-fixnum b0 lisp::most-positive-fixnum))
+                      b0)
+                    ((= b1  0) (make-instance bignum :size 1 :bv (integer-vector b0)))
+                    (t (make-instance bignum :size 2 :bv (integer-vector b0 (ash b1 1)))))))
    ;;
    self)
   )
@@ -106,7 +136,7 @@
   :super ros::object
   :slots ())
 
-(setf (get brendan_ur5e::shutdown_request :md5sum-) "019706110004b728d56d8baaa8e32797")
+(setf (get brendan_ur5e::shutdown_request :md5sum-) "f16097f93022db785b2cc9436c158893")
 (setf (get brendan_ur5e::shutdown_request :datatype-) "brendan_ur5e/shutdown_request")
 (setf (get brendan_ur5e::shutdown_request :request) brendan_ur5e::shutdown_requestRequest)
 (setf (get brendan_ur5e::shutdown_request :response) brendan_ur5e::shutdown_requestResponse)
@@ -114,24 +144,26 @@
 (defmethod brendan_ur5e::shutdown_requestRequest
   (:response () (instance brendan_ur5e::shutdown_requestResponse :init)))
 
-(setf (get brendan_ur5e::shutdown_requestRequest :md5sum-) "019706110004b728d56d8baaa8e32797")
+(setf (get brendan_ur5e::shutdown_requestRequest :md5sum-) "f16097f93022db785b2cc9436c158893")
 (setf (get brendan_ur5e::shutdown_requestRequest :datatype-) "brendan_ur5e/shutdown_requestRequest")
 (setf (get brendan_ur5e::shutdown_requestRequest :definition-)
       "int64 a
 ---
+int64 b
 
 ")
 
-(setf (get brendan_ur5e::shutdown_requestResponse :md5sum-) "019706110004b728d56d8baaa8e32797")
+(setf (get brendan_ur5e::shutdown_requestResponse :md5sum-) "f16097f93022db785b2cc9436c158893")
 (setf (get brendan_ur5e::shutdown_requestResponse :datatype-) "brendan_ur5e/shutdown_requestResponse")
 (setf (get brendan_ur5e::shutdown_requestResponse :definition-)
       "int64 a
 ---
+int64 b
 
 ")
 
 
 
-(provide :brendan_ur5e/shutdown_request "019706110004b728d56d8baaa8e32797")
+(provide :brendan_ur5e/shutdown_request "f16097f93022db785b2cc9436c158893")
 
 

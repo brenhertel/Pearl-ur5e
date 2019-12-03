@@ -10,12 +10,15 @@
   <!-- ur5e -->
   <xacro:include filename="$(find brendan_ur5e)/urdf/ur5e.urdf.xacro" />  
   <!-- robotiq_2f_85 gripper -->
-  <xacro:include filename="$(find robotiq)/robotiq_2f_85_gripper_visualization/robotiq_arg2f_85_model.xacro" />
-
+  <!--
+  <xacro:include filename="$(find brendan_ur5e)/urdf/robotiq_arg2f_85_model_macro.xacro" />
+  <xacro:include filename="$(find brendan_ur5e)/urdf/robotiq_arg2f.xacro" />
+  -->
+  <xacro:include filename="($find brendan_ur5e)/urdf/robotiq_arg2f_85_model.urdf.xacro" />
   <!-- arm -->
   <xacro:ur5e_robot prefix="" joint_limited="false"/>
   <!-- gripper -->
-  <xacro:robotiq_arg2f prefix=""/>
+  <xacro:robotiq_arg2f_85 prefix=""/>
 
   <!-- world -->
   <link name="world" />
@@ -25,6 +28,13 @@
     <parent link="world" />
     <child link = "base_link" />
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- robot to gripper joint -->
+  <joint name="gripper_joint" type="fixed">
+    <parent link="ee_link" />
+    <child link = "robotiq_arg2f_base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0"/>
   </joint>
 
 </robot>

@@ -40,7 +40,7 @@ template<>
 struct MD5Sum< ::brendan_ur5e::shutdown_request > {
   static const char* value()
   {
-    return "019706110004b728d56d8baaa8e32797";
+    return "f16097f93022db785b2cc9436c158893";
   }
 
   static const char* value(const ::brendan_ur5e::shutdown_request&) { return value(); }

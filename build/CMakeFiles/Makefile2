@@ -518,6 +518,24 @@ robotiq/robotiq_3f_gripper_articulated_gazebo/preinstall:
 .PHONY : robotiq/robotiq_3f_gripper_articulated_gazebo/preinstall
 
 #=============================================================================
+# Directory level rules for directory robotiq_arg85_description
+
+# Convenience name for "all" pass in the directory.
+robotiq_arg85_description/all:
+
+.PHONY : robotiq_arg85_description/all
+
+# Convenience name for "clean" pass in the directory.
+robotiq_arg85_description/clean:
+
+.PHONY : robotiq_arg85_description/clean
+
+# Convenience name for "preinstall" pass in the directory.
+robotiq_arg85_description/preinstall:
+
+.PHONY : robotiq_arg85_description/preinstall
+
+#=============================================================================
 # Directory level rules for directory robotiq/robotiq_3f_gripper_articulated_msgs
 
 # Convenience name for "all" pass in the directory.

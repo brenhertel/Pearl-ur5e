@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#all necessarry imports
+#all necessary imports
 import rospy
 import roslib
 import time
@@ -21,10 +21,12 @@ recording = 1
 #global variable to keep track of time of the recorded data
 record_time = 0
 
+demo_number = 0
 name = 'recorded_demo ' + time.ctime() + '.h5'
 
-def save_demo(arr_struct, demo_number):
+def save_demo(arr_struct):
 	global name
+	global demo_number
 	fp = h5py.File (name, 'w')
 	demo_name = 'demo' + str(demo_number)
 	dset_time = fp.create_dataset(demo_name + '/time_info/time_data', data=arr_struct.time_arr)
@@ -38,7 +40,7 @@ def save_demo(arr_struct, demo_number):
 #service that shuts down the node after a catch-up period
 def shutdown_self(req):
 	if req.a == 1:
-		rospy.loginfo("recieved request to shutdown")
+		rospy.loginfo("received request to shutdown")
 		time_at_req = int(round(time.time()))		
 		while (time_at_req >= record_time):
 			rospy.loginfo("time_at_req: %d, record_time: %d", time_at_req, record_time)
@@ -48,8 +50,11 @@ def shutdown_self(req):
 		recording = 0
 		#shutdown_sub_node()
 
+class request():
+	def __init__(self):
+		self.a = 1
 
-#instead of passing all the indidvidual arrays around, I use a structure of arrays to keep them all in the same place
+#instead of passing all the individual arrays around, I use a structure of arrays to keep them all in the same place
 class Arr_Struct():
 	def __init__(self, time_arr, joint_arr, effort_arr, pos_arr, force_arr, torq_arr):
 		self.time_arr = time_arr
@@ -86,7 +91,7 @@ def js_callback(jsmsg, arr_struct):
 	#global sub_tf
 	sub_tf = rospy.Subscriber("tf", tfMessage, tf_callback, (jsmsg, arr_struct))
    
-def listener(demo_number):
+def listener():
 	#create the initial empty arrays (creates a first row that will be removed later for clean data
 	time_arr = np.empty([2, 1])	
 	joint_arr = np.empty([6, 1])
@@ -99,7 +104,13 @@ def listener(demo_number):
 #	grip_status_arr = np.empty([1])
 	#subscribe to joint_states, passing the structure of arrays
 	#global sub_js
-	sub_js = rospy.Subscriber("joint_states", JointState, js_callback, arr_struct)
+	start_time = int(round(time.time()))
+	global record_time
+	global demo_number
+	rospy.loginfo("Record time: %d, start time: %d", record_time, start_time)
+	while demo_number == 1 or record_time <= start_time:
+		sub_js = rospy.Subscriber("joint_states", JointState, js_callback, arr_struct)
+		#rospy.sleep(1)
 	#create a service that shuts down the node when called. This is because the data being put into the array is behind real-time data, so the service actually shuts down the node once all the data that existed and the time of shutdown call has been processed
 	srvc = rospy.Service('end_demo', shutdown_request, shutdown_self)
         # spin() simply keeps python from exiting until this node is stopped
@@ -130,13 +141,21 @@ def listener(demo_number):
 	save = raw_input('Would you like to save this demo? (y/n)')
 	rospy.loginfo("You entered: %s", save)
 	if (save == 'y'):
-		save_demo(arr_struct, demo_number)
+		save_demo(arr_struct)
+	cont = raw_input('Would you like to start another demo? (y/n)')
+	rospy.loginfo("You entered: %s", cont)
+	if (cont == 'y'):
+		req = request()
+		begin_listener(req)
 
 def begin_listener(req):
-	demo_number = 1
+	global demo_number
+	global recording
 	if req.a == 1:
-		listener(demo_number)
-		demo_number  = demo_number + 1
+		recording = 1
+		demo_number = demo_number + 1		
+		listener()
+		
 
 if __name__ == '__main__':
 	#create the node

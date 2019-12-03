@@ -92,13 +92,22 @@ class shutdown_requestResponse {
   constructor(initObj={}) {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
+      this.b = null;
     }
     else {
+      if (initObj.hasOwnProperty('b')) {
+        this.b = initObj.b
+      }
+      else {
+        this.b = 0;
+      }
     }
   }
 
   static serialize(obj, buffer, bufferOffset) {
     // Serializes a message object of type shutdown_requestResponse
+    // Serialize message field [b]
+    bufferOffset = _serializer.int64(obj.b, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -106,11 +115,13 @@ class shutdown_requestResponse {
     //deserializes a message object of type shutdown_requestResponse
     let len;
     let data = new shutdown_requestResponse(null);
+    // Deserialize message field [b]
+    data.b = _deserializer.int64(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 0;
+    return 8;
   }
 
   static datatype() {
@@ -120,12 +131,13 @@ class shutdown_requestResponse {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'd41d8cd98f00b204e9800998ecf8427e';
+    return 'b5a3c6284d5ab11e232db053f443f102';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
+    int64 b
     
     
     `;
@@ -137,6 +149,13 @@ class shutdown_requestResponse {
       msg = {};
     }
     const resolved = new shutdown_requestResponse(null);
+    if (msg.b !== undefined) {
+      resolved.b = msg.b;
+    }
+    else {
+      resolved.b = 0
+    }
+
     return resolved;
     }
 };
@@ -144,6 +163,6 @@ class shutdown_requestResponse {
 module.exports = {
   Request: shutdown_requestRequest,
   Response: shutdown_requestResponse,
-  md5sum() { return '019706110004b728d56d8baaa8e32797'; },
+  md5sum() { return 'f16097f93022db785b2cc9436c158893'; },
   datatype() { return 'brendan_ur5e/shutdown_request'; }
 };
