@@ -23,6 +23,12 @@
         </geometry>
       </collision>
     </link>
+    <!-- robot to gripper joint -->
+    <joint name="gripper_joint" type="fixed">
+      <parent link="${prefix}ee_link" />
+      <child link = "${prefix}robotiq_arg2f_base_link" />
+      <origin xyz="0 0 0" rpy="0 ${pi / 2.0} 0"/>
+    </joint>
   </xacro:macro>
 
   <xacro:macro name="finger_joints" params="prefix fingerprefix reflect">

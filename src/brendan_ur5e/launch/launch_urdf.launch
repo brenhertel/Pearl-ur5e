@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="model" default="$(find brendan_ur5e)/urdf/ur5e_gripper_no_macros.urdf.xacro"/>
+  <arg name="model" default="$(find brendan_ur5e)/urdf/brendan_ur5e.urdf.xacro"/>
   <arg name="gui" default="true" />
   <arg name="rvizconfig" default="$(find brendan_ur5e_moveit_config)/launch/moveit.rviz" />
 

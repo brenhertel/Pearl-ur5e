@@ -2,6 +2,10 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro"
        name="ur5e" >
 
+
+   <!-- world -->
+  <link name="world" />
+
   <xacro:property name="prefix" value=""/>
   <xacro:property name="joint_limited" value="false"/>
 
@@ -723,8 +727,6 @@
       <mimic joint="${prefix}finger_joint" multiplier="1" offset="0" />
     </joint>
 
-   <!-- world -->
-  <link name="world" />
 
   <!-- world to robot joint -->
   <joint name="world_joint" type="fixed">

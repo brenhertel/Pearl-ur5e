@@ -200,5 +200,6 @@
     <xacro:finger_joint prefix="${prefix}"/>
     <xacro:right_outer_knuckle_joint prefix="${prefix}"/>
     <xacro:robotiq_arg2f_transmission prefix="${prefix}"/>
+    
   </xacro:macro>
 </robot>
