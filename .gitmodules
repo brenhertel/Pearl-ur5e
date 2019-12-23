@@ -1,0 +1,15 @@
+[submodule "src/dmp"]
+	path = src/dmp
+	url = https://github.com/brenhertel/dmp
+[submodule "src/robotiq"]
+	path = src/robotiq
+	url = https://github.com/brenhertel/robotiq
+[submodule "srcuniversal_robot"]
+	path = src/universal_robot
+	url = https://github.com/brenhertel/universal_robot
+[submodule "src/ur5e_workstation"]
+	path = src/ur5e_workstation
+	url = https://github.com/brenhertel/ur5e_workstation
+[submodule "src/ur_modern_driver"]
+	path = src/ur_modern_driver
+	url = https://github.com/brenhertel/ur_modern_driver
