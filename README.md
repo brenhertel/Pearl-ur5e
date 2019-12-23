@@ -23,3 +23,5 @@ where XXX.XXX.XXX.XXX is the ip address of the robot. This launch file establish
 By default it launches the ur5e_gripper_no_macros.urdf.xacro file, however by specifying the parameter model:={path/filename}, where {path/filename} is the filepath from the current directory to the urdf file you wish to launch in rviz, you can launch any urdf file.
 
 12/12/2019: pushed new changes to repository. Updates with changes to URDF of UR5e and Robotiq gripper together.
+
+12/23/2019: pushed new changes to repository. Updates to organization of git repository with forks from other repositories included as submodules.
