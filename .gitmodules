@@ -4,7 +4,7 @@
 [submodule "src/robotiq"]
 	path = src/robotiq
 	url = https://github.com/brenhertel/robotiq
-[submodule "srcuniversal_robot"]
+[submodule "src/universal_robot"]
 	path = src/universal_robot
 	url = https://github.com/brenhertel/universal_robot
 [submodule "src/ur5e_workstation"]
