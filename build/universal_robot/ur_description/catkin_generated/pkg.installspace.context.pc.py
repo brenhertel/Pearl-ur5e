@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "ur_description"
 PROJECT_SPACE_DIR = "/home/bhertel/catkin_ws/install"
-PROJECT_VERSION = "1.2.5"
+PROJECT_VERSION = "1.2.7"

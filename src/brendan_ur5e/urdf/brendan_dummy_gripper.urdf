@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       name="dummy_robotiq_gripper" >
+
+  <!-- Gripper Base -->
+  <link name="dummy_bottom" >
+    <!-- <origin xyz="0 0 0.1" rpy="0 0 0"/> -->
+    <visual>
+      <geometry>
+        <cylinder radius="0.038" length="0.05"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.038" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Gripper Fingers (accounts for open and close positions) -->
+  <link name="dummy_fingers" >
+    <visual>
+      <geometry>
+        <box size="0.03 0.15 0.13"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.03 0.15 0.13"/>
+      </geometry>
+    </collision>
+  </link>
+ 
+  <!-- Base to Finger joint -->
+  <joint name="base_to_finger_joint" type="fixed">
+    <origin xyz="0 0 0.09" rpy = "0 0 0"/>
+    <parent link="dummy_bottom"/>
+    <child link="dummy_fingers"/>
+  </joint>
+
+</robot>

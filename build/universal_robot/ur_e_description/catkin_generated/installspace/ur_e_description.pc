@@ -2,7 +2,7 @@ prefix=/home/bhertel/catkin_ws/install
 
 Name: ur_e_description
 Description: Description of ur_e_description
-Version: 1.2.5
+Version: 1.2.7
 Cflags: 
 Libs: -L/home/bhertel/catkin_ws/install/lib 
 Requires: 

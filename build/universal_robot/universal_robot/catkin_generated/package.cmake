@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "universal_robot")
-set(universal_robot_VERSION "1.2.5")
+set(universal_robot_VERSION "1.2.7")
 set(universal_robot_MAINTAINER "G.A. vd. Hoorn <g.a.vanderhoorn@tudelft.nl>, Miguel Prada Sarasola <miguel.prada@tecnalia.com>, Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>")
 set(universal_robot_PACKAGE_FORMAT "2")
 set(universal_robot_BUILD_DEPENDS )

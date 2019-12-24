@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "ur_msgs")
-set(ur_msgs_VERSION "1.2.5")
+set(ur_msgs_VERSION "1.2.7")
 set(ur_msgs_MAINTAINER "G.A. vd. Hoorn <g.a.vanderhoorn@tudelft.nl>, Miguel Prada Sarasola <miguel.prada@tecnalia.com>, Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>")
 set(ur_msgs_PACKAGE_FORMAT "2")
 set(ur_msgs_BUILD_DEPENDS "message_generation" "std_msgs")

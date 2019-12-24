@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "ur5_moveit_config")
-set(ur5_moveit_config_VERSION "1.2.5")
+set(ur5_moveit_config_VERSION "1.2.7")
 set(ur5_moveit_config_MAINTAINER "G.A. vd. Hoorn <g.a.vanderhoorn@tudelft.nl>, Miguel Prada Sarasola <miguel.prada@tecnalia.com>, Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>")
 set(ur5_moveit_config_PACKAGE_FORMAT "2")
 set(ur5_moveit_config_BUILD_DEPENDS "ur_description")

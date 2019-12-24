@@ -44,689 +44,694 @@
     </inertial>
   </xacro:macro>
 
-    <!-- Inertia parameters -->
-    <xacro:property name="base_mass" value="4.0" />  <!-- This mass might be incorrect -->
-    <xacro:property name="shoulder_mass" value="3.7000" />
-    <xacro:property name="upper_arm_mass" value="8.3930" />
-    <xacro:property name="forearm_mass" value="2.2750" />
-    <xacro:property name="wrist_1_mass" value="1.2190" />
-    <xacro:property name="wrist_2_mass" value="1.2190" />
-    <xacro:property name="wrist_3_mass" value="0.1879" />
+  <!-- Inertia parameters -->
+  <xacro:property name="base_mass" value="4.0" />  <!-- This mass might be incorrect -->
+  <xacro:property name="shoulder_mass" value="3.7000" />
+  <xacro:property name="upper_arm_mass" value="8.3930" />
+  <xacro:property name="forearm_mass" value="2.2750" />
+  <xacro:property name="wrist_1_mass" value="1.2190" />
+  <xacro:property name="wrist_2_mass" value="1.2190" />
+  <xacro:property name="wrist_3_mass" value="0.1879" />
 
-    <xacro:property name="shoulder_cog" value="0.0 0.00193 -0.02561" />
-    <xacro:property name="upper_arm_cog" value="0.0 -0.024201 0.2125" />
-    <xacro:property name="forearm_cog" value="0.0 0.0265 0.11993" />
-    <xacro:property name="wrist_1_cog" value="0.0 0.110949 0.01634" />
-    <xacro:property name="wrist_2_cog" value="0.0 0.0018 0.11099" />
-    <xacro:property name="wrist_3_cog" value="0.0 0.001159 0.0" />
+  <xacro:property name="shoulder_cog" value="0.0 0.00193 -0.02561" />
+  <xacro:property name="upper_arm_cog" value="0.0 -0.024201 0.2125" />
+  <xacro:property name="forearm_cog" value="0.0 0.0265 0.11993" />
+  <xacro:property name="wrist_1_cog" value="0.0 0.110949 0.01634" />
+  <xacro:property name="wrist_2_cog" value="0.0 0.0018 0.11099" />
+  <xacro:property name="wrist_3_cog" value="0.0 0.001159 0.0" />
 
-    <!-- Kinematic model -->
-    <!-- Properties from urcontrol.conf -->
-    <!--
-      DH for ur5e:
-      a = [0.00000, -0.42500, -0.39225,  0.00000,  0.00000,  0.0000]
-      d = [0.089159,  0.00000,  0.00000,  0.10915,  0.09465,  0.0823]
-      alpha = [ 1.570796327, 0, 0, 1.570796327, -1.570796327, 0 ]
-      q_home_offset = [0, -1.570796327, 0, -1.570796327, 0, 0]
-      joint_direction = [-1, -1, 1, 1, 1, 1]
-      mass = [3.7000, 8.3930, 2.2750, 1.2190, 1.2190, 0.1879]
-      center_of_mass = [ [0, -0.02561, 0.00193], [0.2125, 0, 0.11336], [0.11993, 0.0, 0.0265], [0, -0.0018, 0.01634], [0, 0.0018,0.01634], [0, 0, -0.001159] ]
-    -->
-    <xacro:property name="d1" value="0.163" />
-    <xacro:property name="a2" value="-0.425" />
-    <xacro:property name="a3" value="-0.392" />
-    <xacro:property name="d4" value="0.127" />
-    <xacro:property name="d5" value="0.100" />
-    <xacro:property name="d6" value="0.100" />
+  <!-- Kinematic model -->
+  <!-- Properties from urcontrol.conf -->
+  <!--
+    DH for ur5e:
+    a = [0.00000, -0.42500, -0.39225,  0.00000,  0.00000,  0.0000]
+    d = [0.089159,  0.00000,  0.00000,  0.10915,  0.09465,  0.0823]
+    alpha = [ 1.570796327, 0, 0, 1.570796327, -1.570796327, 0 ]
+    q_home_offset = [0, -1.570796327, 0, -1.570796327, 0, 0]
+    joint_direction = [-1, -1, 1, 1, 1, 1]
+    mass = [3.7000, 8.3930, 2.2750, 1.2190, 1.2190, 0.1879]
+    center_of_mass = [ [0, -0.02561, 0.00193], [0.2125, 0, 0.11336], [0.11993, 0.0, 0.0265], [0, -0.0018, 0.01634], [0, 0.0018,0.01634], [0, 0, -0.001159] ]
+  -->
+  <xacro:property name="d1" value="0.163" />
+  <xacro:property name="a2" value="-0.425" />
+  <xacro:property name="a3" value="-0.392" />
+  <xacro:property name="d4" value="0.127" />
+  <xacro:property name="d5" value="0.100" />
+  <xacro:property name="d6" value="0.100" />
 
-    <!-- Arbitrary offsets for shoulder/elbow joints -->
-    <xacro:property name="shoulder_offset" value="0.138" />
-    <xacro:property name="elbow_offset" value="-0.131" />
+  <!-- Arbitrary offsets for shoulder/elbow joints -->
+  <xacro:property name="shoulder_offset" value="0.138" />
+  <xacro:property name="elbow_offset" value="-0.131" />
 
-    <!-- link lengths used in model -->
-    <xacro:property name="shoulder_height" value="${d1}" />
-    <xacro:property name="upper_arm_length" value="${-a2}" />
-    <xacro:property name="forearm_length" value="${-a3}" />
-    <xacro:property name="wrist_1_length" value="${d4}" />
-    <xacro:property name="wrist_2_length" value="${d5}" />
-    <xacro:property name="wrist_3_length" value="${d6}" />
-    <!--property name="shoulder_height" value="0.089159" /-->
-    <!--property name="shoulder_offset" value="0.13585" /-->  <!-- shoulder_offset - elbow_offset + wrist_1_length = 0.10915 -->
-    <!--property name="upper_arm_length" value="0.42500" /-->
-    <!--property name="elbow_offset" value="0.1197" /-->       <!-- CAD measured -->
-    <!--property name="forearm_length" value="0.39225" /-->
-    <!--property name="wrist_1_length" value="0.093" /-->     <!-- CAD measured -->
-    <!--property name="wrist_2_length" value="0.09465" /-->   <!-- In CAD this distance is 0.930, but in the spec it is 0.09465 -->
-    <!--property name="wrist_3_length" value="0.0823" /-->
+  <!-- link lengths used in model -->
+  <xacro:property name="shoulder_height" value="${d1}" />
+  <xacro:property name="upper_arm_length" value="${-a2}" />
+  <xacro:property name="forearm_length" value="${-a3}" />
+  <xacro:property name="wrist_1_length" value="${d4}" />
+  <xacro:property name="wrist_2_length" value="${d5}" />
+  <xacro:property name="wrist_3_length" value="${d6}" />
 
-    <xacro:property name="shoulder_radius" value="0.060" />   <!-- manually measured -->
-    <xacro:property name="upper_arm_radius" value="0.054" />  <!-- manually measured -->
-    <xacro:property name="elbow_radius" value="0.060" />      <!-- manually measured -->
-    <xacro:property name="forearm_radius" value="0.040" />    <!-- manually measured -->
-    <xacro:property name="wrist_radius" value="0.045" />      <!-- manually measured -->
+  <!--property name="shoulder_height" value="0.089159" /-->
+  <!--property name="shoulder_offset" value="0.13585" /-->  <!-- shoulder_offset - elbow_offset + wrist_1_length = 0.10915 -->
+  <!--property name="upper_arm_length" value="0.42500" /-->
+  <!--property name="elbow_offset" value="0.1197" /-->       <!-- CAD measured -->
+  <!--property name="forearm_length" value="0.39225" /-->
+  <!--property name="wrist_1_length" value="0.093" /-->     <!-- CAD measured -->
+  <!--property name="wrist_2_length" value="0.09465" /-->   <!-- In CAD this distance is 0.930, but in the spec it is 0.09465 -->
+  <!--property name="wrist_3_length" value="0.0823" /-->
 
+  <xacro:property name="shoulder_radius" value="0.060" />   <!-- manually measured -->
+  <xacro:property name="upper_arm_radius" value="0.054" />  <!-- manually measured -->
+  <xacro:property name="elbow_radius" value="0.060" />      <!-- manually measured -->
+  <xacro:property name="forearm_radius" value="0.040" />    <!-- manually measured -->
+  <xacro:property name="wrist_radius" value="0.045" />      <!-- manually measured -->
 
-    <link name="base_link" >
-      <visual>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/visual/base.dae" />
-        </geometry>
-        <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/collision/base.stl" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial radius="0.06" length="0.05" mass="${base_mass}">
-        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-      </xacro:cylinder_inertial>
-    </link>
+  <!-- UR5e links -->
+  <link name="base_link" >
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/visual/base.dae" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/collision/base.stl" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="0.06" length="0.05" mass="${base_mass}">
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+    </xacro:cylinder_inertial>
+  </link>
 
-    <joint name="shoulder_pan_joint" type="continuous">
-      <parent link="base_link" />
-      <child link = "shoulder_link" />
-      <origin xyz="0.0 0.0 0.163" rpy="0.0 0.0 0.0" />
-      <axis xyz="0 0 1" />
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
+  <link name="shoulder_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/visual/shoulder.dae" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/collision/shoulder.stl" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="0.06" length="0.15" mass="${shoulder_mass}">
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+    </xacro:cylinder_inertial>
+  </link>
 
-    <link name="shoulder_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/visual/shoulder.dae" />
-        </geometry>
-        <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/collision/shoulder.stl" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial radius="0.06" length="0.15" mass="${shoulder_mass}">
-        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-      </xacro:cylinder_inertial>
-    </link>
+  <link name="upper_arm_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/visual/upperarm.dae" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/collision/upperarm.stl" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="0.06" length="${upper_arm_length}" mass="${upper_arm_mass}">
+      <origin xyz="0.0 0.0 ${upper_arm_length/2}" rpy="0 0 0" />
+    </xacro:cylinder_inertial>
+  </link>
 
-    <joint name="shoulder_lift_joint" type="revolute">
-      <parent link="shoulder_link" />
-      <child link = "upper_arm_link" />
-      <origin xyz="0.0 0.138 0.0" rpy="0.0 ${3.14159 / 2.0} 0.0" />
-      <axis xyz="0 1 0" />
-      <xacro:unless value="${joint_limited}">
-        <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="150.0" velocity="3.14"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:unless>
-      <xacro:if value="${joint_limited}">
-        <limit lower="${shoulder_lift_lower_limit}" upper="${shoulder_lift_upper_limit}" effort="150.0" velocity="3.14"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${shoulder_lift_lower_limit + safety_pos_margin}" soft_upper_limit="${shoulder_lift_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:if>
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
+  <link name="forearm_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/visual/forearm.dae" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/collision/forearm.stl" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="0.06" length="${forearm_length}" mass="${forearm_mass}">
+      <origin xyz="0.0 0.0 ${forearm_length/2}" rpy="0 0 0" />
+    </xacro:cylinder_inertial>
+  </link>
 
-    <link name="upper_arm_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/visual/upperarm.dae" />
-        </geometry>
-        <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/collision/upperarm.stl" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial radius="0.06" length="${upper_arm_length}" mass="${upper_arm_mass}">
-        <origin xyz="0.0 0.0 ${upper_arm_length/2}" rpy="0 0 0" />
-      </xacro:cylinder_inertial>
-    </link>
+  <link name="wrist_1_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/visual/wrist1.dae" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/collision/wrist1.stl" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="0.06" length="0.12" mass="${wrist_1_mass}">
+      <origin xyz="0.0 ${wrist_1_length} 0.0" rpy="0 0 0" />
+    </xacro:cylinder_inertial>
+  </link>
 
-    <joint name="elbow_joint" type="revolute">
-      <parent link="upper_arm_link" />
-      <child link = "forearm_link" />
-      <origin xyz="0.0 ${elbow_offset} ${upper_arm_length}" rpy="0.0 0.0 0.0" />
-      <axis xyz="0 1 0" />
-      <xacro:unless value="${joint_limited}">
-        <limit lower="-3.14159" upper="3.14159" effort="150.0" velocity="3.14"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:unless>
-      <xacro:if value="${joint_limited}">
-        <limit lower="${elbow_joint_lower_limit}" upper="${elbow_joint_upper_limit}" effort="150.0" velocity="3.14"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${elbow_joint_lower_limit + safety_pos_margin}" soft_upper_limit="${elbow_joint_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:if>
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
+  <link name="wrist_2_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/visual/wrist2.dae" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/collision/wrist2.stl" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="0.06" length="0.12" mass="${wrist_2_mass}">
+      <origin xyz="0.0 0.0 ${wrist_2_length}" rpy="0 0 0" />
+    </xacro:cylinder_inertial>
+  </link>
 
-    <link name="forearm_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/visual/forearm.dae" />
-        </geometry>
-        <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/collision/forearm.stl" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial radius="0.06" length="${forearm_length}" mass="${forearm_mass}">
-        <origin xyz="0.0 0.0 ${forearm_length/2}" rpy="0 0 0" />
-      </xacro:cylinder_inertial>
-    </link>
+  <link name="wrist_3_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/visual/wrist3.dae" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ur_e_description/meshes/ur5e/collision/wrist3.stl" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="0.0375" length="0.0458" mass="${wrist_3_mass}">
+      <origin xyz="0.0 ${wrist_3_length - 0.0458/2} 0.0" rpy="${3.14159/2.0} 0 0" />
+    </xacro:cylinder_inertial>
+  </link>
 
-    <joint name="wrist_1_joint" type="revolute">
-      <parent link="forearm_link" />
-      <child link = "wrist_1_link" />
-      <origin xyz="0.0 0.0 ${forearm_length}" rpy="0.0 ${3.14159 / 2.0} 0.0" />
-      <axis xyz="0 1 0" />
-      <xacro:unless value="${joint_limited}">
-        <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="28.0" velocity="6.28"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:unless>
-      <xacro:if value="${joint_limited}">
-        <limit lower="${wrist_1_lower_limit}" upper="${wrist_1_upper_limit}" effort="28.0" velocity="6.28"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${wrist_1_lower_limit + safety_pos_margin}" soft_upper_limit="${wrist_1_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:if>
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
+  <link name="ee_link">
+    <collision>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.01 0 0"/>
+    </collision>
+  </link>
 
-    <link name="wrist_1_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/visual/wrist1.dae" />
-        </geometry>
-        <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/collision/wrist1.stl" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial radius="0.06" length="0.12" mass="${wrist_1_mass}">
-        <origin xyz="0.0 ${wrist_1_length} 0.0" rpy="0 0 0" />
-      </xacro:cylinder_inertial>
-    </link>
-
-    <joint name="wrist_2_joint" type="revolute">
-      <parent link="wrist_1_link" />
-      <child link = "wrist_2_link" />
-      <origin xyz="0.0 ${wrist_1_length} 0.0" rpy="0.0 0.0 0.0" />
-      <axis xyz="0 0 1" />
-      <xacro:unless value="${joint_limited}">
-        <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="28.0" velocity="6.28"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:unless>
-      <xacro:if value="${joint_limited}">
-        <limit lower="${wrist_2_lower_limit}" upper="${wrist_2_upper_limit}" effort="28.0" velocity="6.28"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${wrist_2_lower_limit + safety_pos_margin}" soft_upper_limit="${wrist_2_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:if>
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
-
-    <link name="wrist_2_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/visual/wrist2.dae" />
-        </geometry>
-        <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/collision/wrist2.stl" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial radius="0.06" length="0.12" mass="${wrist_2_mass}">
-        <origin xyz="0.0 0.0 ${wrist_2_length}" rpy="0 0 0" />
-      </xacro:cylinder_inertial>
-    </link>
-
-    <joint name="wrist_3_joint" type="revolute">
-      <parent link="wrist_2_link" />
-      <child link = "wrist_3_link" />
-      <origin xyz="0.0 0.0 ${wrist_2_length}" rpy="0.0 0.0 0.0" />
-      <axis xyz="0 1 0" />
-      <xacro:unless value="${joint_limited}">
-        <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="28.0" velocity="6.28"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:unless>
-      <xacro:if value="${joint_limited}">
-        <limit lower="${wrist_3_lower_limit}" upper="${wrist_3_upper_limit}" effort="28.0" velocity="6.28"/>
-        <xacro:if value="${safety_limits}">
-          <safety_controller soft_lower_limit="${wrist_3_lower_limit + safety_pos_margin}" soft_upper_limit="${wrist_3_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
-        </xacro:if>
-      </xacro:if>
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
-
-    <link name="wrist_3_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/visual/wrist3.dae" />
-        </geometry>
-        <material name="LightGrey">
-          <color rgba="0.7 0.7 0.7 1.0"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://ur_e_description/meshes/ur5e/collision/wrist3.stl" />
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial radius="0.0375" length="0.0458" mass="${wrist_3_mass}">
-        <origin xyz="0.0 ${wrist_3_length - 0.0458/2} 0.0" rpy="${3.14159/2.0} 0 0" />
-      </xacro:cylinder_inertial>
-    </link>
-
-    <joint name="ee_fixed_joint" type="fixed">
-      <parent link="wrist_3_link" />
-      <child link = "ee_link" />
-      <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="0.0 0.0 ${3.14159/2.0}" />
-    </joint>
-
-    <link name="ee_link">
-      <collision>
-        <geometry>
-          <box size="0.01 0.01 0.01"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="-0.01 0 0"/>
-      </collision>
-    </link>
-
-    <xacro:ur_arm_transmission prefix="" />
-    <xacro:ur_arm_gazebo prefix="" />
-
-    <!-- ROS base_link to UR 'Base' Coordinates transform -->
-    <link name="base"/>
-    <joint name="base_link-base_fixed_joint" type="fixed">
-      <!-- NOTE: this rotation is only needed as long as base_link itself is
-                 not corrected wrt the real robot (ie: rotated over 180
-                 degrees)
-      -->
-      <origin xyz="0 0 0" rpy="0 0 -3.14159"/>
-      <parent link="base_link"/>
-      <child link="base"/>
-    </joint>
-
-    <!-- Frame coincident with all-zeros TCP on UR controller -->
-    <link name="tool0"/>
-    <joint name="wrist_3_link-tool0_fixed_joint" type="fixed">
-      <origin xyz="0 ${wrist_3_length} 0" rpy="${3.14159/-2.0} 0 0"/>
-      <parent link="wrist_3_link"/>
-      <child link="tool0"/>
-    </joint>
-
-   <link name="robotiq_arg2f_base_link">
-      <inertial>
-        <origin xyz="8.625E-08 -4.6583E-06 0.03145" rpy="0 0 0" />
-        <mass value="0.22652" />
-        <inertia ixx="0.00020005" ixy="-4.2442E-10" ixz="-2.9069E-10" iyy="0.00017832" iyz="-3.4402E-08" izz="0.00013478" />
-      </inertial>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_base_link.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.1 0.1 0.1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-           <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_base_link.stl" />
-        </geometry>
-      </collision>
-    </link>
-
-   <transmission name="finger_joint_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="finger_joint">
-        <hardwareInterface>PositionJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="finger_joint_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-
-   <link name="left_outer_knuckle">
-      <!--<inertial>
-        <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
-        <mass value="0.00853198276973456" />
-        <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-      </collision>
-    </link>
-
-   <link name="right_outer_knuckle">
-      <!--<inertial>
-        <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
-        <mass value="0.00853198276973456" />
-        <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-      </collision>
-    </link>
-
-   <link name="left_outer_finger">
-      <!--<inertial>
-        <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
-        <mass value="0.022614240507152" />
-        <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.1 0.1 0.1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-      </collision>
-    </link>
-
-  <link name="right_outer_finger">
-      <!--<inertial>
-        <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
-        <mass value="0.022614240507152" />
-        <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.1 0.1 0.1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-      </collision>
-    </link>
-
-  <link name="left_inner_knuckle">
-      <!--<inertial>
-        <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
-       <mass value="0.0271177346495152" />
-        <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.1 0.1 0.1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-      </collision>
-    </link>
-  
-  <link name="right_inner_knuckle">
-      <!--<inertial>
-        <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
-       <mass value="0.0271177346495152" />
-        <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.1 0.1 0.1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-      </collision>
-    </link>
-
-  <link name="left_inner_finger">
-      <!--<inertial>
-        <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
-        <mass value="0.0104003125914103" />
-        <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.1 0.1 0.1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001" />
-        </geometry>
-      </collision>
-    </link>
-
-  <link name="right_inner_finger">
-      <!--<inertial>
-        <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
-        <mass value="0.0104003125914103" />
-        <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" />
-        </inertial> -->
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.1 0.1 0.1 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001" />
-        </geometry>
-      </collision>
-    </link>
-
-  <link name="left_inner_finger_pad">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <box size="0.022 0.00635 0.0375"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.9 0.9 0.9 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-           <box size="0.022 0.00635 0.0375"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.9 0.0 0.0 1" />
-        </material>
-      </collision>
-    </link>
-
-  <link name="right_inner_finger_pad">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <box size="0.022 0.00635 0.0375"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.9 0.9 0.9 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-           <box size="0.022 0.00635 0.0375"/>
-        </geometry>
-        <material name="">
-          <color rgba="0.9 0.0 0.0 1" />
-        </material>
-      </collision>
-    </link>
-
-  <joint name="left_outer_finger_joint" type="fixed">
-      <origin xyz="0 0.0315 -0.0041" rpy="0 0 0"/>
-      <parent link="left_outer_knuckle" />
-      <child link="left_outer_finger" />
-      <axis xyz="1 0 0" />
+  <!-- UR5e joints -->
+  <joint name="shoulder_pan_joint" type="continuous">
+    <parent link="base_link" />
+    <child link = "shoulder_link" />
+    <origin xyz="0.0 0.0 0.163" rpy="0.0 0.0 0.0" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
 
-    <joint name="right_outer_finger_joint" type="fixed">
-      <origin xyz="0 0.0315 -0.0041" rpy="0 0 0"/>
-      <parent link="right_outer_knuckle" />
-      <child link="right_outer_finger" />
-      <axis xyz="1 0 0" />
-    </joint>
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="shoulder_link" />
+    <child link = "upper_arm_link" />
+    <origin xyz="0.0 0.138 0.0" rpy="0.0 ${3.14159 / 2.0} 0.0" />
+    <axis xyz="0 1 0" />
+    <xacro:unless value="${joint_limited}">
+      <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="150.0" velocity="3.14"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:unless>
+    <xacro:if value="${joint_limited}">
+      <limit lower="${shoulder_lift_lower_limit}" upper="${shoulder_lift_upper_limit}" effort="150.0" velocity="3.14"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${shoulder_lift_lower_limit + safety_pos_margin}" soft_upper_limit="${shoulder_lift_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:if>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
 
-    <joint name="left_inner_knuckle_joint" type="revolute">
-      <!-- <origin xyz="0 ${1.0 * -0.0127} 0.06142" rpy="${3.14159 / 2 + .725} 0 ${(1.0 - 1) * 3.14159 / 2}" /> -->
-      <origin xyz="0 ${1.0 * -0.0127} 0.06142" rpy="0 0 ${(1 + 1.0) * 3.14159 / 2}"/>
-      <parent link="robotiq_arg2f_base_link" />
-      <child link="left_inner_knuckle" />
-      <axis xyz="1 0 0" />
-      <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
-      <mimic joint="finger_joint" multiplier="1" offset="0" />
-    </joint>
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm_link" />
+    <child link = "forearm_link" />
+    <origin xyz="0.0 ${elbow_offset} ${upper_arm_length}" rpy="0.0 0.0 0.0" />
+    <axis xyz="0 1 0" />
+    <xacro:unless value="${joint_limited}">
+      <limit lower="-3.14159" upper="3.14159" effort="150.0" velocity="3.14"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:unless>
+    <xacro:if value="${joint_limited}">
+      <limit lower="${elbow_joint_lower_limit}" upper="${elbow_joint_upper_limit}" effort="150.0" velocity="3.14"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${elbow_joint_lower_limit + safety_pos_margin}" soft_upper_limit="${elbow_joint_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:if>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
 
-    <joint name="right_inner_knuckle_joint" type="revolute">
-      <!-- <origin xyz="0 ${-1.0 * -0.0127} 0.06142" rpy="${3.14159 / 2 + .725} 0 ${(-1.0 - 1) * 3.14159 / 2}" /> -->
-      <origin xyz="0 ${-1.0 * -0.0127} 0.06142" rpy="0 0 ${(1 + -1.0) * 3.14159 / 2}"/>
-      <parent link="robotiq_arg2f_base_link" />
-      <child link="right_inner_knuckle" />
-      <axis xyz="1 0 0" />
-      <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
-      <mimic joint="finger_joint" multiplier="1" offset="0" />
-    </joint>
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="forearm_link" />
+    <child link = "wrist_1_link" />
+    <origin xyz="0.0 0.0 ${forearm_length}" rpy="0.0 ${3.14159 / 2.0} 0.0" />
+    <axis xyz="0 1 0" />
+    <xacro:unless value="${joint_limited}">
+      <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="28.0" velocity="6.28"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:unless>
+    <xacro:if value="${joint_limited}">
+      <limit lower="${wrist_1_lower_limit}" upper="${wrist_1_upper_limit}" effort="28.0" velocity="6.28"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${wrist_1_lower_limit + safety_pos_margin}" soft_upper_limit="${wrist_1_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:if>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
 
-    <joint name="left_inner_finger_joint" type="revolute">
-      <origin xyz="0 0.0061 0.0471" rpy="0 0 0"/>
-      <parent link="left_outer_finger" />
-      <child link="left_inner_finger" />
-      <axis xyz="1 0 0" />
-      <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
-      <mimic joint="finger_joint" multiplier="-1" offset="0" />
-    </joint>
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="wrist_1_link" />
+    <child link = "wrist_2_link" />
+    <origin xyz="0.0 ${wrist_1_length} 0.0" rpy="0.0 0.0 0.0" />
+    <axis xyz="0 0 1" />
+    <xacro:unless value="${joint_limited}">
+      <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="28.0" velocity="6.28"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:unless>
+    <xacro:if value="${joint_limited}">
+      <limit lower="${wrist_2_lower_limit}" upper="${wrist_2_upper_limit}" effort="28.0" velocity="6.28"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${wrist_2_lower_limit + safety_pos_margin}" soft_upper_limit="${wrist_2_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:if>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
 
-    <joint name="right_inner_finger_joint" type="revolute">
-      <origin xyz="0 0.0061 0.0471" rpy="0 0 0"/>
-      <parent link="right_outer_finger" />
-      <child link="right_inner_finger" />
-      <axis xyz="1 0 0" />
-      <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
-      <mimic joint="finger_joint" multiplier="-1" offset="0" />
-    </joint>
+  <joint name="wrist_3_joint" type="revolute">
+    <parent link="wrist_2_link" />
+    <child link = "wrist_3_link" />
+    <origin xyz="0.0 0.0 ${wrist_2_length}" rpy="0.0 0.0 0.0" />
+    <axis xyz="0 1 0" />
+    <xacro:unless value="${joint_limited}">
+      <limit lower="${-2.0 * 3.14159}" upper="${2.0 * 3.14159}" effort="28.0" velocity="6.28"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${-2.0 * 3.14159 + safety_pos_margin}" soft_upper_limit="${2.0 * 3.14159 - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:unless>
+    <xacro:if value="${joint_limited}">
+      <limit lower="${wrist_3_lower_limit}" upper="${wrist_3_upper_limit}" effort="28.0" velocity="6.28"/>
+      <xacro:if value="${safety_limits}">
+        <safety_controller soft_lower_limit="${wrist_3_lower_limit + safety_pos_margin}" soft_upper_limit="${wrist_3_upper_limit - safety_pos_margin}" k_position="${safety_k_position}" k_velocity="0.0"/>
+      </xacro:if>
+    </xacro:if>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
 
-   <joint name="left_inner_finger_pad_joint" type="fixed">
-      <origin xyz="0 -0.0220203446692936 0.03242" rpy="0 0 0"/>
-      <parent link="left_inner_finger" />
-      <child link="left_inner_finger_pad" />
-      <axis xyz="0 0 1" />
-    </joint>
+  <joint name="ee_fixed_joint" type="fixed">
+    <parent link="wrist_3_link" />
+    <child link = "ee_link" />
+    <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="0.0 0.0 ${3.14159/2.0}" />
+  </joint>
 
-    <joint name="right_inner_finger_pad_joint" type="fixed">
-      <origin xyz="0 -0.0220203446692936 0.03242" rpy="0 0 0"/>
-      <parent link="right_inner_finger" />
-      <child link="right_inner_finger_pad" />
-      <axis xyz="0 0 1" />
-    </joint>
+  <!-- UR5e extras -->
+  <xacro:ur_arm_transmission prefix="" />
+  <xacro:ur_arm_gazebo prefix="" />
 
-    <joint name="finger_joint" type="revolute">
-      <origin xyz="0 -0.0306011 0.054904" rpy="0 0 3.14159"/>
-      <parent link="robotiq_arg2f_base_link" />
-      <child link="left_outer_knuckle" />
-      <axis xyz="1 0 0" />
-      <limit lower="0" upper="0.8" velocity="2.0" effort="1000" />
-    </joint>
+  <!-- ROS base_link to UR 'Base' Coordinates transform -->
+  <link name="base"/>
+  <joint name="base_link-base_fixed_joint" type="fixed">
+    <!-- NOTE: this rotation is only needed as long as base_link itself is
+               not corrected wrt the real robot (ie: rotated over 180
+               degrees)
+    -->
+    <origin xyz="0 0 0" rpy="0 0 -3.14159"/>
+    <parent link="base_link"/>
+    <child link="base"/>
+  </joint>
 
-    <joint name="right_outer_knuckle_joint" type="revolute">
-      <origin xyz="0 0.0306011 0.054904" rpy="0 0 0"/>
-      <parent link="robotiq_arg2f_base_link" />
-      <child link="right_outer_knuckle" />
-      <axis xyz="1 0 0" />
-      <limit lower="0" upper="0.81" velocity="2.0" effort="1000" />
-      <mimic joint="finger_joint" multiplier="1" offset="0" />
-    </joint>
+  <!-- Frame coincident with all-zeros TCP on UR controller -->
+  <link name="tool0"/>
+  <joint name="wrist_3_link-tool0_fixed_joint" type="fixed">
+    <origin xyz="0 ${wrist_3_length} 0" rpy="${3.14159/-2.0} 0 0"/>
+    <parent link="wrist_3_link"/>
+    <child link="tool0"/>
+  </joint>
 
+  <!-- Robotiq 2f85 Gripper Links -->
+  <link name="robotiq_arg2f_base_link">
+    <inertial>
+      <origin xyz="8.625E-08 -4.6583E-06 0.03145" rpy="0 0 0" />
+      <mass value="0.22652" />
+      <inertia ixx="0.00020005" ixy="-4.2442E-10" ixz="-2.9069E-10" iyy="0.00017832" iyz="-3.4402E-08" izz="0.00013478" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_base_link.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_base_link.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_outer_knuckle">
+    <!--<inertial>
+      <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
+      <mass value="0.00853198276973456" />
+      <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_outer_knuckle">
+    <!--<inertial>
+      <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
+      <mass value="0.00853198276973456" />
+      <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_outer_finger">
+    <!--<inertial>
+      <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
+      <mass value="0.022614240507152" />
+      <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_outer_finger">
+    <!--<inertial>
+      <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
+      <mass value="0.022614240507152" />
+      <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_inner_knuckle">
+    <!--<inertial>
+      <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
+      <mass value="0.0271177346495152" />
+      <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_inner_knuckle">
+    <!--<inertial>
+      <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
+      <mass value="0.0271177346495152" />
+      <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_inner_finger">
+    <!--<inertial>
+      <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
+      <mass value="0.0104003125914103" />
+      <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_inner_finger">
+    <!--<inertial>
+      <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
+      <mass value="0.0104003125914103" />
+      <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://brendan_ur5e/meshes/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_inner_finger_pad">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.022 0.00635 0.0375"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.9 0.9 0.9 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.022 0.00635 0.0375"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.9 0.0 0.0 1" />
+      </material>
+    </collision>
+  </link>
+
+  <link name="right_inner_finger_pad">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.022 0.00635 0.0375"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.9 0.9 0.9 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.022 0.00635 0.0375"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.9 0.0 0.0 1" />
+      </material>
+    </collision>
+  </link>
+
+  <!-- Robotiq 2f85 Gripper joints -->
+  <joint name="finger_joint" type="revolute">
+    <origin xyz="0 -0.0306011 0.054904" rpy="0 0 3.14159"/>
+    <parent link="robotiq_arg2f_base_link" />
+    <child link="left_outer_knuckle" />
+    <axis xyz="1 0 0" />
+    <limit lower="0" upper="0.8" velocity="2.0" effort="1000" />
+  </joint>
+
+  <joint name="left_outer_finger_joint" type="fixed">
+    <origin xyz="0 0.0315 -0.0041" rpy="0 0 0"/>
+    <parent link="left_outer_knuckle" />
+    <child link="left_outer_finger" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <joint name="right_outer_finger_joint" type="fixed">
+    <origin xyz="0 0.0315 -0.0041" rpy="0 0 0"/>
+    <parent link="right_outer_knuckle" />
+    <child link="right_outer_finger" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <joint name="left_inner_knuckle_joint" type="revolute">
+    <!-- <origin xyz="0 ${1.0 * -0.0127} 0.06142" rpy="${3.14159 / 2 + .725} 0 ${(1.0 - 1) * 3.14159 / 2}" /> -->
+    <origin xyz="0 ${1.0 * -0.0127} 0.06142" rpy="0 0 ${(1 + 1.0) * 3.14159 / 2}"/>
+    <parent link="robotiq_arg2f_base_link" />
+    <child link="left_inner_knuckle" />
+    <axis xyz="1 0 0" />
+    <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
+    <mimic joint="finger_joint" multiplier="1" offset="0" />
+  </joint>
+
+  <joint name="right_inner_knuckle_joint" type="revolute">
+    <!-- <origin xyz="0 ${-1.0 * -0.0127} 0.06142" rpy="${3.14159 / 2 + .725} 0 ${(-1.0 - 1) * 3.14159 / 2}" /> -->
+    <origin xyz="0 ${-1.0 * -0.0127} 0.06142" rpy="0 0 ${(1 + -1.0) * 3.14159 / 2}"/>
+    <parent link="robotiq_arg2f_base_link" />
+    <child link="right_inner_knuckle" />
+    <axis xyz="1 0 0" />
+    <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
+    <mimic joint="finger_joint" multiplier="1" offset="0" />
+  </joint>
+
+  <joint name="left_inner_finger_joint" type="revolute">
+    <origin xyz="0 0.0061 0.0471" rpy="0 0 0"/>
+    <parent link="left_outer_finger" />
+    <child link="left_inner_finger" />
+    <axis xyz="1 0 0" />
+    <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
+    <mimic joint="finger_joint" multiplier="-1" offset="0" />
+  </joint>
+
+  <joint name="right_inner_finger_joint" type="revolute">
+    <origin xyz="0 0.0061 0.0471" rpy="0 0 0"/>
+    <parent link="right_outer_finger" />
+    <child link="right_inner_finger" />
+    <axis xyz="1 0 0" />
+    <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
+    <mimic joint="finger_joint" multiplier="-1" offset="0" />
+  </joint>
+
+  <joint name="left_inner_finger_pad_joint" type="fixed">
+    <origin xyz="0 -0.0220203446692936 0.03242" rpy="0 0 0"/>
+    <parent link="left_inner_finger" />
+    <child link="left_inner_finger_pad" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <joint name="right_inner_finger_pad_joint" type="fixed">
+    <origin xyz="0 -0.0220203446692936 0.03242" rpy="0 0 0"/>
+    <parent link="right_inner_finger" />
+    <child link="right_inner_finger_pad" />
+    <axis xyz="0 0 1" />
+  </joint>
+  
+  <joint name="right_outer_knuckle_joint" type="revolute">
+    <origin xyz="0 0.0306011 0.054904" rpy="0 0 0"/>
+    <parent link="robotiq_arg2f_base_link" />
+    <child link="right_outer_knuckle" />
+    <axis xyz="1 0 0" />
+    <limit lower="0" upper="0.81" velocity="2.0" effort="1000" />
+    <mimic joint="finger_joint" multiplier="1" offset="0" />
+  </joint>
+  
+  <!-- Robotiq 2f85 Gripper transmissions -->
+  <transmission name="finger_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="finger_joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="finger_joint_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
 
   <!-- world to robot joint -->
   <joint name="world_joint" type="fixed">

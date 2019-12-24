@@ -81,22 +81,6 @@ ros/message_operations.h
 -
 
 /home/bhertel/catkin_ws/devel/include/dmp/GetDMPPlanResponse.h
-string
--
-vector
--
-map
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
-dmp/DMPTraj.h
--
 
 /home/bhertel/catkin_ws/devel/include/dmp/LearnDMPFromDemo.h
 ros/service_traits.h

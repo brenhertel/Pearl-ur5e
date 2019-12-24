@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "ur_kinematics")
-set(ur_kinematics_VERSION "1.2.5")
+set(ur_kinematics_VERSION "1.2.7")
 set(ur_kinematics_MAINTAINER "G.A. vd. Hoorn <g.a.vanderhoorn@tudelft.nl>, Miguel Prada Sarasola <miguel.prada@tecnalia.com>, Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>")
 set(ur_kinematics_PACKAGE_FORMAT "2")
 set(ur_kinematics_BUILD_DEPENDS "moveit_core" "moveit_kinematics" "moveit_ros_planning" "roscpp" "geometry_msgs" "pluginlib" "tf_conversions" "boost")

@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "roscpp;geometry_msgs;moveit_core;moveit_kinematics;mov
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "-lur3_kin;-lur5_kin;-lur10_kin;-lur3_moveit_plugin;-lur5_moveit_plugin;-lur10_moveit_plugin;/usr/lib/i386-linux-gnu/libboost_system.so".split(';') if "-lur3_kin;-lur5_kin;-lur10_kin;-lur3_moveit_plugin;-lur5_moveit_plugin;-lur10_moveit_plugin;/usr/lib/i386-linux-gnu/libboost_system.so" != "" else []
 PROJECT_NAME = "ur_kinematics"
 PROJECT_SPACE_DIR = "/home/bhertel/catkin_ws/install"
-PROJECT_VERSION = "1.2.5"
+PROJECT_VERSION = "1.2.7"

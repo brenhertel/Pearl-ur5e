@@ -117,6 +117,7 @@ ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follow
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ros/action_trajectory_follower_interface.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ros/lowbandwidth_trajectory_follower.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/tcp_socket.h
+ /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/commander.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/server.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/stream.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/src/ros/lowbandwidth_trajectory_follower.cpp
@@ -532,7 +533,6 @@ ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/messages.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/robot_mode.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/rt_state.h
- /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/server.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/state.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/stream.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/src/ros/urscript_handler.cpp
@@ -894,7 +894,6 @@ ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/log.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/tcp_socket.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/commander.h
- /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/server.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/stream.h
  /home/bhertel/catkin_ws/src/ur_modern_driver/src/ur/commander.cpp
  /opt/ros/kinetic/include/ros/advertise_options.h

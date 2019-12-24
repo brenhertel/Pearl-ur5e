@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: brendan_ur5e
+    relative_path: urdf/brendan_ur5e_dummy_gripper.urdf.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/ur5e.srdf
+  CONFIG:
+    author_name: Brendan Hertel
+    author_email: brendan_hertel@student.uml.edu
+    generated_timestamp: 1577214035

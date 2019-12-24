@@ -577,6 +577,18 @@ Project_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src
 
+//The directory containing a CMake configuration file for Qt5Core.
+Qt5Core_DIR:PATH=/usr/lib/i386-linux-gnu/cmake/Qt5Core
+
+//The directory containing a CMake configuration file for Qt5Gui.
+Qt5Gui_DIR:PATH=/usr/lib/i386-linux-gnu/cmake/Qt5Gui
+
+//The directory containing a CMake configuration file for Qt5Widgets.
+Qt5Widgets_DIR:PATH=/usr/lib/i386-linux-gnu/cmake/Qt5Widgets
+
+//The directory containing a CMake configuration file for Qt5.
+Qt5_DIR:PATH=/usr/lib/i386-linux-gnu/cmake/Qt5
+
 //Path to a library.
 RT_LIBRARY:FILEPATH=/usr/lib/i386-linux-gnu/librt.so
 
@@ -632,6 +644,24 @@ brendan_ur5e_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/brendan_ur5e
 brendan_ur5e_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/brendan_ur5e
 
 //Value Computed by CMake
+brendan_ur5e_dummy_gripper_moveit_generated2_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/brendan_ur5e_dummy_gripper_moveit_generated2
+
+//Value Computed by CMake
+brendan_ur5e_dummy_gripper_moveit_generated2_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/brendan_ur5e_dummy_gripper_moveit_generated2
+
+//Value Computed by CMake
+brendan_ur5e_dummy_gripper_moveit_generated3_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/brendan_ur5e_dummy_gripper_moveit_generated3
+
+//Value Computed by CMake
+brendan_ur5e_dummy_gripper_moveit_generated3_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/brendan_ur5e_dummy_gripper_moveit_generated3
+
+//Value Computed by CMake
+brendan_ur5e_dummy_gripper_moveit_generated_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/brendan_ur5e_dummy_gripper_moveit_generated
+
+//Value Computed by CMake
+brendan_ur5e_dummy_gripper_moveit_generated_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/brendan_ur5e_dummy_gripper_moveit_generated
+
+//Value Computed by CMake
 brendan_ur5e_gripper_moveit_generated2_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/brendan_ur5e_gripper_moveit_generated2
 
 //Value Computed by CMake
@@ -675,6 +705,9 @@ cmake_modules_DIR:PATH=/opt/ros/kinetic/share/cmake_modules/cmake
 
 //The directory containing a CMake configuration file for control_msgs.
 control_msgs_DIR:PATH=/opt/ros/kinetic/share/control_msgs/cmake
+
+//The directory containing a CMake configuration file for control_toolbox.
+control_toolbox_DIR:PATH=/opt/ros/kinetic/share/control_toolbox/cmake
 
 //The directory containing a CMake configuration file for controller_interface.
 controller_interface_DIR:PATH=/opt/ros/kinetic/share/controller_interface/cmake
@@ -815,8 +848,14 @@ kdl_conversions_DIR:PATH=/opt/ros/kinetic/share/kdl_conversions/cmake
 //The directory containing a CMake configuration file for kdl_parser.
 kdl_parser_DIR:PATH=/opt/ros/kinetic/share/kdl_parser/cmake
 
+//The directory containing a CMake configuration file for laser_geometry.
+laser_geometry_DIR:PATH=/opt/ros/kinetic/share/laser_geometry/cmake
+
 //Path to a library.
 lib:FILEPATH=/usr/lib/i386-linux-gnu/libpthread.so
+
+//The directory containing a CMake configuration file for map_msgs.
+map_msgs_DIR:PATH=/opt/ros/kinetic/share/map_msgs/cmake
 
 //The directory containing a CMake configuration file for message_filters.
 message_filters_DIR:PATH=/opt/ros/kinetic/share/message_filters/cmake
@@ -889,6 +928,24 @@ pluginlib_DIR:PATH=/opt/ros/kinetic/share/pluginlib/cmake
 
 //The directory containing a CMake configuration file for random_numbers.
 random_numbers_DIR:PATH=/opt/ros/kinetic/share/random_numbers/cmake
+
+//The directory containing a CMake configuration file for realtime_tools.
+realtime_tools_DIR:PATH=/opt/ros/kinetic/share/realtime_tools/cmake
+
+//The directory containing a CMake configuration file for resource_retriever.
+resource_retriever_DIR:PATH=/opt/ros/kinetic/share/resource_retriever/cmake
+
+//Dependencies for the target
+roboticsgroup_gazebo_disable_link_plugin_LIB_DEPENDS:STATIC=general;/opt/ros/kinetic/lib/libgazebo_ros_api_plugin.so;general;/opt/ros/kinetic/lib/libgazebo_ros_paths_plugin.so;general;/opt/ros/kinetic/lib/libroslib.so;general;/opt/ros/kinetic/lib/librospack.so;general;/usr/lib/i386-linux-gnu/libpython2.7.so;general;/usr/lib/i386-linux-gnu/libboost_program_options.so;general;/opt/ros/kinetic/lib/libtf.so;general;/opt/ros/kinetic/lib/libtf2_ros.so;general;/opt/ros/kinetic/lib/libactionlib.so;general;/opt/ros/kinetic/lib/libmessage_filters.so;general;/opt/ros/kinetic/lib/libtf2.so;general;/opt/ros/kinetic/lib/libcontrol_toolbox.so;general;/usr/lib/i386-linux-gnu/libtinyxml.so;general;/opt/ros/kinetic/lib/libdynamic_reconfigure_config_init_mutex.so;general;/opt/ros/kinetic/lib/librealtime_tools.so;general;/opt/ros/kinetic/lib/libroscpp.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_signals.so;general;/opt/ros/kinetic/lib/librosconsole.so;general;/opt/ros/kinetic/lib/librosconsole_log4cxx.so;general;/opt/ros/kinetic/lib/librosconsole_backend_interface.so;general;/usr/lib/i386-linux-gnu/liblog4cxx.so;general;/usr/lib/i386-linux-gnu/libboost_regex.so;general;/opt/ros/kinetic/lib/libxmlrpcpp.so;general;/opt/ros/kinetic/lib/libroscpp_serialization.so;general;/opt/ros/kinetic/lib/librostime.so;general;/opt/ros/kinetic/lib/libcpp_common.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_atomic.so;general;/usr/lib/i386-linux-gnu/libpthread.so;general;/usr/lib/i386-linux-gnu/libconsole_bridge.so;general;/usr/lib/i386-linux-gnu/libgazebo.so;general;/usr/lib/i386-linux-gnu/libgazebo_client.so;general;/usr/lib/i386-linux-gnu/libgazebo_gui.so;general;/usr/lib/i386-linux-gnu/libgazebo_sensors.so;general;/usr/lib/i386-linux-gnu/libgazebo_rendering.so;general;/usr/lib/i386-linux-gnu/libgazebo_physics.so;general;/usr/lib/i386-linux-gnu/libgazebo_ode.so;general;/usr/lib/i386-linux-gnu/libgazebo_transport.so;general;/usr/lib/i386-linux-gnu/libgazebo_msgs.so;general;/usr/lib/i386-linux-gnu/libgazebo_util.so;general;/usr/lib/i386-linux-gnu/libgazebo_common.so;general;/usr/lib/i386-linux-gnu/libgazebo_gimpact.so;general;/usr/lib/i386-linux-gnu/libgazebo_opcode.so;general;/usr/lib/i386-linux-gnu/libgazebo_opende_ou.so;general;/usr/lib/i386-linux-gnu/libgazebo_math.so;general;/usr/lib/i386-linux-gnu/libgazebo_ccd.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_signals.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_program_options.so;general;/usr/lib/i386-linux-gnu/libboost_regex.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libboost_atomic.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/i386-linux-gnu/libprotobuf.so;debug;/usr/lib/i386-linux-gnu/libprotobuf.so;general;-lpthread;general;/usr/lib/i386-linux-gnu/libsdformat.so;general;/usr/lib/i386-linux-gnu/libignition-math2.so;optimized;/usr/lib/i386-linux-gnu/libOgreMain.so;debug;/usr/lib/i386-linux-gnu/libOgreMain.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_atomic.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/i386-linux-gnu/libOgreTerrain.so;debug;/usr/lib/i386-linux-gnu/libOgreTerrain.so;optimized;/usr/lib/i386-linux-gnu/libOgrePaging.so;debug;/usr/lib/i386-linux-gnu/libOgrePaging.so;general;/usr/lib/i386-linux-gnu/libignition-math2.so;
+
+//Dependencies for the target
+roboticsgroup_gazebo_mimic_joint_plugin_LIB_DEPENDS:STATIC=general;/opt/ros/kinetic/lib/libgazebo_ros_api_plugin.so;general;/opt/ros/kinetic/lib/libgazebo_ros_paths_plugin.so;general;/opt/ros/kinetic/lib/libroslib.so;general;/opt/ros/kinetic/lib/librospack.so;general;/usr/lib/i386-linux-gnu/libpython2.7.so;general;/usr/lib/i386-linux-gnu/libboost_program_options.so;general;/opt/ros/kinetic/lib/libtf.so;general;/opt/ros/kinetic/lib/libtf2_ros.so;general;/opt/ros/kinetic/lib/libactionlib.so;general;/opt/ros/kinetic/lib/libmessage_filters.so;general;/opt/ros/kinetic/lib/libtf2.so;general;/opt/ros/kinetic/lib/libcontrol_toolbox.so;general;/usr/lib/i386-linux-gnu/libtinyxml.so;general;/opt/ros/kinetic/lib/libdynamic_reconfigure_config_init_mutex.so;general;/opt/ros/kinetic/lib/librealtime_tools.so;general;/opt/ros/kinetic/lib/libroscpp.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_signals.so;general;/opt/ros/kinetic/lib/librosconsole.so;general;/opt/ros/kinetic/lib/librosconsole_log4cxx.so;general;/opt/ros/kinetic/lib/librosconsole_backend_interface.so;general;/usr/lib/i386-linux-gnu/liblog4cxx.so;general;/usr/lib/i386-linux-gnu/libboost_regex.so;general;/opt/ros/kinetic/lib/libxmlrpcpp.so;general;/opt/ros/kinetic/lib/libroscpp_serialization.so;general;/opt/ros/kinetic/lib/librostime.so;general;/opt/ros/kinetic/lib/libcpp_common.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_atomic.so;general;/usr/lib/i386-linux-gnu/libpthread.so;general;/usr/lib/i386-linux-gnu/libconsole_bridge.so;general;/usr/lib/i386-linux-gnu/libgazebo.so;general;/usr/lib/i386-linux-gnu/libgazebo_client.so;general;/usr/lib/i386-linux-gnu/libgazebo_gui.so;general;/usr/lib/i386-linux-gnu/libgazebo_sensors.so;general;/usr/lib/i386-linux-gnu/libgazebo_rendering.so;general;/usr/lib/i386-linux-gnu/libgazebo_physics.so;general;/usr/lib/i386-linux-gnu/libgazebo_ode.so;general;/usr/lib/i386-linux-gnu/libgazebo_transport.so;general;/usr/lib/i386-linux-gnu/libgazebo_msgs.so;general;/usr/lib/i386-linux-gnu/libgazebo_util.so;general;/usr/lib/i386-linux-gnu/libgazebo_common.so;general;/usr/lib/i386-linux-gnu/libgazebo_gimpact.so;general;/usr/lib/i386-linux-gnu/libgazebo_opcode.so;general;/usr/lib/i386-linux-gnu/libgazebo_opende_ou.so;general;/usr/lib/i386-linux-gnu/libgazebo_math.so;general;/usr/lib/i386-linux-gnu/libgazebo_ccd.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_signals.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_program_options.so;general;/usr/lib/i386-linux-gnu/libboost_regex.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libboost_atomic.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/i386-linux-gnu/libprotobuf.so;debug;/usr/lib/i386-linux-gnu/libprotobuf.so;general;-lpthread;general;/usr/lib/i386-linux-gnu/libsdformat.so;general;/usr/lib/i386-linux-gnu/libignition-math2.so;optimized;/usr/lib/i386-linux-gnu/libOgreMain.so;debug;/usr/lib/i386-linux-gnu/libOgreMain.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_atomic.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/i386-linux-gnu/libOgreTerrain.so;debug;/usr/lib/i386-linux-gnu/libOgreTerrain.so;optimized;/usr/lib/i386-linux-gnu/libOgrePaging.so;debug;/usr/lib/i386-linux-gnu/libOgrePaging.so;general;/usr/lib/i386-linux-gnu/libignition-math2.so;
+
+//Value Computed by CMake
+roboticsgroup_gazebo_plugins_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_simulation/roboticsgroup_gazebo_plugins
+
+//Value Computed by CMake
+roboticsgroup_gazebo_plugins_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_simulation/roboticsgroup_gazebo_plugins
 
 //Value Computed by CMake
 robotiq_2f_140_gripper_visualization_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq/robotiq_2f_140_gripper_visualization
@@ -967,6 +1024,63 @@ robotiq_3f_gripper_visualization_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build
 
 //Value Computed by CMake
 robotiq_3f_gripper_visualization_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq/robotiq_3f_gripper_visualization
+
+//Value Computed by CMake
+robotiq_3f_rviz_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq/robotiq_3f_rviz
+
+//Dependencies for the target
+robotiq_3f_rviz_LIB_DEPENDS:STATIC=general;robotiq_3f_gripper_control;general;/opt/ros/kinetic/lib/libcontroller_manager.so;general;/opt/ros/kinetic/lib/libdynamic_reconfigure_config_init_mutex.so;general;robotiq_ethercat;general;/opt/ros/kinetic/lib/libsoem.a;general;/opt/ros/kinetic/lib/libsocketcan_interface_string.so;general;/opt/ros/kinetic/lib/librviz.so;general;/usr/lib/i386-linux-gnu/libOgreOverlay.so;general;/usr/lib/i386-linux-gnu/libOgreMain.so;general;/usr/lib/i386-linux-gnu/libGLU.so;general;/usr/lib/i386-linux-gnu/libGL.so;general;/opt/ros/kinetic/lib/libimage_transport.so;general;/opt/ros/kinetic/lib/libinteractive_markers.so;general;/opt/ros/kinetic/lib/liblaser_geometry.so;general;/usr/lib/i386-linux-gnu/libtinyxml2.so;general;/opt/ros/kinetic/lib/libclass_loader.so;general;/usr/lib/libPocoFoundation.so;general;/usr/lib/i386-linux-gnu/libdl.so;general;/opt/ros/kinetic/lib/libresource_retriever.so;general;/opt/ros/kinetic/lib/libroslib.so;general;/opt/ros/kinetic/lib/librospack.so;general;/usr/lib/i386-linux-gnu/libpython2.7.so;general;/usr/lib/i386-linux-gnu/libboost_program_options.so;general;/opt/ros/kinetic/lib/libtf.so;general;/opt/ros/kinetic/lib/libtf2_ros.so;general;/opt/ros/kinetic/lib/libactionlib.so;general;/opt/ros/kinetic/lib/libmessage_filters.so;general;/opt/ros/kinetic/lib/libtf2.so;general;/opt/ros/kinetic/lib/liburdf.so;general;/usr/lib/i386-linux-gnu/liburdfdom_sensor.so;general;/usr/lib/i386-linux-gnu/liburdfdom_model_state.so;general;/usr/lib/i386-linux-gnu/liburdfdom_model.so;general;/usr/lib/i386-linux-gnu/liburdfdom_world.so;general;/usr/lib/i386-linux-gnu/libtinyxml.so;general;/opt/ros/kinetic/lib/librosconsole_bridge.so;general;/opt/ros/kinetic/lib/libroscpp.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_signals.so;general;/opt/ros/kinetic/lib/librosconsole.so;general;/opt/ros/kinetic/lib/librosconsole_log4cxx.so;general;/opt/ros/kinetic/lib/librosconsole_backend_interface.so;general;/usr/lib/i386-linux-gnu/liblog4cxx.so;general;/usr/lib/i386-linux-gnu/libboost_regex.so;general;/opt/ros/kinetic/lib/libxmlrpcpp.so;general;/opt/ros/kinetic/lib/libroscpp_serialization.so;general;/opt/ros/kinetic/lib/librostime.so;general;/opt/ros/kinetic/lib/libcpp_common.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_atomic.so;general;/usr/lib/i386-linux-gnu/libpthread.so;general;/usr/lib/i386-linux-gnu/libconsole_bridge.so;general;Qt5::Widgets;
+
+//Value Computed by CMake
+robotiq_3f_rviz_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq/robotiq_3f_rviz
+
+//Value Computed by CMake
+robotiq_85_bringup_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_bringup
+
+//Value Computed by CMake
+robotiq_85_bringup_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_bringup
+
+//Value Computed by CMake
+robotiq_85_description_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_description
+
+//Value Computed by CMake
+robotiq_85_description_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_description
+
+//Value Computed by CMake
+robotiq_85_driver_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_driver
+
+//Value Computed by CMake
+robotiq_85_driver_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_driver
+
+//Value Computed by CMake
+robotiq_85_gazebo_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_simulation/robotiq_85_gazebo
+
+//Value Computed by CMake
+robotiq_85_gazebo_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_simulation/robotiq_85_gazebo
+
+//Value Computed by CMake
+robotiq_85_gripper_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_gripper
+
+//Value Computed by CMake
+robotiq_85_gripper_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_gripper
+
+//Value Computed by CMake
+robotiq_85_moveit_config_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_moveit_config
+
+//Value Computed by CMake
+robotiq_85_moveit_config_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_moveit_config
+
+//Value Computed by CMake
+robotiq_85_msgs_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_msgs
+
+//Value Computed by CMake
+robotiq_85_msgs_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_msgs
+
+//Value Computed by CMake
+robotiq_85_simulation_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/robotiq_85_simulation/robotiq_85_simulation
+
+//Value Computed by CMake
+robotiq_85_simulation_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/robotiq_85_simulation/robotiq_85_simulation
 
 //Value Computed by CMake
 robotiq_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq/robotiq
@@ -1055,6 +1169,9 @@ rospy_DIR:PATH=/opt/ros/kinetic/share/rospy/cmake
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/kinetic/share/rostime/cmake
 
+//The directory containing a CMake configuration file for rviz.
+rviz_DIR:PATH=/opt/ros/kinetic/share/rviz/cmake
+
 //The directory containing a CMake configuration file for rviz_visual_tools.
 rviz_visual_tools_DIR:PATH=/opt/ros/kinetic/share/rviz_visual_tools/cmake
 
@@ -1063,6 +1180,12 @@ sensor_msgs_DIR:PATH=/opt/ros/kinetic/share/sensor_msgs/cmake
 
 //The directory containing a CMake configuration file for shape_msgs.
 shape_msgs_DIR:PATH=/opt/ros/kinetic/share/shape_msgs/cmake
+
+//Value Computed by CMake
+si_utils_BINARY_DIR:STATIC=/home/bhertel/catkin_ws/build/robotiq_85_gripper/si_utils
+
+//Value Computed by CMake
+si_utils_SOURCE_DIR:STATIC=/home/bhertel/catkin_ws/src/robotiq_85_gripper/si_utils
 
 //The directory containing a CMake configuration file for smclib.
 smclib_DIR:PATH=/opt/ros/kinetic/share/smclib/cmake
@@ -1409,7 +1532,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=44
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=47
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -116,6 +116,7 @@ ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follow
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follower.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ros/action_trajectory_follower_interface.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follower.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ros/lowbandwidth_trajectory_follower.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follower.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/tcp_socket.h
+ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follower.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/commander.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follower.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/server.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follower.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/stream.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/lowbandwidth_trajectory_follower.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/src/ros/lowbandwidth_trajectory_follower.cpp
@@ -531,7 +532,6 @@ ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/messages.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/robot_mode.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/rt_state.h
-ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/server.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/state.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/stream.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ros/urscript_handler.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/src/ros/urscript_handler.cpp
@@ -893,7 +893,6 @@ ur_modern_driver/CMakeFiles/ur_driver.dir/src/tcp_socket.cpp.o: /opt/ros/kinetic
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/log.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/tcp_socket.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/commander.h
-ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/server.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/stream.h
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o: /home/bhertel/catkin_ws/src/ur_modern_driver/src/ur/commander.cpp
 ur_modern_driver/CMakeFiles/ur_driver.dir/src/ur/commander.cpp.o: /opt/ros/kinetic/include/ros/advertise_options.h

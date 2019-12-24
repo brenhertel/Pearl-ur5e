@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       name="ur5e" >
+
+  <xacro:property name="prefix" value=""/>
+
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_e_description)/urdf/common.gazebo.xacro" />
+  <!-- ur5e -->
+  <xacro:include filename="$(find brendan_ur5e)/urdf/ur5e.urdf.xacro" />  
+  <!-- robotiq_2f_85 gripper -->
+  
+  <!-- Gripper Base -->
+  <link name="dummy_bottom" >
+    <!-- <origin xyz="0 0 0.1" rpy="0 0 0"/> -->
+    <visual>
+      <geometry>
+        <cylinder radius="0.038" length="0.05"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.038" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Gripper Fingers (accounts for open and close positions) -->
+  <link name="dummy_fingers" >
+    <visual>
+      <geometry>
+        <box size="0.03 0.15 0.13"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.03 0.15 0.13"/>
+      </geometry>
+    </collision>
+  </link>
+ 
+  <!-- Base to Finger joint -->
+  <joint name="base_to_finger_joint" type="fixed">
+    <origin xyz="0 0 0.09" rpy = "0 0 0"/>
+    <parent link="dummy_bottom"/>
+    <child link="dummy_fingers"/>
+  </joint>
+  
+  <!-- arm -->
+  <xacro:ur5e_robot prefix="" joint_limited="false"/>
+
+  <!-- world -->
+  <link name="world" />
+
+  <!-- world to robot joint -->
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- robot to gripper joint -->
+  <joint name="gripper_joint" type="fixed">
+    <parent link="ee_link" />
+    <child link = "dummy_bottom" />
+    <origin xyz="0.025 0 0" rpy="0 ${pi/2} 0"/>
+  </joint>
+
+  <link name="tool1">
+    <origin xyz="0 0.15 0" rpy="0 0 0"/>
+  </link>
+  <joint name="wrist_3_link-tool1_fixed_joint" type="fixed">
+    <origin xyz="0 0.100 0" rpy="${pi/-2.0} 0 0"/>
+    <parent link="wrist_3_link"/>
+    <child link="tool1"/>
+  </joint>
+
+</robot>

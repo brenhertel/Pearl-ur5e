@@ -185,6 +185,8 @@ ur_modern_driver/ros/action_trajectory_follower_interface.h
 /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ros/ur_modern_driver/ros/action_trajectory_follower_interface.h
 ur_modern_driver/ur/commander.h
 /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ros/ur_modern_driver/ur/commander.h
+ur_modern_driver/ur/server.h
+/home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ros/ur_modern_driver/ur/server.h
 
 /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/tcp_socket.h
 netdb.h
@@ -211,10 +213,6 @@ iomanip
 -
 sstream
 -
-string
--
-ur_modern_driver/ur/server.h
-/home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/ur_modern_driver/ur/server.h
 ur_modern_driver/ur/stream.h
 /home/bhertel/catkin_ws/src/ur_modern_driver/include/ur_modern_driver/ur/ur_modern_driver/ur/stream.h
 
