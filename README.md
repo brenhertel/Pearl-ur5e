@@ -51,6 +51,7 @@ How to use demo recorder:
 
 The structure of the demo within the .h5 is according to the hdf5 standards. A flowchart of the strucure is as below:
 ![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/demo%20recorder%20flowchart.png)
+
 The shape of the stored arrays is as follows:
 time_data: {time_secs, time_nsecs} x n
 joint_positions: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
