@@ -49,6 +49,9 @@ How to use demo recorder:
 6. To save the demo, respond to the "Would you like to save this demo? (y/n)" prompt in the terminal. Please only input y to save or n to discard the demo. The saved demo will have the title "recorded demo WWW MMM DD HH:MM:SS YYYY.h5" where WWW is the three letter abbreviation day of the week, MMM is the three letter abbreviation for the month, DD is the date of the month, HH is the hour, MM is the minute, SS is the second, and YYYY is the year of the start of the demo_recorder_v3.py node. The file will be saved in the directory that the demo_recorder_v3.py was run in.
 7. The terminal will prompt with "Would you like to start another demo? (y/n)" This functionality has technically been implemented, although not functioning as intended due to the queue sizes. This demo recorder has done its job, and you may forcefully exit the program. To record another demo, please start from Step 2.
 
+The structure of the demo within the .h5 is according to the hdf5 standards. A flowchart of the strucure is as below:
+![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/demo%20recorder%20flowchart.png)
+
 12/4/2019: pushed new changes to repository. Added in new model for ur5e with robotiq arg2f_85 gripper attached (ur5e_gripper_no_macros.urdf.xacro) and launch file to launch urdf files (launch_urdf.launch in pkg brendan_ur5e). To use the new launch file run the command
 
     rosrun brendan_ur5e launch_urdf.launch
