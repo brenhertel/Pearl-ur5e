@@ -44,7 +44,7 @@ How to use demo recorder:
 7. The terminal will prompt with "Would you like to start another demo? (y/n)" This functionality has technically been implemented, although not functioning as intended due to the queue sizes. This demo recorder has done its job, and you may forcefully exit the program. To record another demo, please start from Step 2.
 
 The structure of the demo within the .h5 is according to the hdf5 standards. A flowchart of the strucure is as below:
-![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/demo%20recorder%20flowchart.png)
+![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/hdf5%20demo%20recorder%20flowchart.png)
 
 The shape of the stored arrays is as follows:
 - time_data: {time_secs, time_nsecs} x n
@@ -64,4 +64,15 @@ By default it launches the ur5e_gripper_no_macros.urdf.xacro file, however by sp
 
 12/23/2019: pushed new changes to repository. Updates to organization of git repository with forks from other repositories included as submodules.
 
-12/23/2019: pushed new changes to repository. Updates to URDF files while attempting to resolve issues within moveit launches of URDF files. Changes have been made to launch_urdf.launch file defaults for testing purposes.
+12/24/2019: pushed new changes to repository. Updates to URDF files while attempting to resolve issues within moveit launches of URDF files. Changes have been made to launch_urdf.launch file defaults for testing purposes.
+
+12/26/2019: pushed new changes to repository. Created demo_xyz_playback.py executeable. This executes a trajectory of xyz coordinates from a .h5 file with the structure of the flowchart above (technically only needs the same paths to pos_rot_data and joint_positions). To use the demo playback, follow these steps
+1. Connect to the UR5e using the launch file as above.
+2. Run `rosrun brendan_ur5e demo_xyz_playback.py` and follow the prompts, making sure that the behavior is as expected before proceeding to the next step. (Note: this node executes trajectories on a real robot, so make sure you are ready to hit the emergency stop when using it.)
+3. When prompts are finished, the script ends and may be run again if necessary.
+Notes of demo_xyz_playback:
+- Make sure you are in "remote control" mode on the pendant
+- If the apparatus changes, change the setup for table and wall within the node
+- Wall and table dimensions are not exact, to get better executions these can be exactly measured out--probably down to 5mm tolerance
+- Using Ctrl-D to exit the node is slightly more graceful than Ctrl-C
+- Something to return to in the future: the script uses the initial joint_position for initial position instead of an xyz coordinate. Revisit to switch over to xyz coordinate to be compliant with xyz trajectory deformations.
