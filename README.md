@@ -70,7 +70,7 @@ By default it launches the ur5e_gripper_no_macros.urdf.xacro file, however by sp
 1. Connect to the UR5e using the launch file as above.
 2. Run `rosrun brendan_ur5e demo_xyz_playback.py` and follow the prompts, making sure that the behavior is as expected before proceeding to the next step. (Note: this node executes trajectories on a real robot, so make sure you are ready to hit the emergency stop when using it.)
 3. When prompts are finished, the script ends and may be run again if necessary.
-Notes of demo_xyz_playback:
+<br/>Notes of demo_xyz_playback:
 - Make sure you are in "remote control" mode on the pendant
 - If the apparatus changes, change the setup for table and wall within the node
 - Wall and table dimensions are not exact, to get better executions these can be exactly measured out--probably down to 5mm tolerance
