@@ -66,7 +66,7 @@ By default it launches the ur5e_gripper_no_macros.urdf.xacro file, however by sp
 
 12/24/2019: pushed new changes to repository. Updates to URDF files while attempting to resolve issues within moveit launches of URDF files. Changes have been made to launch_urdf.launch file defaults for testing purposes.
 
-12/26/2019: pushed new changes to repository. Created demo_xyz_playback.py executeable. This executes a trajectory of xyz coordinates from a .h5 file with the structure of the flowchart above (technically only needs the same paths to pos_rot_data and joint_positions). To use the demo playback, follow these steps
+12/26/2019: pushed new changes to repository. Created demo_xyz_playback.py executable. This executes a trajectory of xyz coordinates from a .h5 file with the structure of the flowchart above (technically only needs the same paths to pos_rot_data and joint_positions). To use the demo playback, follow these steps
 1. Connect to the UR5e using the launch file as above.
 2. Run `rosrun brendan_ur5e demo_xyz_playback.py` and follow the prompts, making sure that the behavior is as expected before proceeding to the next step. (Note: this node executes trajectories on a real robot, so make sure you are ready to hit the emergency stop when using it.)
 3. When prompts are finished, the script ends and may be run again if necessary.  
@@ -76,3 +76,5 @@ Notes of demo_xyz_playback:
 - Wall and table dimensions are not exact, to get better executions these can be exactly measured out--probably down to 5mm tolerance
 - Using Ctrl-D to exit the node is slightly more graceful than Ctrl-C
 - Something to return to in the future: the script uses the initial joint_position for initial position instead of an xyz coordinate. Revisit to switch over to xyz coordinate to be compliant with xyz trajectory deformations.
+
+1/9/2019: pushed new changes to repository. Created lte.py executable. This executable performs Laplacian trajectory editing in python as outlined by www.itr.ei.tum.de/fileadmin/w00bok/www/CodeExamples/laplacianHardConstraints.m.
