@@ -97,6 +97,10 @@ class MoveGroupPythonInterface(object):
     # Calling ``stop()`` ensures that there is no residual movement
     self.move_group.stop()
 
+  def starting_xyz(self, start_arr):
+    (start_plan, start_fraction) = self.move_group.compute_cartesian_path(start_arr, 0.001, 0.0)
+    self.move_group.execute(plan, wait=True);
+  
   def plan_cartesian_path(self, scale=1):
     #start planning demo playback by reading data from the demo.h5 file
     
@@ -119,12 +123,21 @@ class MoveGroupPythonInterface(object):
     print "Press 'Enter' to move to starting position"
     raw_input()
     self.starting_joint_state(js_data)
+    starting_xyz_position = np.zeros(7);
+    starting_xyz_position[0] = -pos_rot_data[0][0]
+    starting_xyz_position[1] = -pos_rot_data[1][0]
+    starting_xyz_position[2] = pos_rot_data[2][0]
+    starting_xyz_position[3] = -pos_rot_data[4][0]
+    starting_xyz_position[4] = pos_rot_data[3][0]
+    starting_xyz_position[5] = pos_rot_data[6][0]
+    starting_xyz_position[6] = -pos_rot_data[5][0]
+    self.starting_xyz(starting_xyz_position)
 
     #record xyz coordinates as a list of waypoints the robot passes through
     waypoints = []
     #put each xyz into the waypoints array
     wpose = self.move_group.get_current_pose().pose
-    for i in range(0, np.size(pos_rot_data, 1)):
+    for i in range(1, np.size(pos_rot_data, 1)):
       wpose.position.x = -pos_rot_data[0][i]#/tf and rviz have x and y opposite signs
       wpose.position.y = -pos_rot_data[1][i]
       wpose.position.z = pos_rot_data[2][i]
