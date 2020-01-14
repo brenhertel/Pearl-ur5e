@@ -44,7 +44,7 @@ How to use demo recorder:
 7. The terminal will prompt with "Would you like to start another demo? (y/n)" This functionality has technically been implemented, although not functioning as intended due to the queue sizes. This demo recorder has done its job, and you may forcefully exit the program. To record another demo, please start from Step 2.
 
 The structure of the demo within the .h5 is according to the hdf5 standards. A flowchart of the strucure is as below:
-![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/hdf5%20demo%20recorder%20flowchart.png)
+![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/pictures/hdf5%20demo%20recorder%20flowchart.png)
 
 The shape of the stored arrays is as follows:
 - time_data: {time_secs, time_nsecs} x n
@@ -77,4 +77,17 @@ Notes of demo_xyz_playback:
 - Using Ctrl-D to exit the node is slightly more graceful than Ctrl-C
 - Something to return to in the future: the script uses the initial joint_position for initial position instead of an xyz coordinate. Revisit to switch over to xyz coordinate to be compliant with xyz trajectory deformations.
 
-1/9/2019: pushed new changes to repository. Created lte.py executable. This executable performs Laplacian trajectory editing in python as outlined by www.itr.ei.tum.de/fileadmin/w00bok/www/CodeExamples/laplacianHardConstraints.m.
+1/9/2020: pushed new changes to repository. Created lte.py executable. This executable performs Laplacian trajectory editing in python as outlined by www.itr.ei.tum.de/fileadmin/w00bok/www/CodeExamples/laplacianHardConstraints.m.
+
+1/14/2020: pushed new changes to repository. Finished lte.py executable. To perform lte from another file, be sure to `import lte` and use the function with syntax `new_traj = perform_lte(traj)` to create a new trajectory. The LASA dataset (https://cs.stanford.edu/people/khansari/download.html) was used to test the executable. The LASA dataset was first converted to the .h5 file format, which can be found here: https://github.com/brenhertel/Pearl-ur5e/blob/master/h5%20files/lasa_dataset.h5. The lasa_dataset.h5 file follows the structure as outlined below:
+![lasa dataset structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/pictures/lasa_dataset%20flowchart.png)
+
+Notes:
+- For the sake of simplicity, not all 25 shapes and 7 demonstrations are shown in the flowchart, but pos, t, vel, acc, and dt data is stored for every demonstration of every shape.
+- Array shape may not be consistent across platforms, arrays may be transposed as to what is described below.
+The shape of the stored arrays is as follows:
+- pos: {x, y} x 1000
+- t: {t} x 1000
+- vel: {vel_x, vel_y} x 1000
+- acc: {acc_x, acc_y} x 1000
+- dt: dt x 1
