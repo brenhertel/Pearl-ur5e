@@ -84,7 +84,7 @@ Notes of demo_xyz_playback:
 
 Notes:
 - For the sake of simplicity, not all 25 shapes and 7 demonstrations are shown in the flowchart, but pos, t, vel, acc, and dt data is stored for every demonstration of every shape.
-- Array shape may not be consistent across platforms, arrays may be transposed as to what is described below.\
+- Array shape may not be consistent across platforms, arrays may be transposed as to what is described below.  
 The shape of the stored arrays is as follows:
 - pos: {x, y} x 1000
 - t: {t} x 1000
