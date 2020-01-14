@@ -87,7 +87,7 @@ Notes:
 - Array shape may not be consistent across platforms, arrays may be transposed as to what is described below.
 - The shape of the stored arrays is as follows:
   - pos: {x, y} x 1000
-  - t: {t} x 1000
+  - t: t x 1000
   - vel: {vel_x, vel_y} x 1000
   - acc: {acc_x, acc_y} x 1000
   - dt: dt x 1
