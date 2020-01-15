@@ -43,7 +43,7 @@ How to use demo recorder:
 6. To save the demo, respond to the "Would you like to save this demo? (y/n)" prompt in the terminal. Please only input y to save or n to discard the demo. The saved demo will have the title "recorded demo WWW MMM DD HH:MM:SS YYYY.h5" where WWW is the three letter abbreviation day of the week, MMM is the three letter abbreviation for the month, DD is the date of the month, HH is the hour, MM is the minute, SS is the second, and YYYY is the year of the start of the demo_recorder_v3.py node. The file will be saved in the directory that the demo_recorder_v3.py was run in.
 7. The terminal will prompt with "Would you like to start another demo? (y/n)" This functionality has technically been implemented, although not functioning as intended due to the queue sizes. This demo recorder has done its job, and you may forcefully exit the program. To record another demo, please start from Step 2.
 
-The structure of the demo within the .h5 is according to the hdf5 standards. A flowchart of the strucure is as below:
+The structure of the demo within the .h5 is according to the hdf5 standards. A flowchart of the structure is as below:
 ![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/pictures/hdf5%20demo%20recorder%20flowchart.png)
 
 The shape of the stored arrays is as follows:
@@ -79,7 +79,7 @@ Notes of demo_xyz_playback:
 
 1/9/2020: pushed new changes to repository. Created lte.py executable. This executable performs Laplacian trajectory editing in python as outlined by www.itr.ei.tum.de/fileadmin/w00bok/www/CodeExamples/laplacianHardConstraints.m.
 
-1/14/2020: pushed new changes to repository. Returned to demo_xyz_playblack.py script to fix initial state problems. Currently using a workaround where the arm will travel to the initial joint position, then to the initial xyz position before starting the trajectory. Need to implement a system that avoids joint states entirely in the future. Finished lte.py executable. To perform lte from another file, be sure to `import lte` and use the function with syntax `new_traj = perform_lte(traj)` to create a new trajectory. The LASA dataset (https://cs.stanford.edu/people/khansari/download.html) was used to test the executable. The LASA dataset was first converted to the .h5 file format, which can be found here: https://github.com/brenhertel/Pearl-ur5e/blob/master/h5%20files/lasa_dataset.h5. The lasa_dataset.h5 file follows the structure as outlined below:
+1/14/2020: pushed new changes to repository. Returned to demo_xyz_playblack.py script to fix initial state problems. Currently using a workaround where the arm will travel to the initial joint position, then to the initial xyz position before starting the trajectory. Need to implement a system that avoids joint states entirely in the future. Finished lte.py executable. To perform lte from another file, be sure to `import lte` and use the function with syntax `new_traj = perform_lte(traj)` to create a new trajectory. The LASA dataset (https://cs.stanford.edu/people/khansari/download.html) was used to test the executable. The LASA dataset was first converted to the .h5 file format, which can be found here: https://github.com/brenhertel/Pearl-ur5e/blob/master/h5%20files/lasa_dataset.h5. The lasa_dataset.h5 file follows the structure as outlined below:\
 ![lasa dataset structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/pictures/lasa_dataset%20flowchart.png)
 
 Notes:
