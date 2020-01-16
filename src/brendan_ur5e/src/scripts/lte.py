@@ -88,7 +88,7 @@ def perform_lte(traj, given_points=0):
   return new_traj
 
 #Function to create fixed points for lte deformation. Given an array of indeces and positions it will use the point object which the lte object uses to create an array of points to return
-def generate_fixed_points(indeces, positions):
+def generate_lte_fixed_points(indeces, positions):
   point_arr = []
   for i in range (len(indeces)):
     add_point = point(indeces[i], positions[i])

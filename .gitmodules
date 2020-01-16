@@ -13,3 +13,6 @@
 [submodule "src/ur_modern_driver"]
 	path = src/ur_modern_driver
 	url = https://github.com/brenhertel/ur_modern_driver
+[submodule "src/brendan_ur5e/src/scripts/pydmp"]
+	path = src/brendan_ur5e/src/scripts/pydmp
+	url = https://github.com/brenhertel/pydmps.git
