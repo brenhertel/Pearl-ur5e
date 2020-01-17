@@ -7,6 +7,7 @@ import h5py
 import matplotlib.pyplot as plt
 import lte
 import ja
+import dmp
 
 def get_lasa_traj():
     #ask user for the file which the playback is for
@@ -35,7 +36,7 @@ def main():
   #set up fixed points for lte deformations
   indeces = [1, len(x_data) - 1]
   x_positions = [-50, -5]
-  y_positions = [4, 5]
+  y_positions = [5, 5]
   x_fixed_points = lte.generate_lte_fixed_points(indeces, x_positions)
   y_fixed_points = lte.generate_lte_fixed_points(indeces, y_positions)
   #perform lte deformations
@@ -45,16 +46,22 @@ def main():
   ## JA ##
   #fixed points
   x_fixed_points = ja.generate_ja_fixed_points(np.array([[-50], [-5]]))
-  y_fixed_points = ja.generate_ja_fixed_points(np.array([[4], [5]]))
+  y_fixed_points = ja.generate_ja_fixed_points(np.array([[5], [5]]))
   #perform the deformations
   lmbda = 10.0 #Good lambda values are from ~6.0 to ~15.0
   x_ja_traj = ja.perform_ja(np.transpose(x_data), x_fixed_points, lmbda)
   y_ja_traj = ja.perform_ja(np.transpose(y_data), y_fixed_points, lmbda)
 
+  ## DMP ##
+  x_dmp_traj = dmp.perform_dmp(np.transpose(x_data), [-50, -5])
+  #y_dmp_traj = dmp.perform_dmp(np.transpose(y_data), [5, 5])
+  y_dmp_traj = dmp.perform_dmp(np.transpose(y_data))
+
   #plot data
   plt.plot(x_data, y_data)
   plt.plot(x_lte_traj, y_lte_traj)
   plt.plot(x_ja_traj, y_ja_traj)
+  plt.plot(x_dmp_traj, y_dmp_traj)
   plt.show()
   return
 
