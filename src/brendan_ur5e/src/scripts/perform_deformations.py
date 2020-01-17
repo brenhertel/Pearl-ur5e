@@ -26,7 +26,7 @@ def get_lasa_traj():
     hf.close()
     return [x_data, y_data]
 
-def perform_all_deformations(traj, initial, end):
+def perform_all_deformations(traj, initial, end, lmbda=-1.0):
   #transpose if necessary
   if np.shape(traj)[0] > np.shape(traj)[1]:
     traj = np.transpose(traj)
@@ -36,7 +36,7 @@ def perform_all_deformations(traj, initial, end):
   lte_traj = lte.perform_lte(traj, lte_fixed_points)
   ## JA ##
   ja_fixed_points = ja.generate_ja_fixed_points(np.array([[initial], [end]]))
-  ja_traj = ja.perform_ja(traj, ja_fixed_points)
+  ja_traj = ja.perform_ja(traj, ja_fixed_points, lmbda)
   ## DMP ##
   dmp_traj = dmp.perform_dmp(traj, [initial, end])
   return [lte_traj, ja_traj, dmp_traj]
