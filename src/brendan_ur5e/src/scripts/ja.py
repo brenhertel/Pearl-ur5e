@@ -40,7 +40,7 @@ class JA(object):
     #setup lambda
     self.l = given_lambda
     if self.l <= 0.0:
-      self.l = math.ceil(np.size(self.traj) / 20) #I'm not sure where the next 2 lines come from but they were in the matlab code
+      self.l = math.ceil(np.size(self.traj) / 20.0) #I'm not sure where the next 2 lines come from but they were in the matlab code
     self.l = self.l * (self.nodes / 250.0) * (self.dims**2 / 4.0)
     #setup time data
     self.tt = given_time_data

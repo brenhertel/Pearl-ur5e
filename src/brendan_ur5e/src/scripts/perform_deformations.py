@@ -26,12 +26,26 @@ def get_lasa_traj():
     hf.close()
     return [x_data, y_data]
 
+def perform_all_deformations(traj, initial, end):
+  #transpose if necessary
+  if np.shape(traj)[0] > np.shape(traj)[1]:
+    traj = np.transpose(traj)
+  ## LTE ##
+  indeces = [1, max(np.shape(traj)) - 1]
+  lte_fixed_points = lte.generate_lte_fixed_points(indeces, [initial, end])
+  lte_traj = lte.perform_lte(traj, lte_fixed_points)
+  ## JA ##
+  ja_fixed_points = ja.generate_ja_fixed_points(np.array([[initial], [end]]))
+  ja_traj = ja.perform_ja(traj, ja_fixed_points)
+  ## DMP ##
+  dmp_traj = dmp.perform_dmp(traj, [initial, end])
+  return [lte_traj, ja_traj, dmp_traj]
 
 def main():
   ## Undeformed ##
   #retrive data from file
   [x_data, y_data] = get_lasa_traj()
-  
+
   ## LTE ##
   #set up fixed points for lte deformations
   indeces = [1, len(x_data) - 1]
@@ -62,6 +76,14 @@ def main():
   plt.plot(x_lte_traj, y_lte_traj)
   plt.plot(x_ja_traj, y_ja_traj)
   plt.plot(x_dmp_traj, y_dmp_traj)
+  plt.show()
+  #testing perform_all function
+  [x_lte, x_ja, x_dmp] = perform_all_deformations(x_data, -50, -5)
+  [y_lte, y_ja, y_dmp] = perform_all_deformations(y_data, -5, 5)
+  plt.plot(x_data, y_data)
+  plt.plot(x_lte, y_lte)
+  plt.plot(x_ja, y_ja)
+  plt.plot(x_dmp, y_dmp)
   plt.show()
   return
 
