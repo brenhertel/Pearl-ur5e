@@ -15,6 +15,7 @@ from moveit_commander.conversions import pose_to_list
 import h5py
 import roslib
 import numpy as np
+import preprocessing
 
 #not actually sure why this is here or why its necessary, but I suppose its a good way to test tolerances
 def all_close(goal, actual, tolerance):
@@ -84,7 +85,7 @@ class MoveGroupPythonInterface(object):
   def starting_joint_state(self, js_array):
     # To start the playback of the demo, go to the initial demo position, which can be interpreted as the 0th set of joint states
     # I use joint states instead of cartesians because cartesians will fail if the current state is too far away from the goal state, whereas joint states will simply execute
-    joint_goal = move_group.get_current_joint_values()
+    joint_goal = self.move_group.get_current_joint_values()
     joint_goal[0] = js_array[0][0]
     joint_goal[1] = js_array[1][0]
     joint_goal[2] = js_array[2][0]
@@ -98,14 +99,25 @@ class MoveGroupPythonInterface(object):
     self.move_group.stop()
 
   def starting_xyz(self, start_arr):
-    (start_plan, start_fraction) = self.move_group.compute_cartesian_path(start_arr, 0.001, 0.0)
-    self.move_group.execute(plan, wait=True);
+    wpose = self.move_group.get_current_pose().pose
+    wpose.position.x = start_arr[0]
+    wpose.position.y = start_arr[1]
+    wpose.position.z = start_arr[2]
+    wpose.orientation.x = start_arr[3]
+    wpose.orientation.y = start_arr[4]
+    wpose.orientation.z = start_arr[5]
+    wpose.orientation.w = start_arr[6]
+    waypoints = []
+    waypoints.append(copy.deepcopy(wpose))
+    (start_plan, start_fraction) = self.move_group.compute_cartesian_path(waypoints, 0.001, 0.0)
+    self.move_group.execute(start_plan, wait=True);
   
   def plan_cartesian_path(self, scale=1):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
-    filename = raw_input('Enter the filename of the .h5 demo: ')
+    #filename = raw_input('Enter the filename of the .h5 demo: ')
+    filename = 'recorded_demo Sat Jan 18 14:17:34 2020.h5'
     #open the file
     hf = h5py.File(filename, 'r')
     #navigate to necessary data and store in numpy arrays
@@ -135,6 +147,19 @@ class MoveGroupPythonInterface(object):
 
     #record xyz coordinates as a list of waypoints the robot passes through
     waypoints = []
+  
+    ### TESTING w/ PREPROCESSING
+    [pos_rot_data, actual_start, actual_end] = preprocessing.preprocess_nd(pos_rot_data, 1000, start=-1, end=-1)
+    print(pos_rot_data)
+    ### TESTING ###
+    #pos_x = []
+    #pos_y = []
+    #pos_z = []
+    #rot_x = []
+    #rot_y = []
+    #rot_z = []
+    #rot_w = []
+    
     #put each xyz into the waypoints array
     wpose = self.move_group.get_current_pose().pose
     for i in range(1, np.size(pos_rot_data, 1)):
@@ -146,6 +171,15 @@ class MoveGroupPythonInterface(object):
       wpose.orientation.z = pos_rot_data[6][i]#rviz rotation z is /tf w
       wpose.orientation.w = -pos_rot_data[5][i]#rviz rotation w is /tf -z
       waypoints.append(copy.deepcopy(wpose))
+      ### TESTING ###
+      #pos_x.append(wpose.position.x)
+      #pos_y.append(wpose.position.y)
+      #pos_z.append(wpose.position.z)
+      #rot_x.append(wpose.orientation.x)
+      #rot_y.append(wpose.orientation.y)
+      #rot_z.append(wpose.orientation.z)
+      #rot_w.append(wpose.orientation.w)
+ 
 
     # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
     (plan, fraction) = self.move_group.compute_cartesian_path(
@@ -153,6 +187,13 @@ class MoveGroupPythonInterface(object):
                                        0.001,       # eef_step
                                        0.0)       # jump_threshold
     # Note: We are just planning, not asking move_group to actually move the robot yet:
+    ### TESTING ###
+    #fp = h5py.File ('planned execution.h5', 'w')
+    #demo_name = 'demo1'
+    #pos_arr = np.array([[pos_x], [pos_y], [pos_z], [rot_x], [rot_y], [rot_z], [rot_w]])
+    #dset_pos_rot = fp.create_dataset(demo_name + '/tf_info/pos_rot_data', data=pos_arr)
+    #fp.close()
+    print('Planning for %f %% of waypoints achieved' % (fraction * 100.0))
     return plan, fraction
 
   def display_trajectory(self, plan):

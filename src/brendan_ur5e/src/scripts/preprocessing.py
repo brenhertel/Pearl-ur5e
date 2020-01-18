@@ -9,6 +9,7 @@ from scipy import interpolate
 import matplotlib.pyplot as plt
 
 def preprocess_1d(traj, num_points, start=-1, end=-1):
+  traj = np.reshape(traj, (1, max(np.shape(traj))))
   #print(traj)
   #I want to shave off the start and end where no motion is happening
   if start < 0:
@@ -28,6 +29,8 @@ def preprocess_1d(traj, num_points, start=-1, end=-1):
   return [resample_data, start, end]
 
 def find_start(traj, n):
+  traj = np.reshape(traj, (1, n))
+  print(np.shape(traj))
   i = 0
   while i < n:
     k = 1
@@ -40,15 +43,17 @@ def find_start(traj, n):
   return 0
 
 def find_end(traj, n):
+  traj = np.reshape(traj, (1, n))
+  print(np.shape(traj))
   i = n - 1
   while i > 10:
     k = 1
-    while k < 10 and i - k >= 0:
+    while k < 10:
       dif = traj[0, i] - traj[0, i-k]
       if abs(dif) > 0.001:
         return i
-    k = k + 1
-  i = i - 10
+      k = k + 1
+    i = i - 10
   return n
 
 def preprocess_nd(data, num_points, start=-1, end=-1):
@@ -60,6 +65,7 @@ def preprocess_nd(data, num_points, start=-1, end=-1):
   if start >= 0:
     starts.append(start)
   actual_start = min(starts)
+  print('actual start: %d' % actual_start)
   #get end
   ends = np.zeros(dims)
   for i in range (dims):
@@ -67,12 +73,14 @@ def preprocess_nd(data, num_points, start=-1, end=-1):
   if end >= 0:
     ends.append(end)
   actual_end = max(ends)
+  print('actual end: %d' % actual_end)
   #preprocess
   resample_data = []
   for i in range (dims):
+    print('resampling row %d' % i)
     [data_new, s, e] = preprocess_1d(data[i], num_points, actual_start, actual_end)
     resample_data.append(data_new)
-    resample_data = np.reshape(resample_data, (i, num_points))
+  resample_data = np.reshape(resample_data, (dims, num_points))
   return [resample_data, actual_start, actual_end]
 
 #in-file testing
