@@ -64,7 +64,7 @@ class JA(object):
         #ax1 = self.endpoints[1, di].a
       #function handles
       def bc(y0, y1):
-        res = np.array([y0[0] - self.endpoints[0, di].x, y0[1] - self.endpoints[0, di].v, y0[2] - self.endpoints[0, di].a, y1[0] - self.endpoints[1, di].x, y1[1] - self.endpoints[1, di].v, y1[2] - self.endpoints[1, di].a])
+        res = np.array([y0[0] - self.endpoints[0, di].x, y0[1] - self.endpoints[0, di].v, y0[2] - self.endpoints[0, di].a, y1[0] - self.endpoints[1, di].x, y1[1] - self.endpoints[1, di].v, y1[2] - self.endpoints[1, di].a]).reshape(6)
         return res
       #MSD is different from original due to how the solve_bvp function works - same mathematical operations 
       def MSDAccuracy_DE(t, y):

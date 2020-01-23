@@ -27,9 +27,16 @@ def get_lasa_traj():
     return [x_data, y_data]
 
 def perform_all_deformations(traj, initial, end, lmbda=-1.0):
+  #set up endpoints if none specified
+  if initial == None:
+    initial = traj[0]
+  if end == None:
+    end = traj[max(np.shape(traj)) - 1]
   #transpose if necessary
-  if np.shape(traj)[0] > np.shape(traj)[1]:
-    traj = np.transpose(traj)
+  if len(np.shape(traj)) > 1:
+    if np.shape(traj)[0] > np.shape(traj)[1]:
+      traj = np.transpose(traj)
+  traj = np.reshape(traj, (1, max(np.shape(traj))))
   ## LTE ##
   indeces = [1, max(np.shape(traj)) - 1]
   lte_fixed_points = lte.generate_lte_fixed_points(indeces, [initial, end])

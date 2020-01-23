@@ -16,6 +16,7 @@ import h5py
 import roslib
 import numpy as np
 import preprocessing
+import matplotlib.pyplot as plt
 
 #not actually sure why this is here or why its necessary, but I suppose its a good way to test tolerances
 def all_close(goal, actual, tolerance):
@@ -117,7 +118,7 @@ class MoveGroupPythonInterface(object):
     
     #ask user for the file which the playback is for
     #filename = raw_input('Enter the filename of the .h5 demo: ')
-    filename = 'recorded_demo Sat Jan 18 14:17:34 2020.h5'
+    filename = 'recorded_demo Tue Jan 21 10:48:49 2020.h5'
     #open the file
     hf = h5py.File(filename, 'r')
     #navigate to necessary data and store in numpy arrays
@@ -135,6 +136,21 @@ class MoveGroupPythonInterface(object):
     print "Press 'Enter' to move to starting position"
     raw_input()
     self.starting_joint_state(js_data)
+
+    plt.plot(-pos_rot_data[0], pos_rot_data[2])
+    plt.title(filename)
+    plt.ylabel('pos_z')
+    plt.xlabel('pos_y')
+    plt.show()
+
+    [pos_rot_data, actual_start, actual_end] = preprocessing.preprocess_nd(pos_rot_data, 1000, start=-1, end=-1)
+
+    plt.plot(-pos_rot_data[0], pos_rot_data[2])
+    plt.title(filename + ' preprocessed')
+    plt.ylabel('pos_z')
+    plt.xlabel('pos_y')
+    plt.show()
+
     starting_xyz_position = np.zeros(7);
     starting_xyz_position[0] = -pos_rot_data[0][0]
     starting_xyz_position[1] = -pos_rot_data[1][0]
@@ -149,8 +165,7 @@ class MoveGroupPythonInterface(object):
     waypoints = []
   
     ### TESTING w/ PREPROCESSING
-    [pos_rot_data, actual_start, actual_end] = preprocessing.preprocess_nd(pos_rot_data, 1000, start=-1, end=-1)
-    print(pos_rot_data)
+    #print(pos_rot_data)
     ### TESTING ###
     #pos_x = []
     #pos_y = []
@@ -180,7 +195,8 @@ class MoveGroupPythonInterface(object):
       #rot_z.append(wpose.orientation.z)
       #rot_w.append(wpose.orientation.w)
  
-
+    print(waypoints[0])
+    print(waypoints[len(waypoints) - 1])
     # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
     (plan, fraction) = self.move_group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
