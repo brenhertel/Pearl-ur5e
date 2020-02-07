@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import rospy
-import roslib
 import numpy as np
 import h5py
 import perform_deformations as pd

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 import h5py
-import rospy
-import roslib
 import numpy as np
 
 if __name__ == '__main__':
@@ -30,4 +28,3 @@ if __name__ == '__main__':
 		print("rotation y: ", pos_rot_data[4][i])
 		print("rotation z: ", pos_rot_data[5][i])
 		print("rotation w: ", pos_rot_data[6][i])
-		print

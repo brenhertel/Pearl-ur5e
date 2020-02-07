@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import rospy
-import roslib
 import numpy as np
 from scipy.interpolate import InterpolatedUnivariateSpline
 from scipy.interpolate import interp1d
@@ -9,6 +7,7 @@ from scipy import interpolate
 import matplotlib.pyplot as plt
 
 def preprocess_1d(traj, num_points, start=-1, end=-1):
+  print(np.shape(traj))
   traj = np.reshape(traj, (1, max(np.shape(traj))))
   #print(traj)
   #I want to shave off the start and end where no motion is happening
@@ -30,7 +29,7 @@ def preprocess_1d(traj, num_points, start=-1, end=-1):
 
 def find_start(traj, n):
   traj = np.reshape(traj, (1, n))
-  print(np.shape(traj))
+  #print(np.shape(traj))
   i = 0
   while i < n:
     k = 1
@@ -59,27 +58,76 @@ def find_end(traj, n):
 def preprocess_nd(data, num_points, start=-1, end=-1):
   dims = min(np.shape(data))
   #get starts
-  starts = np.zeros(dims)
-  for i in range (dims):
-    starts[i] = find_start(data[i], max(np.shape(data[i])))
-  if start >= 0:
-    starts.append(start)
-  actual_start = min(starts)
-  print('actual start: %d' % actual_start)
+  if start < 0:
+    starts = np.zeros(dims)
+    for i in range (dims):
+      starts[i] = find_start(data[i], max(np.shape(data[i])))
+    actual_start = min(starts)
+  else:
+    actual_start = start
+  #print('actual start: %d' % actual_start)
   #get end
-  ends = np.zeros(dims)
-  for i in range (dims):
-    ends[i] = find_end(data[i], max(np.shape(data[i])))
-  if end >= 0:
-    ends.append(end)
-  actual_end = max(ends)
-  print('actual end: %d' % actual_end)
+  if end <= 0:
+    ends = np.zeros(dims)
+    for i in range (dims):
+      ends[i] = find_end(data[i], max(np.shape(data[i])))
+    actual_end = max(ends)
+  else:
+    actual_end = end
+  #print('actual end: %d' % actual_end)
   #preprocess
   resample_data = []
   for i in range (dims):
-    print('resampling row %d' % i)
+    #print('resampling row %d' % i)
     [data_new, s, e] = preprocess_1d(data[i], num_points, actual_start, actual_end)
     resample_data.append(data_new)
+  resample_data = np.reshape(resample_data, (dims, num_points))
+  return [resample_data, actual_start, actual_end]
+
+def bad_preprocess_1d(traj, num_points, start=-1, end=-1):
+  print(np.shape(traj))
+  traj = np.reshape(traj, (1, max(np.shape(traj))))
+  #print(traj)
+  #I want to shave off the start and end where no motion is happening
+  if start < 0:
+    start = find_start(traj, max(np.shape(traj)))
+  if end < 0:
+    end = find_end(traj, max(np.shape(traj)))
+  data = []
+  for i in range (max(np.shape(traj))):
+    if i >= start and i <= end:
+      data.append(traj[0, i])
+  return [data, start, end]
+
+def cut_nd(data, start=-1, end=-1):
+  dims = min(np.shape(data))
+  #get starts
+  if start < 0:
+    starts = np.zeros(dims)
+    for i in range (dims):
+      starts[i] = find_start(data[i], max(np.shape(data[i])))
+    actual_start = min(starts)
+  else:
+    actual_start = start
+  #print('actual start: %d' % actual_start)
+  #get end
+  if end <= 0:
+    ends = np.zeros(dims)
+    for i in range (dims):
+      ends[i] = find_end(data[i], max(np.shape(data[i])))
+    actual_end = max(ends)
+  else:
+    actual_end = end
+  num_points = 1 + actual_end - actual_start
+  #print('actual end: %d' % actual_end)
+  #preprocess
+  resample_data = []
+  for i in range (dims):
+    #print('resampling row %d' % i)
+    [data_new, s, e] = bad_preprocess_1d(data[i], num_points, actual_start, actual_end)
+    resample_data.append(data_new)
+  print(np.shape(resample_data))
+  print((dims, num_points))
   resample_data = np.reshape(resample_data, (dims, num_points))
   return [resample_data, actual_start, actual_end]
 

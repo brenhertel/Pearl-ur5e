@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-import h5py
 import numpy as np
-import rospy
 from std_msgs.msg import String
 
 if __name__ == '__main__':
