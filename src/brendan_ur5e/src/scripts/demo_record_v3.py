@@ -43,8 +43,8 @@ def shutdown_self(req):
 		rospy.loginfo("received request to shutdown")
 		time_at_req = int(round(time.time()))		
 		while (time_at_req >= record_time):
-			rospy.loginfo("time_at_req: %d, record_time: %d", time_at_req, record_time)
-			rospy.sleep(0.05)
+			#rospy.loginfo("time_at_req: %d, record_time: %d", time_at_req, record_time)
+			rospy.sleep(0.01)
 		rospy.loginfo("final shutdown")
 		global recording
 		recording = 0
