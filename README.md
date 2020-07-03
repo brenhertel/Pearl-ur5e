@@ -6,7 +6,7 @@ Managed by Brendan Hertel (brendan_hertel@student.uml.edu)
 Labarotory Setup:
 We have a Universal Robots UR5e 6 DOF arm attached to the LAN through ethernet. Lab Computer is running 32-bit Ubuntu 16.04 LTS with ROS kinetic. The pendant connected to the UR5e is running Polyscope version 5.2.1.61344. Attached to the UR5e is a Robotiq 2f_85 gripper. To connect ROS to the ur5e, run the command
 
-    rosrun brendan_ur5e brendan_ur5e.launch ip:=XXX.XXX.XXX.XXX
+    roslaunch brendan_ur5e brendan_ur5e.launch ip:=XXX.XXX.XXX.XXX
 
 where XXX.XXX.XXX.XXX is the ip address of the robot. This launch file establishes the connection to the robot, initializes moveit with the robot's model, and brings up the Rviz workspace containing the robot model. For proper operation, use Ubuntu 16.04 and ROS Kinetic--these are the versions needed to use the UR5e.
 
