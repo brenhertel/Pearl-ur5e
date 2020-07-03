@@ -141,7 +141,7 @@ class MoveGroupPythonInterface(object):
     self.starting_joint_state(js_data)
 
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='w3d')
+    ax = fig.add_subplot(111, projection='3d')
     ax.plot(-pos_rot_data[0],-pos_rot_data[1], pos_rot_data[2])
     #ax.title(filename)
     #ax.ylabel('pos_z')
