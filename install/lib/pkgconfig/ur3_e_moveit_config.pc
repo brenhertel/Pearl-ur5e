@@ -2,7 +2,7 @@ prefix=/home/bhertel/catkin_ws/install
 
 Name: ur3_e_moveit_config
 Description: Description of ur3_e_moveit_config
-Version: 1.2.5
+Version: 1.2.7
 Cflags: 
 Libs: -L/home/bhertel/catkin_ws/install/lib 
 Requires: 

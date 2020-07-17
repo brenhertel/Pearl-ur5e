@@ -24,6 +24,9 @@ class JA(object):
     #given dims x nodes, transform into nodes x dims
     self.traj = np.transpose(given_traj)
     #variables for ease
+    traj_shape = np.shape(self.traj)
+    if len(traj_shape) == 1:
+    	self.traj = np.reshape(self.traj, (len(self.traj), 1))
     self.nodes = np.shape(self.traj)[0]
     self.dims = np.shape(self.traj)[1]
     #set up endpoints

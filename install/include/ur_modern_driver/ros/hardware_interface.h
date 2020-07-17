@@ -60,8 +60,6 @@ public:
   VelocityInterface(URCommander &commander, hardware_interface::JointStateInterface &js_interface,
                     std::vector<std::string> &joint_names, double max_vel_change);
   virtual bool write();
-  virtual void start();
-  virtual void stop();
   virtual void reset();
   typedef hardware_interface::VelocityJointInterface parent_type;
   static const std::string INTERFACE_NAME;
@@ -70,11 +68,11 @@ public:
 class PositionInterface : public HardwareInterface, public hardware_interface::PositionJointInterface
 {
 private:
-  URCommander &commander_;
+  TrajectoryFollower &follower_;
   std::array<double, 6> position_cmd_;
 
 public:
-  PositionInterface(URCommander &commander, hardware_interface::JointStateInterface &js_interface,
+  PositionInterface(TrajectoryFollower &follower, hardware_interface::JointStateInterface &js_interface,
                     std::vector<std::string> &joint_names);
   virtual bool write();
   virtual void start();
