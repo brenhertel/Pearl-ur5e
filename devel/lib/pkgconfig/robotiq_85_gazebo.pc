@@ -1,8 +1,0 @@
-prefix=/home/bhertel/catkin_ws/devel
-
-Name: robotiq_85_gazebo
-Description: Description of robotiq_85_gazebo
-Version: 1.0.0
-Cflags: 
-Libs: -L/home/bhertel/catkin_ws/devel/lib 
-Requires: 

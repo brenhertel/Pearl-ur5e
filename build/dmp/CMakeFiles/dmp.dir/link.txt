@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libdmp.so -o /home/bhertel/catkin_ws/devel/lib/libdmp.so CMakeFiles/dmp.dir/src/dmp.cpp.o CMakeFiles/dmp.dir/src/fourier_approx.cpp.o CMakeFiles/dmp.dir/src/radial_approx.cpp.o CMakeFiles/dmp.dir/src/linear_approx.cpp.o 

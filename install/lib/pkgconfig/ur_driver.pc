@@ -1,8 +1,0 @@
-prefix=/home/bhertel/catkin_ws/install
-
-Name: ur_driver
-Description: Description of ur_driver
-Version: 1.2.7
-Cflags: -I/home/bhertel/catkin_ws/install/include
-Libs: -L/home/bhertel/catkin_ws/install/lib 
-Requires: dynamic_reconfigure

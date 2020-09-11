@@ -1,8 +1,0 @@
-prefix=/home/bhertel/catkin_ws/install
-
-Name: robotiq_arg85_description
-Description: Description of robotiq_arg85_description
-Version: 1.0.0
-Cflags: 
-Libs: -L/home/bhertel/catkin_ws/install/lib 
-Requires: 

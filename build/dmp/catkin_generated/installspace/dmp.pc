@@ -1,8 +1,0 @@
-prefix=/home/bhertel/catkin_ws/install
-
-Name: dmp
-Description: Description of dmp
-Version: 0.0.0
-Cflags: -I/home/bhertel/catkin_ws/install/include
-Libs: -L/home/bhertel/catkin_ws/install/lib 
-Requires: common_msgs image_common message_runtime

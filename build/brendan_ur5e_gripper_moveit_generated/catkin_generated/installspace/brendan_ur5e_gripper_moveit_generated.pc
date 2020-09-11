@@ -1,8 +1,0 @@
-prefix=/home/bhertel/catkin_ws/install
-
-Name: brendan_ur5e_gripper_moveit_generated
-Description: Description of brendan_ur5e_gripper_moveit_generated
-Version: 0.3.0
-Cflags: 
-Libs: -L/home/bhertel/catkin_ws/install/lib 
-Requires: 

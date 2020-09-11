@@ -1,8 +1,0 @@
-prefix=/home/bhertel/catkin_ws/install
-
-Name: ur_gazebo
-Description: Description of ur_gazebo
-Version: 1.2.7
-Cflags: 
-Libs: -L/home/bhertel/catkin_ws/install/lib 
-Requires: 

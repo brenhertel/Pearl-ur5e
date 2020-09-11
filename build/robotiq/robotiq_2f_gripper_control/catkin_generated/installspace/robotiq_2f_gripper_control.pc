@@ -1,8 +1,0 @@
-prefix=/home/bhertel/catkin_ws/install
-
-Name: robotiq_2f_gripper_control
-Description: Description of robotiq_2f_gripper_control
-Version: 1.0.0
-Cflags: -I/home/bhertel/catkin_ws/install/include
-Libs: -L/home/bhertel/catkin_ws/install/lib 
-Requires: rospy message_runtime roscpp robotiq_ethercat
