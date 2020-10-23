@@ -27,6 +27,7 @@ def set_position(data, c):
     c.send(chr(data.data))
 
 def listener(c):
+    print('Connected!')
     rospy.loginfo('listening to /gripper_sends/position')
     rospy.Subscriber('/gripper_sends/position', Int32, set_position, c)
     rospy.init_node('gripper_pose_sub', anonymous=True)
@@ -44,7 +45,17 @@ if __name__ == '__main__':
     #HOST_self = "127.0.0.1" # own IP address
     #PORT_self = 80 # connection port
     s_self = socket.socket()
-    s_self.bind(('', 32345))
+    bound = 0
+    while not bound:
+    	try:
+    	    s_self.bind(('', 32345))
+    	    bound = 1
+    	except:
+    	    print('Could not bind to port, retrying')
+    	    rospy.loginfo('Could not bind to port, retrying')
+    	    rospy.sleep(0.1)
+    	    bound = 0
+    		
     s_self.listen(5)
     
     f = open ("/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/gripper_control/get_pose_from_comp.script", "rb")   #Robotiq Gripper

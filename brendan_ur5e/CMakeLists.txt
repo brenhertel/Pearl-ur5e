@@ -62,16 +62,16 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+ add_message_files(
+   FILES
+   gripper_pos.msg
+)
 
 ## Generate services in the 'srv' folder
  add_service_files(
    FILES
    shutdown_request.srv
+   gripper_data_request.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -119,7 +119,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES brendan_ur5e
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+#   CATKIN DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
 )
 

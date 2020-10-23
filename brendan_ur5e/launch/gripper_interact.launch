@@ -1,0 +1,8 @@
+<launch>
+
+  <group>
+    <node pkg="brendan_ur5e" name="publish_gripper_position" type="publish_gripper_position.py"/>
+    <node pkg="brendan_ur5e" name="listen_gripper_position" type="listen_gripper_position.py"/>
+  </group>
+  
+</launch>

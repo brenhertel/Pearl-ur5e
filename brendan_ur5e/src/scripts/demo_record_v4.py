@@ -14,6 +14,8 @@ from std_msgs.msg import String
 from sensor_msgs.msg import JointState
 from tf.msg import tfMessage
 from geometry_msgs.msg import WrenchStamped
+from brendan_ur5e.msg import gripper_pos
+from brendan_ur5e.srv import gripper_data_request
 
 # create subscribers for joint state, tf, wrench
 #each subscriber writes data and timestamps to file (txt)
@@ -21,6 +23,9 @@ from geometry_msgs.msg import WrenchStamped
 #compare timestamps
 #if timestamps match, write to an array
 #save array to h5 file
+
+def gr_callback(grmsg, gr_file):
+	gr_file.write(str(grmsg.header.stamp.secs) + ', ' + str(grmsg.header.stamp.nsecs) + ', ' + str(grmsg.gripper_pos) + '\n')
 
 def wr_callback(wrmsg, wr_file):
 	wr_file.write(str(wrmsg.header.stamp.secs) + ', ' + str(wrmsg.header.stamp.nsecs) + ', ' + str(wrmsg.wrench.force.x) + ', ' + str(wrmsg.wrench.force.y) + ', ' + str(wrmsg.wrench.force.z) + ', ' + str(wrmsg.wrench.torque.x) + ', ' + str(wrmsg.wrench.torque.y) + ', ' + str(wrmsg.wrench.torque.z) + '\n')
@@ -38,6 +43,7 @@ def save_demo():
 	js_fp = open('joint_data.txt', 'r')
 	tf_fp = open('tf_data.txt', 'r')
 	wr_fp = open('wrench_data.txt', 'r')
+	gr_fp = open('gripper_data.txt', 'r')
 	js_time_arr = np.zeros((1, 2))
 	js_pos_arr = np.zeros((1, 6))
 	js_vel_arr = np.zeros((1, 6))
@@ -48,9 +54,14 @@ def save_demo():
 	wr_time_arr = np.zeros((1, 2))
 	wr_force_arr = np.zeros((1, 3))
 	wr_torq_arr = np.zeros((1, 3))
-	for ln in js_fp:
-	    l_split = ln.split(',')
-	    js_time_arr
+	gr_time_arr = np.zeros((1, 2))
+	gr_pos_arr = np.zeros((1, 1))
+	#for ln in js_fp:
+	#    l_split = ln.split(',')
+	#    js_time_arr
+	for ln in gr_fp:
+	    print(ln)
+	    
 '''
 >>> import numpy as np
 >>> strings = '1, 65, 93093, 2'
@@ -66,12 +77,13 @@ array([    1,    65, 93093,     2])
 >>> 
 '''
    
-def end_record(js_file, tf_file, wr_file):
+def end_record(js_file, tf_file, wr_file, gr_file):
     print(time.time())
     
     js_file.close()
     tf_file.close()
     wr_file.close()
+    gr_file.close()
 	
     save = raw_input('Would you like to save this demo? (y/n)')
     rospy.loginfo("You entered: %s", save)  
@@ -81,39 +93,49 @@ def end_record(js_file, tf_file, wr_file):
     cont = raw_input('Would you like to start another demo? (y/n)')
     rospy.loginfo("You entered: %s", cont)
     if (cont == 'y'):
-        listener()
+        demo_recorder()
    
-def listener():
+def demo_recorder():
+    rospy.wait_for_service('gripper_data_request')	
     try:
-	#create joint states file
-	js_fp = open('joint_data.txt', 'w')
-	#create tf file
-	tf_fp = open('tf_data.txt', 'w')
-	#create joint states file
-	wr_fp = open('wrench_data.txt', 'w')
-	
-	rospy.init_node('demo_recorder', anonymous=True)
-	
-	print('Press [Enter] to start recording')
-	raw_input()
-	print(time.time())
-	
-	#create subscribers to topics
-	
-	sub_js = rospy.Subscriber("joint_states", JointState, js_callback, js_fp)
-		
-	sub_tf = rospy.Subscriber("tf", tfMessage, tf_callback, tf_fp)
-		
-	sub_wr = rospy.Subscriber("wrench", WrenchStamped, wr_callback, wr_fp)
-	
-	rospy.spin()
-        end_record(js_fp, tf_fp, wr_fp)
-	
+        #create joint states file
+        js_fp = open('joint_data.txt', 'w')
+        #create tf data file
+        tf_fp = open('tf_data.txt', 'w')
+    	#create wrench data file
+    	wr_fp = open('wrench_data.txt', 'w')
+    	#create gripper data file
+    	gr_fp = open('gripper_data.txt', 'w')
+    	
+    	rospy.init_node('demo_recorder', anonymous=True)
+    	grp_req = rospy.ServiceProxy('gripper_data_request', gripper_data_request)
+    	grp_req(0)
+    	
+    	print('Press [Enter] to start recording')
+    	raw_input()
+    	print(time.time())
+    	
+    	#create subscribers to topics
+    	
+    	sub_js = rospy.Subscriber("joint_states", JointState, js_callback, js_fp)
+    		
+    	sub_tf = rospy.Subscriber("tf", tfMessage, tf_callback, tf_fp)
+			
+    	sub_wr = rospy.Subscriber("wrench", WrenchStamped, wr_callback, wr_fp)
+    	
+    	sub_gr = rospy.Subscriber("/gripper_data/position", gripper_pos, gr_callback, gr_fp)
+    		
+    	rospy.spin()
+       	end_record(js_fp, tf_fp, wr_fp, gr_fp)
+        
     except rospy.ROSInterruptException:
-        end_record(js_fp, tf_fp, wr_fp)
+        end_record(js_fp, tf_fp, wr_fp, gr_fp)
+    except rospy.ServiceException, e: 
+        end_record(js_fp, tf_fp, wr_fp, gr_fp)
+        print "Service call failed: %s"%e
     except KeyboardInterrupt:
-        end_record(js_fp, tf_fp, wr_fp)
+        end_record(js_fp, tf_fp, wr_fp, gr_fp)
         
 if __name__ == '__main__':
-	listener()
+	demo_recorder()
 

@@ -8,17 +8,25 @@ import time
 import binascii
 from ast import literal_eval
 import rospy
-from std_msgs.msg import Int32
+from brendan_ur5e.msg import gripper_pos
+import std_msgs
 
 def talker(c):
-    pub = rospy.Publisher('/gripper_data/position', Int32, queue_size=100)
+    print('Connected!')
+    pub = rospy.Publisher('/gripper_data/position', gripper_pos, queue_size=100)
     rospy.init_node('gripper_pose_pub', anonymous=True)
     while not rospy.is_shutdown():
         ret = c.recv(1024)
-        bit_string = bin(int(binascii.hexlify(ret), 16))
-        int_conv = int(literal_eval(bit_string))
-        #print(int_conv)
-        pub.publish(int_conv)
+        if ret:
+            bit_string = bin(int(binascii.hexlify(ret), 16))
+       	    int_conv = int(literal_eval(bit_string))
+            #print(int_conv)
+            h = std_msgs.msg.Header()
+            h.stamp = rospy.Time.now()
+            msg = gripper_pos()
+            msg.header = h
+            msg.gripper_pos = int_conv
+            pub.publish(msg)
     
 
 if __name__ == '__main__':

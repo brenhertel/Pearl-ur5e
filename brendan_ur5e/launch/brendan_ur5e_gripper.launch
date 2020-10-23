@@ -17,6 +17,9 @@
     
     <!-- Launch UR5e hardware planning execution and configuration parameters -->
     <include file="$(find brendan_ur5e_gripper_moveit_generated)/launch/move_group.launch"/>
+    
+    <!-- parameter to set if gripper recorder is ready -->
+    <param name="gripper_status" type="bool" value="false" />
   </group>
 
   <!-- Will launch simulated robot instead of actual if arg "sim" is input -->
