@@ -44,7 +44,7 @@ How to use demo recorder:
 7. The terminal will prompt with "Would you like to start another demo? (y/n)" This functionality has technically been implemented, although not functioning as intended due to the queue sizes. This demo recorder has done its job, and you may forcefully exit the program. To record another demo, please start from Step 2.
 
 The structure of the demo within the .h5 is according to the hdf5 standards. A flowchart of the structure is as below:
-![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/pictures/hdf5%20demo%20recorder%20flowchart.png)
+![Demo Recorder structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/brendan_ur5e/pictures/hdf5%20demo%20recorder%20flowchart.png)
 
 The shape of the stored arrays is as follows:
 - time_data: {time_secs, time_nsecs} x n
