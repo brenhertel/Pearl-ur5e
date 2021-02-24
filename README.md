@@ -80,7 +80,7 @@ Notes of demo_xyz_playback:
 1/9/2020: pushed new changes to repository. Created lte.py executable. This executable performs Laplacian trajectory editing in python as outlined by www.itr.ei.tum.de/fileadmin/w00bok/www/CodeExamples/laplacianHardConstraints.m.
 
 1/14/2020: pushed new changes to repository. Returned to demo_xyz_playblack.py script to fix initial state problems. Currently using a workaround where the arm will travel to the initial joint position, then to the initial xyz position before starting the trajectory. Need to implement a system that avoids joint states entirely in the future. Finished lte.py executable. To perform lte from another file, be sure to `import lte` and use the function with syntax `new_traj = lte.perform_lte(traj)` to create a new trajectory. The LASA dataset (https://cs.stanford.edu/people/khansari/download.html) was used to test the executable. The LASA dataset was first converted to the .h5 file format, which can be found here: https://github.com/brenhertel/Pearl-ur5e/blob/master/h5%20files/lasa_dataset.h5. The lasa_dataset.h5 file follows the structure as outlined below:\
-![lasa dataset structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/pictures/lasa_dataset%20flowchart.png)
+![lasa dataset structure](https://github.com/brenhertel/Pearl-ur5e/blob/master/brendan_ur5e/pictures/lasa_dataset%20flowchart.png)
 
 Notes:
 - For the sake of simplicity, not all 25 shapes and 7 demonstrations are shown in the flowchart, but pos, t, vel, acc, and dt data is stored for every demonstration of every shape.
