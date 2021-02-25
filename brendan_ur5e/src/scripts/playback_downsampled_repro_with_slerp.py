@@ -17,6 +17,10 @@ import roslib
 import numpy as np
 import preprocessing
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import lte
+from scipy.spatial.transform import Rotation as R
+from scipy.spatial.transform import Slerp
 
 #not actually sure why this is here or why its necessary, but I suppose its a good way to test tolerances
 def all_close(goal, actual, tolerance):
@@ -91,7 +95,7 @@ class MoveGroupPythonInterface(object):
     joint_goal[1] = js_array[1][0]
     joint_goal[2] = js_array[2][0]
     joint_goal[3] = js_array[3][0]
-    joint_goal[4] = js_array[4][0]
+    joint_goal[4] = js_array[4][0] 
     joint_goal[5] = js_array[5][0]
     # go to the initial position
     # The go command can be called with joint values, poses, or without any parameters if you have already set the pose or joint target for the group
@@ -110,53 +114,96 @@ class MoveGroupPythonInterface(object):
     wpose.orientation.w = start_arr[6]
     waypoints = []
     waypoints.append(copy.deepcopy(wpose))
-    (start_plan, start_fraction) = self.move_group.compute_cartesian_path(waypoints, 0.001, 0.0)
+    (start_plan, start_fraction) = self.move_group.compute_cartesian_path(waypoints, 0.01, 0.0)
     self.move_group.execute(start_plan, wait=True);
   
   def plan_cartesian_path(self, scale=1):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
-    #filename = raw_input('Enter the filename of the .h5 demo: ')
+    filename = '/home/bhertel/Desktop/fsil_demos/fail_demos/recorded_demo Mon Feb 22 16_19_12 2021.h5'
+    #repro_fname = '/home/bhertel/catkin_ws/h5 files/36_56/36_56__3D_reproduction.h5'
     #filename = 'h5 files/recorded_demo Tue Jan 21 10:48:49 2020.h5'
+    #filename = 'preprocessedrecorded_demo Tue Jan 21 10:48:49 2020.h5'
     #open the file
-    hf = h5py.File('/home/bhertel/Desktop/fsil_demos/succ_demos/recorded_demo Mon Feb 22 16_02_08 2021.h5', 'r')
+    hf = h5py.File(filename, 'r')
     #navigate to necessary data and store in numpy arrays
-    f = hf.get('file3')
-    demo = f.get('demo6')
-    pos_data = demo.get('pos')
-    pos = np.array(pos_data)
+    demo = hf.get('demo1')
+    tf_info = demo.get('tf_info')
+    js_info = demo.get('joint_state_info')
+    pos_rot_data = tf_info.get('pos_rot_data')
+    pos_rot_data = np.array(pos_rot_data)
+    js_data = js_info.get('joint_positions')
+    js_data = np.array(js_data)
     #close out file
     hf.close()
 
     #### move to starting position ####
-    #print "Press 'Enter' to move to starting position"
-    #raw_input()
-    #self.starting_joint_state(js_data)
+    print "Press 'Enter' to move to starting position"
+    raw_input()
+    self.starting_joint_state(js_data)
 
-    #plt.plot(-pos_rot_data[0], pos_rot_data[2])
-    #plt.title(filename)
-    #plt.ylabel('pos_z')
-    #plt.xlabel('pos_y')
-    #plt.show()
-
-    #[pos_rot_data, actual_start, actual_end] = preprocessing.preprocess_nd(pos_rot_data, 1000, start=-1, end=-1)
-
-    #plt.plot(-pos_rot_data[0], pos_rot_data[2])
-    #plt.title(filename + ' preprocessed')
-    #plt.ylabel('pos_z')
-    #plt.xlabel('pos_y')
-    #plt.show()
-
+#    fig = plt.figure()
+#    ax = fig.add_subplot(111, projection='3d')
+#    ax.plot(-pos_rot_data[0],-pos_rot_data[1], pos_rot_data[2])
+#    #ax.title(filename)
+#    #ax.ylabel('pos_z')
+#    #ax.xlabel('pos_y')
+#    print('Before LTE deformation')
+#    #print(np.shape(pos_rot_data))
+#    for i in range (7):
+#      print(pos_rot_data[i][0])
+#    for i in range (3):#np.shape(pos_rot_data)[0]):
+#      #initial = pos_rot_data[i][0]
+#      initial = pos_rot_data[i][0] + 0.01
+#      #print(initial)
+#      end = pos_rot_data[i][(np.shape(pos_rot_data)[1]) - 1]
+#      #print(end)
+#      indeces = [0, (np.shape(pos_rot_data)[1]) - 1]
+#      #print(indeces)
+#      lte_fixed_points = lte.generate_lte_fixed_points(indeces, [initial, end])
+#      pos_rot_data[i] = np.reshape(lte.perform_lte(pos_rot_data[i], lte_fixed_points), np.shape(pos_rot_data[i]))
+#    print('After LTE Deformation')
+#    #print(np.shape(pos_rot_data))
+#    for i in range (7):
+#      print(pos_rot_data[i][0])
+#    ax.plot(-pos_rot_data[0],-pos_rot_data[1], pos_rot_data[2], 'r')
+#    #plt.title(filename + ' preprocessed + lte')
+#    #plt.ylabel('pos_z')
+#    #plt.xlabel('pos_y')
+#    plt.show()
+    
+    #repro = h5py.File(repro_fname, 'r')
+    repro_traj = np.loadtxt('/home/bhertel/Desktop/fsil_demos/repro/fsil_3d.txt')#repro.get('JA')
+    (n_dims, n_pts) = np.shape(repro_traj)
+    print "Press 'Enter' to move to starting position from xyz coords"
+    raw_input()
     starting_xyz_position = np.zeros(7);
-    starting_xyz_position[0] = pos[0][0]
-    starting_xyz_position[1] = pos[1][0]
-    starting_xyz_position[2] = pos[2][0]
-    starting_xyz_position[3] = 0.
-    starting_xyz_position[4] = 0.
-    starting_xyz_position[5] = 0.
-    starting_xyz_position[6] = 0.
+    starting_xyz_position[0] = -repro_traj[0][0]
+    starting_xyz_position[1] = -repro_traj[1][0]
+    starting_xyz_position[2] = repro_traj[2][0]
+    starting_xyz_position[3] = -pos_rot_data[4][0]
+    starting_xyz_position[4] = pos_rot_data[3][0]
+    starting_xyz_position[5] = pos_rot_data[6][0]
+    starting_xyz_position[6] = -pos_rot_data[5][0]
     self.starting_xyz(starting_xyz_position)
+
+
+	#slerp for quaternions
+	#R1 = R.from_quat([pos_rot_data[3][0], pos_rot_data[4][0], pos_rot_data[5][0], pos_rot_data[6][0]])
+    #R1 = R.from_quat([pos_rot_data[3][0], pos_rot_data[4][0], pos_rot_data[5][0], pos_rot_data[6][0]])
+    #R2 = R.from_quat([pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]])
+    print(pos_rot_data[3][0])
+    key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], [pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
+    
+    print(key_rots.as_quat())
+    t1 = 0
+    t2 = n_pts - 1
+	
+    #key_rots = np.array([R1, R2])
+    key_times = np.array([t1, t2])
+	
+    slerp = Slerp(key_times, key_rots)
 
     #record xyz coordinates as a list of waypoints the robot passes through
     waypoints = []
@@ -174,14 +221,39 @@ class MoveGroupPythonInterface(object):
     
     #put each xyz into the waypoints array
     wpose = self.move_group.get_current_pose().pose
-    for i in range(1, np.size(pos, 1)):
-      wpose.position.x = pos[0][i]#/tf and rviz have x and y opposite signs
-      wpose.position.y = pos[1][i]
-      wpose.position.z = pos[2][i]
-      wpose.orientation.x = 0.
-      wpose.orientation.y = 0.
-      wpose.orientation.z = 0.
-      wpose.orientation.w = 0.
+    for i in range(1, n_pts):
+      wpose.position.x = -((repro_traj[0][i] + repro_traj[0][i-1]) / 2)#/tf and rviz have x and y opposite signs
+      wpose.position.y = -((repro_traj[1][i] + repro_traj[1][i-1]) / 2)
+      wpose.position.z = ((repro_traj[2][i] + repro_traj[2][i-1]) / 2)
+      #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
+      #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
+      #wpose.orientation.z = pos_rot_data[6][i]#rviz rotation z is /tf w
+      #wpose.orientation.w = -pos_rot_data[5][i]#rviz rotation w is /tf -z
+      cur_R = slerp(np.array([i - 0.5]))
+      cur_quats = cur_R.as_quat()
+      print(cur_quats)
+      wpose.orientation.x = -cur_quats[0][1]
+      wpose.orientation.y = cur_quats[0][0]
+      wpose.orientation.z = cur_quats[0][3]
+      wpose.orientation.w = -cur_quats[0][2]
+      
+      waypoints.append(copy.deepcopy(wpose))
+      
+      wpose.position.x = -repro_traj[0][i]#/tf and rviz have x and y opposite signs
+      wpose.position.y = -repro_traj[1][i]
+      wpose.position.z = repro_traj[2][i]
+      #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
+      #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
+      #wpose.orientation.z = pos_rot_data[6][i]#rviz rotation z is /tf w
+      #wpose.orientation.w = -pos_rot_data[5][i]#rviz rotation w is /tf -z
+      cur_R = slerp(np.array([i]))
+      cur_quats = cur_R.as_quat()
+      print(cur_quats)
+      wpose.orientation.x = -cur_quats[0][1]
+      wpose.orientation.y = cur_quats[0][0]
+      wpose.orientation.z = cur_quats[0][3]
+      wpose.orientation.w = -cur_quats[0][2]
+      
       waypoints.append(copy.deepcopy(wpose))
       ### TESTING ###
       #pos_x.append(wpose.position.x)
@@ -197,7 +269,7 @@ class MoveGroupPythonInterface(object):
     # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
     (plan, fraction) = self.move_group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
-                                       0.001,       # eef_step
+                                       0.01,       # eef_step
                                        0.0)       # jump_threshold
     # Note: We are just planning, not asking move_group to actually move the robot yet:
     ### TESTING ###

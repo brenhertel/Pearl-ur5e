@@ -99,127 +99,49 @@ class MoveGroupPythonInterface(object):
     # Calling ``stop()`` ensures that there is no residual movement
     self.move_group.stop()
 
-  def starting_xyz(self, start_arr):
-    wpose = self.move_group.get_current_pose().pose
-    wpose.position.x = start_arr[0]
-    wpose.position.y = start_arr[1]
-    wpose.position.z = start_arr[2]
-    wpose.orientation.x = start_arr[3]
-    wpose.orientation.y = start_arr[4]
-    wpose.orientation.z = start_arr[5]
-    wpose.orientation.w = start_arr[6]
-    waypoints = []
-    waypoints.append(copy.deepcopy(wpose))
-    (start_plan, start_fraction) = self.move_group.compute_cartesian_path(waypoints, 0.001, 0.0)
-    self.move_group.execute(start_plan, wait=True);
+  def joint_path(self, js_array):
+    # To start the playback of the demo, go to the initial demo position, which can be interpreted as the 0th set of joint states
+    # I use joint states instead of cartesians because cartesians will fail if the current state is too far away from the goal state, whereas joint states will simply execute
+    (n_joints, n_pts) = np.shape(js_array)
+    joint_goal = self.move_group.get_current_joint_values()
+    for i in range(0, n_pts, 100):
+      joint_goal[0] = js_array[0][i]
+      joint_goal[1] = js_array[1][i]
+      joint_goal[2] = js_array[2][i]
+      joint_goal[3] = js_array[3][i]
+      joint_goal[4] = js_array[4][i]
+      joint_goal[5] = js_array[5][i]
+      # go to the initial position
+      # The go command can be called with joint values, poses, or without any parameters if you have already set the pose or joint target for the group
+      self.move_group.go(joint_goal, wait=True)
+      # Calling ``stop()`` ensures that there is no residual movement
+    self.move_group.stop()
   
-  def plan_cartesian_path(self, scale=1):
+  def plan_js_path(self):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
     #filename = raw_input('Enter the filename of the .h5 demo: ')
-    #filename = 'h5 files/recorded_demo Tue Jan 21 10:48:49 2020.h5'
+    filename = '/home/bhertel/Desktop/fsil_demos/succ_demos/recorded_demo Mon Feb 22 16_02_08 2021.h5'
     #open the file
-    hf = h5py.File('/home/bhertel/Desktop/fsil_demos/succ_demos/recorded_demo Mon Feb 22 16_02_08 2021.h5', 'r')
+    hf = h5py.File(filename, 'r')
     #navigate to necessary data and store in numpy arrays
-    f = hf.get('file3')
-    demo = f.get('demo6')
-    pos_data = demo.get('pos')
-    pos = np.array(pos_data)
+    demo = hf.get('demo1')
+    js_info = demo.get('joint_state_info')
+    js_data = js_info.get('joint_positions')
+    js_data = np.array(js_data)
     #close out file
     hf.close()
 
     #### move to starting position ####
-    #print "Press 'Enter' to move to starting position"
-    #raw_input()
-    #self.starting_joint_state(js_data)
+    print "Press 'Enter' to move to starting position"
+    raw_input()
+    self.starting_joint_state(js_data)
 
-    #plt.plot(-pos_rot_data[0], pos_rot_data[2])
-    #plt.title(filename)
-    #plt.ylabel('pos_z')
-    #plt.xlabel('pos_y')
-    #plt.show()
-
-    #[pos_rot_data, actual_start, actual_end] = preprocessing.preprocess_nd(pos_rot_data, 1000, start=-1, end=-1)
-
-    #plt.plot(-pos_rot_data[0], pos_rot_data[2])
-    #plt.title(filename + ' preprocessed')
-    #plt.ylabel('pos_z')
-    #plt.xlabel('pos_y')
-    #plt.show()
-
-    starting_xyz_position = np.zeros(7);
-    starting_xyz_position[0] = pos[0][0]
-    starting_xyz_position[1] = pos[1][0]
-    starting_xyz_position[2] = pos[2][0]
-    starting_xyz_position[3] = 0.
-    starting_xyz_position[4] = 0.
-    starting_xyz_position[5] = 0.
-    starting_xyz_position[6] = 0.
-    self.starting_xyz(starting_xyz_position)
-
-    #record xyz coordinates as a list of waypoints the robot passes through
-    waypoints = []
-  
-    ### TESTING w/ PREPROCESSING
-    #print(pos_rot_data)
-    ### TESTING ###
-    #pos_x = []
-    #pos_y = []
-    #pos_z = []
-    #rot_x = []
-    #rot_y = []
-    #rot_z = []
-    #rot_w = []
+    self.joint_path(js_data)
     
-    #put each xyz into the waypoints array
-    wpose = self.move_group.get_current_pose().pose
-    for i in range(1, np.size(pos, 1)):
-      wpose.position.x = pos[0][i]#/tf and rviz have x and y opposite signs
-      wpose.position.y = pos[1][i]
-      wpose.position.z = pos[2][i]
-      wpose.orientation.x = 0.
-      wpose.orientation.y = 0.
-      wpose.orientation.z = 0.
-      wpose.orientation.w = 0.
-      waypoints.append(copy.deepcopy(wpose))
-      ### TESTING ###
-      #pos_x.append(wpose.position.x)
-      #pos_y.append(wpose.position.y)
-      #pos_z.append(wpose.position.z)
-      #rot_x.append(wpose.orientation.x)
-      #rot_y.append(wpose.orientation.y)
-      #rot_z.append(wpose.orientation.z)
-      #rot_w.append(wpose.orientation.w)
- 
-    print(waypoints[0])
-    print(waypoints[len(waypoints) - 1])
-    # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
-    (plan, fraction) = self.move_group.compute_cartesian_path(
-                                       waypoints,   # waypoints to follow
-                                       0.001,       # eef_step
-                                       0.0)       # jump_threshold
-    # Note: We are just planning, not asking move_group to actually move the robot yet:
-    ### TESTING ###
-    #fp = h5py.File ('planned execution.h5', 'w')
-    #demo_name = 'demo1'
-    #pos_arr = np.array([[pos_x], [pos_y], [pos_z], [rot_x], [rot_y], [rot_z], [rot_w]])
-    #dset_pos_rot = fp.create_dataset(demo_name + '/tf_info/pos_rot_data', data=pos_arr)
-    #fp.close()
-    print('Planning for %f %% of waypoints achieved' % (fraction * 100.0))
-    return plan, fraction
+    return
 
-  def display_trajectory(self, plan):
-    #ask rviz to display the trajectory
-    display_trajectory = moveit_msgs.msg.DisplayTrajectory()
-    display_trajectory.trajectory_start = self.robot.get_current_state()
-    display_trajectory.trajectory.append(plan)
-    # Publish
-    self.display_trajectory_publisher.publish(display_trajectory);
-
-  def execute_plan(self, plan):
-    #execute given plan
-    self.move_group.execute(plan, wait=True)
 
   def wait_for_state_update(self, box_name, box_is_known=False, box_is_attached=False, timeout=4):
     #either this times out and returns false or the object is found within the planning scene and returns true
@@ -281,19 +203,14 @@ def main():
     print "Press 'Enter' to add in wall"
     raw_input()
     ur5e_arm.add_wall()
-    print "Press 'Enter' to begin planning playback"
+    print "Press 'Enter' to begin playback"
     raw_input()
-    cartesian_plan, fraction = ur5e_arm.plan_cartesian_path()
-    print "Press 'Enter' to display planned trajectory"
-    raw_input()
-    ur5e_arm.display_trajectory(cartesian_plan)
-    print "Press 'Enter' to execute planned trajectory"
-    raw_input()
-    ur5e_arm.execute_plan(cartesian_plan)
+    ur5e_arm.plan_js_path()
     print "Execution complete"
     print "Press 'Enter' to exit'"
     raw_input()
     ur5e_arm.remove_workspace()
+    return
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:

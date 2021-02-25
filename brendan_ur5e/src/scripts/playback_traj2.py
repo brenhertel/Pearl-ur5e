@@ -119,7 +119,7 @@ class MoveGroupPythonInterface(object):
     #start planning demo playback by reading data from the demo.h5 file
     
     
-    hf = h5py.File('/home/bhertel/Desktop/3d_reproduction_testing_constrained/REACHING/file3/demo5/REACHING__3D_reproduction.h5', 'r')
+    hf = h5py.File('/home/bhertel/Desktop/fsil_demos/succ_demos/recorded_demo Mon Feb 22 16_02_08 2021.h5', 'r')
     #navigate to necessary data and store in numpy arrays
     get_traj = hf.get('DMP')
     x = np.array(get_traj.get('x'))
