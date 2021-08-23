@@ -121,7 +121,7 @@ class MoveGroupPythonInterface(object):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
-    filename = '/home/bhertel/Desktop/fsil_demos/fail_demos/recorded_demo Mon Feb 22 16_19_12 2021.h5'
+    filename = '/home/bhertel/catkin_ws/src/h5 files/recorded_demo Mon Aug 23 10:35:43 2021.h5'
     #repro_fname = '/home/bhertel/catkin_ws/h5 files/36_56/36_56__3D_reproduction.h5'
     #filename = 'h5 files/recorded_demo Tue Jan 21 10:48:49 2020.h5'
     #filename = 'preprocessedrecorded_demo Tue Jan 21 10:48:49 2020.h5'
@@ -174,13 +174,14 @@ class MoveGroupPythonInterface(object):
 #    plt.show()
     
     #repro = h5py.File(repro_fname, 'r')
-    repro_traj = np.loadtxt('/home/bhertel/Desktop/fsil_demos/repro/fsil_3d.txt')#repro.get('JA')
+    repro_traj = np.loadtxt('/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/nick_demos.txt')#repro.get('JA')
+    repro_traj = np.transpose(repro_traj)
     (n_dims, n_pts) = np.shape(repro_traj)
     print "Press 'Enter' to move to starting position from xyz coords"
     raw_input()
     starting_xyz_position = np.zeros(7);
-    starting_xyz_position[0] = -repro_traj[0][0]
-    starting_xyz_position[1] = -repro_traj[1][0]
+    starting_xyz_position[0] = repro_traj[0][0]
+    starting_xyz_position[1] = repro_traj[1][0]
     starting_xyz_position[2] = repro_traj[2][0]
     starting_xyz_position[3] = -pos_rot_data[4][0]
     starting_xyz_position[4] = pos_rot_data[3][0]
@@ -194,15 +195,26 @@ class MoveGroupPythonInterface(object):
     #R1 = R.from_quat([pos_rot_data[3][0], pos_rot_data[4][0], pos_rot_data[5][0], pos_rot_data[6][0]])
     #R2 = R.from_quat([pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]])
     print(pos_rot_data[3][0])
-    key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], [pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
+    
+    #key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], [pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
+    key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], 
+                             [pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
+                             #[pos_rot_data[3][1675],  pos_rot_data[4][1675],  pos_rot_data[5][1675],  pos_rot_data[6][1675]], 
+                             #[pos_rot_data[3][3020],  pos_rot_data[4][3020],  pos_rot_data[5][3020],  pos_rot_data[6][3020]], 
+                             #[pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
     
     print(key_rots.as_quat())
-    t1 = 0
-    t2 = n_pts - 1
+    ti = 0
+    tf = n_pts - 1
+	
+    #t1 = 23
+    #t2 = 67
 	
     #key_rots = np.array([R1, R2])
-    key_times = np.array([t1, t2])
-	
+    print([ti, tf])
+    #key_times = np.array([ti, t1, t2, tf])
+    key_times = np.array([ti, tf])
+    
     slerp = Slerp(key_times, key_rots)
 
     #record xyz coordinates as a list of waypoints the robot passes through
@@ -222,25 +234,23 @@ class MoveGroupPythonInterface(object):
     #put each xyz into the waypoints array
     wpose = self.move_group.get_current_pose().pose
     for i in range(1, n_pts):
-      wpose.position.x = -((repro_traj[0][i] + repro_traj[0][i-1]) / 2)#/tf and rviz have x and y opposite signs
-      wpose.position.y = -((repro_traj[1][i] + repro_traj[1][i-1]) / 2)
+      wpose.position.x = ((repro_traj[0][i] + repro_traj[0][i-1]) / 2)#/tf and rviz have x and y opposite signs
+      wpose.position.y = ((repro_traj[1][i] + repro_traj[1][i-1]) / 2)
       wpose.position.z = ((repro_traj[2][i] + repro_traj[2][i-1]) / 2)
-      #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
-      #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
-      #wpose.orientation.z = pos_rot_data[6][i]#rviz rotation z is /tf w
-      #wpose.orientation.w = -pos_rot_data[5][i]#rviz rotation w is /tf -z
       cur_R = slerp(np.array([i - 0.5]))
       cur_quats = cur_R.as_quat()
-      print(cur_quats)
+      #print(cur_quats)
       wpose.orientation.x = -cur_quats[0][1]
       wpose.orientation.y = cur_quats[0][0]
       wpose.orientation.z = cur_quats[0][3]
       wpose.orientation.w = -cur_quats[0][2]
       
       waypoints.append(copy.deepcopy(wpose))
+    
+    #for i in range(0, n_pts):
       
-      wpose.position.x = -repro_traj[0][i]#/tf and rviz have x and y opposite signs
-      wpose.position.y = -repro_traj[1][i]
+      wpose.position.x = repro_traj[0][i]#/tf and rviz have x and y opposite signs
+      wpose.position.y = repro_traj[1][i]
       wpose.position.z = repro_traj[2][i]
       #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
       #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
@@ -248,7 +258,7 @@ class MoveGroupPythonInterface(object):
       #wpose.orientation.w = -pos_rot_data[5][i]#rviz rotation w is /tf -z
       cur_R = slerp(np.array([i]))
       cur_quats = cur_R.as_quat()
-      print(cur_quats)
+      #print(cur_quats)
       wpose.orientation.x = -cur_quats[0][1]
       wpose.orientation.y = cur_quats[0][0]
       wpose.orientation.z = cur_quats[0][3]
@@ -269,7 +279,7 @@ class MoveGroupPythonInterface(object):
     # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
     (plan, fraction) = self.move_group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
-                                       0.01,       # eef_step
+                                       0.02,       # eef_step
                                        0.0)       # jump_threshold
     # Note: We are just planning, not asking move_group to actually move the robot yet:
     ### TESTING ###
@@ -279,6 +289,7 @@ class MoveGroupPythonInterface(object):
     #dset_pos_rot = fp.create_dataset(demo_name + '/tf_info/pos_rot_data', data=pos_arr)
     #fp.close()
     print('Planning for %f %% of waypoints achieved' % (fraction * 100.0))
+    print(plan)
     return plan, fraction
 
   def display_trajectory(self, plan):

@@ -117,8 +117,8 @@ class MoveGroupPythonInterface(object):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
-    filename = raw_input('Enter the filename of the .h5 demo: ')
-    #filename = 'h5 files/recorded_demo Tue Jan 21 10:48:49 2020.h5'
+    #filename = raw_input('Enter the filename of the .h5 demo: ')
+    filename = 'reaching_demo4.h5'
     #open the file
     hf = h5py.File(filename, 'r')
     #navigate to necessary data and store in numpy arrays
@@ -177,7 +177,7 @@ class MoveGroupPythonInterface(object):
     
     #put each xyz into the waypoints array
     wpose = self.move_group.get_current_pose().pose
-    for i in range(1, np.size(pos_rot_data, 1)):
+    for i in range(1, np.size(pos_rot_data, 1), 100):
       wpose.position.x = -pos_rot_data[0][i]#/tf and rviz have x and y opposite signs
       wpose.position.y = -pos_rot_data[1][i]
       wpose.position.z = pos_rot_data[2][i]

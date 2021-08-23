@@ -122,7 +122,7 @@ class MoveGroupPythonInterface(object):
     
     #ask user for the file which the playback is for
     #filename = raw_input('Enter the filename of the .h5 demo: ')
-    filename = '/home/bhertel/Desktop/fsil_demos/succ_demos/recorded_demo Mon Feb 22 16_02_08 2021.h5'
+    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/reaching_demo4.h5'
     #open the file
     hf = h5py.File(filename, 'r')
     #navigate to necessary data and store in numpy arrays
@@ -137,6 +137,8 @@ class MoveGroupPythonInterface(object):
     print "Press 'Enter' to move to starting position"
     raw_input()
     self.starting_joint_state(js_data)
+    print "Press 'Enter' to begin playback"
+    raw_input()
 
     self.joint_path(js_data)
     
