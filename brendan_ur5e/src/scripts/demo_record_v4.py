@@ -38,6 +38,9 @@ def tf_callback(tfmsg, tf_file):
 #just subscribes to tf and passes that callback the joint state message, and thus the data contained in it
 def js_callback(jsmsg, js_file):
 	js_file.write(str(jsmsg.header.stamp.secs) + ', ' + str(jsmsg.header.stamp.nsecs) + ', ' + str(jsmsg.position) + ', ' + str(jsmsg.velocity) + ', ' + str(jsmsg.effort) + '\n')
+ 
+def getline_data(fp):
+	return np.array(fp.readline().split(',')).astype(int)
    
 def save_demo():
 	js_fp = open('joint_data.txt', 'r')
@@ -56,11 +59,73 @@ def save_demo():
 	wr_torq_arr = np.zeros((1, 3))
 	gr_time_arr = np.zeros((1, 2))
 	gr_pos_arr = np.zeros((1, 1))
-	#for ln in js_fp:
-	#    l_split = ln.split(',')
-	#    js_time_arr
-	for ln in gr_fp:
-	    print(ln)
+	
+	name = 'recorded_demo ' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + '.h5'
+	fp = h5py.File(name, 'w')
+	
+	try:
+	    js_data = getline_data(js_fp)
+	    tf_data = getline_data(tf_fp)
+	    wr_data = getline_data(wr_fp)
+	    gr_data = getline_data(gr_fp)
+	    while True:
+	        js_time = js_data[0] + (js_data[1] * 10.0**-9)
+	        tf_time = tf_data[0] + (tf_data[1] * 10.0**-9)
+	        wr_time = wr_data[0] + (wr_data[1] * 10.0**-9)
+	        gr_time = gr_data[0] + (gr_data[1] * 10.0**-9)
+	        if js_time == tf_time and js_time == wr_time and js_time == gr_time:
+	            #record
+	            js_time_arr = np.vstack((js_time_arr, js_data[0:2]))
+	            js_pos_arr = np.vstack((js_pos_arr, js_data[2:8]))
+	            js_vel_arr = np.vstack((js_vel_arr, js_data[8:14]))
+	            js_eff_arr = np.vstack((js_eff_arr, js_data[14:end]))
+	            
+	            tf_time_arr = np.vstack((tf_time_arr, tf_data[0:2]))
+	            tf_pos_arr = np.vstack((tf_pos_arr, tf_data[2:5]))
+	            tf_rot_arr = np.vstack((tf_rot_arr, tf_data[5:end]))
+	            
+	            wr_time_arr = np.vstack((wr_time_arr, wr_data[0:2]))
+	            wr_force_arr = np.vstack((wr_force_arr, wr_data[2:5]))
+	            wr_torq_arr = np.vstack((wr_torq_arr, wr_data[5:end]))
+	            
+	            gr_time_arr = np.vstack((gr_time_arr, gr_data[0:2]))
+	            gr_pos_arr = np.vstack((gr_pos_arr, gr_data[2:end]))
+	            
+	            js_data = getline_data(js_fp)
+	            tf_data = getline_data(tf_fp)
+	            wr_data = getline_data(wr_fp)
+	            gr_data = getline_data(gr_fp)
+	        else:
+	            if min([js_time, tf_time, wr_time, gr_time]) == js_time:
+	                js_data = getline_data(js_fp)
+	            elif min([js_time, tf_time, wr_time, gr_time]) == tf_time:
+	                tf_data = getline_data(tf_fp)
+	            elif min([js_time, tf_time, wr_time, gr_time]) == wr_time:
+	                wr_data = getline_data(wr_fp)
+	            elif min([js_time, tf_time, wr_time, gr_time]) == gr_time:
+	                gr_data = getline_data(gr_fp)
+	            else:
+	                rospy.loginfo('Should never get here')
+	except EOFError:
+	    rospy.loginfo('Finished demo recording')
+	    js_fp.close()
+	    tf_fp.close()
+	    wr_fp.close()
+	    gr_fp.close()
+	    dset_jt = fp.create_dataset('/joint_state_info/joint_time', data=js_time_arr)
+	    dset_jp = fp.create_dataset('/joint_state_info/joint_positions', data=js_pos_arr)
+	    dset_jv = fp.create_dataset('/joint_state_info/joint_velocities', data=js_vel_arr)
+	    dset_je = fp.create_dataset('/joint_state_info/joint_effort', data=js_eff_arr)
+	    
+	    dset_tt = fp.create_dataset('/transform_info/transform_time', data=tf_time_arr)
+	    dset_tp = fp.create_dataset('/transform_info/transform_positions', data=tf_pos_arr)
+	    dset_tr = fp.create_dataset('/transform_info/transform_orientations', data=tf_rot_arr)
+	    
+	    dset_tt = fp.create_dataset('/transform_info/transform_time', data=tf_time_arr)
+	    dset_tp = fp.create_dataset('/transform_info/transform_positions', data=tf_pos_arr)
+	    dset_tr = fp.create_dataset('/transform_info/transform_orientations', data=tf_rot_arr)
+	    ### CONTINUE HERE
+	    fp.close()
 	    
 '''
 >>> import numpy as np
@@ -124,6 +189,8 @@ def demo_recorder():
     	sub_wr = rospy.Subscriber("wrench", WrenchStamped, wr_callback, wr_fp)
     	
     	sub_gr = rospy.Subscriber("/gripper_data/position", gripper_pos, gr_callback, gr_fp)
+    		
+    	rospy.loginfo('Recording has started')
     		
     	rospy.spin()
        	end_record(js_fp, tf_fp, wr_fp, gr_fp)

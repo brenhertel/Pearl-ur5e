@@ -174,8 +174,8 @@ class MoveGroupPythonInterface(object):
 #    plt.show()
     
     #repro = h5py.File(repro_fname, 'r')
-    repro_traj = np.loadtxt('/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/nick_demos.txt')#repro.get('JA')
-    repro_traj = np.transpose(repro_traj)
+    repro_traj = np.loadtxt('/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/nick_traj.txt')#repro.get('JA')
+    #repro_traj = np.transpose(repro_traj)
     (n_dims, n_pts) = np.shape(repro_traj)
     print "Press 'Enter' to move to starting position from xyz coords"
     raw_input()
@@ -279,7 +279,7 @@ class MoveGroupPythonInterface(object):
     # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
     (plan, fraction) = self.move_group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
-                                       0.02,       # eef_step
+                                       0.01,       # eef_step
                                        0.0)       # jump_threshold
     # Note: We are just planning, not asking move_group to actually move the robot yet:
     ### TESTING ###
@@ -289,7 +289,7 @@ class MoveGroupPythonInterface(object):
     #dset_pos_rot = fp.create_dataset(demo_name + '/tf_info/pos_rot_data', data=pos_arr)
     #fp.close()
     print('Planning for %f %% of waypoints achieved' % (fraction * 100.0))
-    print(plan)
+    #print(plan)
     return plan, fraction
 
   def display_trajectory(self, plan):
