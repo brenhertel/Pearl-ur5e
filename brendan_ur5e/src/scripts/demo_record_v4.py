@@ -108,10 +108,12 @@ def save_demo():
 	                rospy.loginfo('Should never get here')
 	except EOFError:
 	    rospy.loginfo('Finished demo recording')
+	    
 	    js_fp.close()
 	    tf_fp.close()
 	    wr_fp.close()
 	    gr_fp.close()
+	    
 	    dset_jt = fp.create_dataset('/joint_state_info/joint_time', data=js_time_arr)
 	    dset_jp = fp.create_dataset('/joint_state_info/joint_positions', data=js_pos_arr)
 	    dset_jv = fp.create_dataset('/joint_state_info/joint_velocities', data=js_vel_arr)
@@ -121,11 +123,14 @@ def save_demo():
 	    dset_tp = fp.create_dataset('/transform_info/transform_positions', data=tf_pos_arr)
 	    dset_tr = fp.create_dataset('/transform_info/transform_orientations', data=tf_rot_arr)
 	    
-	    dset_tt = fp.create_dataset('/transform_info/transform_time', data=tf_time_arr)
-	    dset_tp = fp.create_dataset('/transform_info/transform_positions', data=tf_pos_arr)
-	    dset_tr = fp.create_dataset('/transform_info/transform_orientations', data=tf_rot_arr)
-	    ### CONTINUE HERE
-	    fp.close()
+	    dset_wt = fp.create_dataset('/wrench_info/wrench_time', data=wr_time_arr)
+	    dset_wf = fp.create_dataset('/wrench_info/wrench_force', data=wr_force_arr)
+	    dset_wm = fp.create_dataset('/wrench_info/wrench_torque', data=wr_torq_arr)
+	    
+	    dset_gt = fp.create_dataset('/gripper_info/gripper_time', data=gr_time_arr)
+	    dset_gp = fp.create_dataset('/gripper_info/gripper_position', data=gr_pos_arr)
+	    
+	fp.close()
 	    
 '''
 >>> import numpy as np
