@@ -111,3 +111,19 @@ Notes:
 10/23/2020: pushed new changes to repository. Have been struggling with finding the best method to properly integrate gripper control. The problem arises is that you cannot listen to gripper status and publish new commands to the gripper at the same time (only the most recent socket connection works). In order to work around this problem, I have decided to use an action server which takes commands, and then starts either gripper listening or control based on those commands. Using a service blocked the code from continuing, but if it had worked would've been much simpler. The action server is unfinished as of right now (gripper_srv_handler.py) but I will continue working on it.
 
 10/23/2020: pushed new changes to repository. Created file demo_js_playback.py which plays back the joint states from a demonstration. Also created playback_downsampled_repro_with_slerp.py which uses slerp to playback a reproduction of less points than the original demonstration on the robot.
+
+10/7/2021: pushed new changes to repository. Finished creating file demo_record_v4.py, which is an improved version of the demo recorder, and should not have as many issues. This version listens to all data seperately (/joint_state, /tf, /wrench, and /gripper - a topic I've created which publishes the position of the gripper, more details in a future update), records them as text files, and then once the demonstration is finished combines these text files into a .h5 file. The structure of this file is as listed below. Note that while all time arrays are stored seperately, they are all identical.
+
+The shape of the stored arrays is as follows:
+- joint_time: {time_secs, time_nsecs} x n
+- joint_positions: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
+- joint_velocities: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
+- joint_effort: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
+- transform_time: {time_secs, time_nsecs} x n
+- transform_positions: {transformX, transformY, transformZ} x n
+- transform_orientations: {rotationX, rotationY, rotationZ, rotationW} x n
+- wrench_time: {time_secs, time_nsecs} x n
+- wrench_force: {x, y, z} x n
+- wrench_torque: {x, y, z} x n
+- gripper_time: {time_secs, time_nsecs} x n
+- gripper_position: {x} x n
