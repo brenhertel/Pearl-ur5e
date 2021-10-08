@@ -114,6 +114,8 @@ Notes:
 
 10/7/2021: pushed new changes to repository. Finished creating file demo_record_v4.py, which is an improved version of the demo recorder, and should not have as many issues. This version listens to all data seperately (/joint_state, /tf, /wrench, and /gripper - a topic I've created which publishes the position of the gripper, more details in a future update), records them as text files, and then once the demonstration is finished combines these text files into a .h5 file. The structure of this file is as listed below. Note that while all time arrays are stored seperately, they are all identical.
 
+![Demo Recorder structure v4](https://github.com/brenhertel/Pearl-ur5e/blob/master/brendan_ur5e/pictures/demo%20recorder%20v4%20flowchart.drawio.png)
+
 The shape of the stored arrays is as follows:
 - joint_time: {time_secs, time_nsecs} x n
 - joint_positions: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
