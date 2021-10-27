@@ -37,7 +37,7 @@ def tf_callback(tfmsg, tf_file):
 		tf_file.write(str(tfmsg.transforms[0].header.stamp.secs) + ', ' + str(tfmsg.transforms[0].header.stamp.nsecs) + ', ' + str(tfmsg.transforms[0].transform.translation.x) + ', ' + str(tfmsg.transforms[0].transform.translation.y) + ', ' + str(tfmsg.transforms[0].transform.translation.z) + ', ' + str(tfmsg.transforms[0].transform.rotation.x) + ', ' + str(tfmsg.transforms[0].transform.rotation.y) + ', ' + str(tfmsg.transforms[0].transform.rotation.z) + ', ' + str(tfmsg.transforms[0].transform.rotation.w) + '\n')
 #just subscribes to tf and passes that callback the joint state message, and thus the data contained in it
 def js_callback(jsmsg, js_file):
-	js_file.write(str(jsmsg.header.stamp.secs) + ', ' + str(jsmsg.header.stamp.nsecs) + ', ' + str(jsmsg.position) + ', ' + str(jsmsg.velocity) + ', ' + str(jsmsg.effort) + '\n')
+	js_file.write(str(jsmsg.header.stamp.secs) + ', ' + str(jsmsg.header.stamp.nsecs).replace(')', '').replace('(', '') + ', ' + str(jsmsg.position).replace(')', '').replace('(', '') + ', ' + str(jsmsg.velocity).replace(')', '').replace('(', '') + ', ' + str(jsmsg.effort).replace(')', '').replace('(', '') + '\n')
  
 def getline_data(fp):
 	return np.array(fp.readline().split(',')).astype(int)
@@ -166,7 +166,8 @@ def end_record(js_file, tf_file, wr_file, gr_file):
         demo_recorder()
    
 def demo_recorder():
-    rospy.wait_for_service('gripper_data_request')	
+    print('Starting recorder, waiting for gripper')
+    #rospy.wait_for_service('gripper_data_request')	
     try:
         #create joint states file
         js_fp = open('joint_data.txt', 'w')
@@ -178,8 +179,8 @@ def demo_recorder():
     	gr_fp = open('gripper_data.txt', 'w')
     	
     	rospy.init_node('demo_recorder', anonymous=True)
-    	grp_req = rospy.ServiceProxy('gripper_data_request', gripper_data_request)
-    	grp_req(0)
+    	#grp_req = rospy.ServiceProxy('gripper_data_request', gripper_data_request)
+    	#grp_req(0)
     	
     	print('Press [Enter] to start recording')
     	raw_input()

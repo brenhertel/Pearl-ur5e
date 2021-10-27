@@ -10,6 +10,7 @@ from ast import literal_eval
 import rospy
 from brendan_ur5e.msg import gripper_pos
 import std_msgs
+import os
 
 def talker(c):
     print('Connected!')
@@ -50,15 +51,16 @@ if __name__ == '__main__':
         ln = f.read(1024)
     
     c = None
-        
+    os.system("echo Hello from OS1")
     while not c:
         print('trying...')
         c, addr = s_self.accept()
     try:
         talker(c)
-    except rospy.ROSInterruptException:
+    except:
         s.close()
         c.close()
+        os.system("echo -e 'def test(): \n freedrive_mode() \n end_freedrive_mode() \nend \n' | telnet 172.16.32.67 30002")
         pass
     
 

@@ -662,9 +662,12 @@ def gripper():
   #rq_open_and_wait()
   #rq_close_and_wait()
   socket_open("172.16.32.30", 12345, "comp_socket")
+  freedrive_mode()
   while(1):
   	socket_send_int(rq_get_position(), "comp_socket")
+  	sync()
   end
+  end_freedrive_mode()
   #this works
   
 end
