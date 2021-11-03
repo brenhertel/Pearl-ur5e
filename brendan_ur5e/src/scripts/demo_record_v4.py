@@ -40,7 +40,7 @@ def js_callback(jsmsg, js_file):
 	js_file.write(str(jsmsg.header.stamp.secs) + ', ' + str(jsmsg.header.stamp.nsecs).replace(')', '').replace('(', '') + ', ' + str(jsmsg.position).replace(')', '').replace('(', '') + ', ' + str(jsmsg.velocity).replace(')', '').replace('(', '') + ', ' + str(jsmsg.effort).replace(')', '').replace('(', '') + '\n')
  
 def getline_data(fp):
-	return np.array(fp.readline().split(',')).astype(int)
+	return np.array([float(i) for i in fp.readline().split(', ')])
    
 def save_demo():
 	js_fp = open('joint_data.txt', 'r')
@@ -69,84 +69,105 @@ def save_demo():
 	    wr_data = getline_data(wr_fp)
 	    gr_data = getline_data(gr_fp)
 	    while True:
+	        #print(js_data)
+	        #print(tf_data)
+	        #print(wr_data)
+	        #print(gr_data)
 	        js_time = js_data[0] + (js_data[1] * 10.0**-9)
 	        tf_time = tf_data[0] + (tf_data[1] * 10.0**-9)
 	        wr_time = wr_data[0] + (wr_data[1] * 10.0**-9)
 	        gr_time = gr_data[0] + (gr_data[1] * 10.0**-9)
-	        if js_time == tf_time and js_time == wr_time and js_time == gr_time:
+	        ctime_arr = [js_time, tf_time, wr_time, gr_time]
+	        #print(ctime_arr)
+	        if max(ctime_arr) - min(ctime_arr) < 0.001:
+	            print('found collective record at t=' + str(js_time))
 	            #record
+	            #print(len(js_data[0:2]))
 	            js_time_arr = np.vstack((js_time_arr, js_data[0:2]))
+	            #print(len(js_data[2:8]))
 	            js_pos_arr = np.vstack((js_pos_arr, js_data[2:8]))
+	            #print(len(js_data[8:14]))
 	            js_vel_arr = np.vstack((js_vel_arr, js_data[8:14]))
-	            js_eff_arr = np.vstack((js_eff_arr, js_data[14:end]))
+	            #print(len(js_data[14:20]))
+	            js_eff_arr = np.vstack((js_eff_arr, js_data[14:20]))
 	            
 	            tf_time_arr = np.vstack((tf_time_arr, tf_data[0:2]))
 	            tf_pos_arr = np.vstack((tf_pos_arr, tf_data[2:5]))
-	            tf_rot_arr = np.vstack((tf_rot_arr, tf_data[5:end]))
+	            tf_rot_arr = np.vstack((tf_rot_arr, tf_data[5:9]))
 	            
 	            wr_time_arr = np.vstack((wr_time_arr, wr_data[0:2]))
 	            wr_force_arr = np.vstack((wr_force_arr, wr_data[2:5]))
-	            wr_torq_arr = np.vstack((wr_torq_arr, wr_data[5:end]))
+	            wr_torq_arr = np.vstack((wr_torq_arr, wr_data[5:8]))
 	            
 	            gr_time_arr = np.vstack((gr_time_arr, gr_data[0:2]))
-	            gr_pos_arr = np.vstack((gr_pos_arr, gr_data[2:end]))
+	            gr_pos_arr = np.vstack((gr_pos_arr, gr_data[2]))
 	            
+	            #print('reading js')
 	            js_data = getline_data(js_fp)
+	            #print('reading tf')
 	            tf_data = getline_data(tf_fp)
+	            #print('reading wr')
 	            wr_data = getline_data(wr_fp)
+	            #print('reading gr')
 	            gr_data = getline_data(gr_fp)
 	        else:
-	            if min([js_time, tf_time, wr_time, gr_time]) == js_time:
+	            if min(ctime_arr) == js_time:
+	                #print('reading js')
 	                js_data = getline_data(js_fp)
-	            elif min([js_time, tf_time, wr_time, gr_time]) == tf_time:
+	            elif min(ctime_arr) == tf_time:
+	                #print('reading tf')
 	                tf_data = getline_data(tf_fp)
-	            elif min([js_time, tf_time, wr_time, gr_time]) == wr_time:
+	            elif min(ctime_arr) == wr_time:
+	                #print('reading wr')
 	                wr_data = getline_data(wr_fp)
-	            elif min([js_time, tf_time, wr_time, gr_time]) == gr_time:
+	            elif min(ctime_arr) == gr_time:
+	                #print('reading gr')
 	                gr_data = getline_data(gr_fp)
 	            else:
 	                rospy.loginfo('Should never get here')
-	except EOFError:
+	except ValueError:
 	    rospy.loginfo('Finished demo recording')
 	    
-	    js_fp.close()
-	    tf_fp.close()
-	    wr_fp.close()
-	    gr_fp.close()
-	    
-	    dset_jt = fp.create_dataset('/joint_state_info/joint_time', data=js_time_arr)
-	    dset_jp = fp.create_dataset('/joint_state_info/joint_positions', data=js_pos_arr)
-	    dset_jv = fp.create_dataset('/joint_state_info/joint_velocities', data=js_vel_arr)
-	    dset_je = fp.create_dataset('/joint_state_info/joint_effort', data=js_eff_arr)
-	    
-	    dset_tt = fp.create_dataset('/transform_info/transform_time', data=tf_time_arr)
-	    dset_tp = fp.create_dataset('/transform_info/transform_positions', data=tf_pos_arr)
-	    dset_tr = fp.create_dataset('/transform_info/transform_orientations', data=tf_rot_arr)
-	    
-	    dset_wt = fp.create_dataset('/wrench_info/wrench_time', data=wr_time_arr)
-	    dset_wf = fp.create_dataset('/wrench_info/wrench_force', data=wr_force_arr)
-	    dset_wm = fp.create_dataset('/wrench_info/wrench_torque', data=wr_torq_arr)
-	    
-	    dset_gt = fp.create_dataset('/gripper_info/gripper_time', data=gr_time_arr)
-	    dset_gp = fp.create_dataset('/gripper_info/gripper_position', data=gr_pos_arr)
-	    
+	js_fp.close()
+	tf_fp.close()
+	wr_fp.close()
+	gr_fp.close()
+	
+	#delete first row of 0's
+	js_time_arr = np.delete(js_time_arr, 0, 0)
+	js_pos_arr = np.delete(js_pos_arr, 0, 0)
+	js_vel_arr = np.delete(js_vel_arr, 0, 0)
+	js_eff_arr = np.delete(js_eff_arr, 0, 0)
+	
+	tf_time_arr = np.delete(tf_time_arr, 0, 0)
+	tf_pos_arr = np.delete(tf_pos_arr, 0, 0)
+	tf_rot_arr = np.delete(tf_rot_arr, 0, 0)
+	
+	wr_time_arr = np.delete(wr_time_arr, 0, 0)
+	wr_force_arr = np.delete(wr_force_arr, 0, 0)
+	wr_torq_arr = np.delete(wr_torq_arr, 0, 0)
+	
+	gr_time_arr = np.delete(gr_time_arr, 0, 0)
+	gr_pos_arr = np.delete(gr_pos_arr, 0, 0)
+	
+	dset_jt = fp.create_dataset('/joint_state_info/joint_time', data=js_time_arr)
+	dset_jp = fp.create_dataset('/joint_state_info/joint_positions', data=js_pos_arr)
+	dset_jv = fp.create_dataset('/joint_state_info/joint_velocities', data=js_vel_arr)
+	dset_je = fp.create_dataset('/joint_state_info/joint_effort', data=js_eff_arr)
+	
+	dset_tt = fp.create_dataset('/transform_info/transform_time', data=tf_time_arr)
+	dset_tp = fp.create_dataset('/transform_info/transform_positions', data=tf_pos_arr)
+	dset_tr = fp.create_dataset('/transform_info/transform_orientations', data=tf_rot_arr)
+	
+	dset_wt = fp.create_dataset('/wrench_info/wrench_time', data=wr_time_arr)
+	dset_wf = fp.create_dataset('/wrench_info/wrench_force', data=wr_force_arr)
+	dset_wm = fp.create_dataset('/wrench_info/wrench_torque', data=wr_torq_arr)
+	
+	dset_gt = fp.create_dataset('/gripper_info/gripper_time', data=gr_time_arr)
+	dset_gp = fp.create_dataset('/gripper_info/gripper_position', data=gr_pos_arr)
+	
 	fp.close()
-	    
-'''
->>> import numpy as np
->>> strings = '1, 65, 93093, 2'
->>> strings
-'1, 65, 93093, 2'
->>> l_split = strings.split(',')
->>> l_split
-['1', ' 65', ' 93093', ' 2']
->>> np.array(l_split)
-array(['1', ' 65', ' 93093', ' 2'], dtype='|S6')
->>> np.array(l_split).astype(int)
-array([    1,    65, 93093,     2])
->>> 
-'''
-   
+	
 def end_record(js_file, tf_file, wr_file, gr_file):
     print(time.time())
     
