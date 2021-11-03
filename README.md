@@ -117,18 +117,20 @@ Notes:
 ![Demo Recorder structure v4](https://github.com/brenhertel/Pearl-ur5e/blob/master/brendan_ur5e/pictures/demo%20recorder%20v4%20flowchart.drawio.png)
 
 The shape of the stored arrays is as follows:
-- joint_time: {time_secs, time_nsecs} x n
-- joint_positions: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
-- joint_velocities: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
-- joint_effort: {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint} x n
-- transform_time: {time_secs, time_nsecs} x n
-- transform_positions: {transformX, transformY, transformZ} x n
-- transform_orientations: {rotationX, rotationY, rotationZ, rotationW} x n
-- wrench_time: {time_secs, time_nsecs} x n
-- wrench_force: {x, y, z} x n
-- wrench_torque: {x, y, z} x n
-- gripper_time: {time_secs, time_nsecs} x n
-- gripper_position: {x} x n
+- joint_time: n x {time_secs, time_nsecs}
+- joint_positions: n x {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint}
+- joint_velocities: n x {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint}
+- joint_effort: n x {shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint}
+- transform_time: n x {time_secs, time_nsecs}
+- transform_positions: n x {transformX, transformY, transformZ}
+- transform_orientations: n x {rotationX, rotationY, rotationZ, rotationW}
+- wrench_time: n x {time_secs, time_nsecs}
+- wrench_force: n x {x, y, z}
+- wrench_torque: n x {x, y, z}
+- gripper_time: n x {time_secs, time_nsecs}
+- gripper_position: n x {x}
 
 
 10/27/2021: pushed new changes to repository. Mostly focused on finalizing demo recorder and incorporating gripper status into demo recorder. Currently, there are a few issues. One issue is that the gripper socket connection can only work when the robot is in remote control mode, but the robot should not be used by a human in remote control mode. To get around this, I put the robot in remote control mode, then when the gripper script is executed on the robot, I set the robot to freedrive mode. This has some obvious safety concerns, so please be careful when connected to the robot. I end freedrive mode when the socket connection is shut down by connecting with telnet (telnet must be installed, please see https://www.journaldev.com/28614/telnet-command-linux-unix if you are confused) and executing the `end_freedrive_mode()` command. For details on the freedrive mode mechanism, see https://forum.universal-robots.com/t/setting-digital-input-to-freedrive-through-java/2113/9. This change was made to the publish_gripper_position.py node. For the listen node, no human should have to drive the robot and freedrive mode is not necessary. Additionally, I tested the new demo recorder, and everything seems to be working, with results much quicker and easier than before. This version is faster, records more data, and is more robust than v3, and should be used going forward.
+
+11/3/2021: pushed new changes to repository.Was running into an issue where /joint_states, /tf, and /wrench would publish at a rate of about 500 Hz, but the gripper position would publish at a rate of about 166 Hz. Due to this, the times of the messages would never line up exactly and no data was recorded. I fixed this by modifying the demo recorder to record times if they were within 0.001 s of each other, leading to a demo recording rate of about 166 Hz. Also fixed a bug which made the first line of all the data recorded 0's. Finally, added a script called plot_v4_demo.py which plots the data stored in a .h5 file from the newest demo recorder. Can be used ti visualize and verify captured data.
