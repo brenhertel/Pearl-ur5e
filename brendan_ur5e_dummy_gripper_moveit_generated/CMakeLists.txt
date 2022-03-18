@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8.12)
 project(brendan_ur5e_dummy_gripper_moveit_generated)
 
 find_package(catkin REQUIRED)
