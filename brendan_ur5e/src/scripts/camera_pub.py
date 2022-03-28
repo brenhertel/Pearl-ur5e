@@ -21,7 +21,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
 def camera_pub():
-    pub = rospy.Publisher('/camera/rgb/image_raw', Image, queue_size=100)
+    pub = rospy.Publisher('/camera/rgb/image_raw', Image, queue_size=1)
     rospy.init_node('camera_rgb_pub', anonymous=True)
     bridge = CvBridge()
     cam = cv2.VideoCapture(2)
@@ -56,13 +56,43 @@ def camera_save():
     cv2.destroyAllWindows()
     #rate.sleep()
     #rospy.Rate(1.0).sleep()
-    cv2.imwrite("homography_pts.png", frame)
+    cv2.imwrite("cup.png", frame)
     
     cam.release()
 
 def camera_load():
-    img = cv2.imread("homography_pts.png")
-    cv2.imshow('img',img)
+    img = cv2.imread("cup.png")
+    img = img[0:350, :]
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    upper = np.array([180, 255, 255])
+    lower = np.array([140, 50, 50])
+    img = cv2.inRange(img, lower, upper)
+    #cv2.imshow('img1',img)
+    kernel = np.ones((5,5),np.uint8)
+    img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+    #cv2.imshow('img2',img)
+    
+    params = cv2.SimpleBlobDetector_Params()
+    params.filterByColor = True
+    params.blobColor = 255
+    params.filterByArea = True
+    params.minArea = 100
+    #params.maxArea = 15000
+    params.filterByCircularity = True
+    params.minCircularity = 0.1
+    params.filterByConvexity = True
+    params.minConvexity = 0.87
+    params.filterByInertia = True
+    params.minInertiaRatio = 0.01
+    detector = cv2.SimpleBlobDetector_create(params)
+    # Detect blobs.
+    keypoints = detector.detect(img)
+    # Draw detected blobs as red circles.
+    # cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS ensures the size of the circle corresponds to the size of blob
+    im_with_keypoints = cv2.drawKeypoints(img, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    # Show keypoints
+    cv2.imshow("Keypoints", im_with_keypoints)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 

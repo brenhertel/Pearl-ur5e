@@ -7,7 +7,7 @@ import std_msgs
 class Localizer(object):
 
     def __init__(self):
-        self.alpha = 0.1
+        self.alpha = 0.25
         self.pub = rospy.Publisher('/object/position_local', PointStamped, queue_size=1)
         self.h = std_msgs.msg.Header()
         self.msg = PointStamped()
