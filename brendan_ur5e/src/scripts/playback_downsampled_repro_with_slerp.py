@@ -121,23 +121,42 @@ class MoveGroupPythonInterface(object):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
-    filename = '/home/bhertel/catkin_ws/src/h5 files/recorded_demo Mon Aug 23 10:35:43 2021.h5'
+    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2022-04-05 11:45:11(success,ARbox).h5'
     #repro_fname = '/home/bhertel/catkin_ws/h5 files/36_56/36_56__3D_reproduction.h5'
     #filename = 'h5 files/recorded_demo Tue Jan 21 10:48:49 2020.h5'
     #filename = 'preprocessedrecorded_demo Tue Jan 21 10:48:49 2020.h5'
     #open the file
     hf = h5py.File(filename, 'r')
     #navigate to necessary data and store in numpy arrays
-    demo = hf.get('demo1')
-    tf_info = demo.get('tf_info')
-    js_info = demo.get('joint_state_info')
-    pos_rot_data = tf_info.get('pos_rot_data')
-    pos_rot_data = np.array(pos_rot_data)
-    js_data = js_info.get('joint_positions')
-    js_data = np.array(js_data)
+    #demo = hf.get('demo1')
+    #tf_info = demo.get('tf_info')
+    #js_info = demo.get('joint_state_info')
+    #pos_rot_data = tf_info.get('pos_rot_data')
+    #pos_rot_data = np.array(pos_rot_data)
+    #js_data = js_info.get('joint_positions')
+    #js_data = np.array(js_data)
+    
+    js = hf.get('joint_state_info')
+    joint_time = np.array(js.get('joint_time'))
+    joint_pos = np.array(js.get('joint_positions'))
+    joint_vel = np.array(js.get('joint_velocities'))
+    joint_eff = np.array(js.get('joint_effort'))
+    joint_data = [joint_time, joint_pos, joint_vel, joint_eff]
+    
+    tf = hf.get('transform_info')
+    tf_time = np.array(tf.get('transform_time'))
+    tf_pos = np.array(tf.get('transform_positions'))
+    tf_rot = np.array(tf.get('transform_orientations'))
+    tf_data = [tf_time, tf_pos, tf_rot]
+    
     #close out file
     hf.close()
-
+    
+    js_data = np.transpose(joint_pos)
+    pos_rot_data = np.transpose(np.hstack((tf_pos, tf_rot)))
+    print(np.shape(js_data))
+    print(np.shape(pos_rot_data))
+    
     #### move to starting position ####
     print "Press 'Enter' to move to starting position"
     raw_input()
@@ -174,14 +193,20 @@ class MoveGroupPythonInterface(object):
 #    plt.show()
     
     #repro = h5py.File(repro_fname, 'r')
-    repro_traj = np.loadtxt('/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/nick_traj.txt')#repro.get('JA')
+    repro_traj = np.loadtxt('ben_daniel_tlfsd_repro50.txt')#repro.get('JA')
+    print('start')
+    print(repro_traj[:, 0])
+    print('end')
+    print(repro_traj[:, -1])
+    repro_traj[1] = repro_traj[1] - 0.1
+    repro_traj[2] = repro_traj[2] + 0.1
     #repro_traj = np.transpose(repro_traj)
     (n_dims, n_pts) = np.shape(repro_traj)
     print "Press 'Enter' to move to starting position from xyz coords"
     raw_input()
     starting_xyz_position = np.zeros(7);
-    starting_xyz_position[0] = repro_traj[0][0]
-    starting_xyz_position[1] = repro_traj[1][0]
+    starting_xyz_position[0] = -repro_traj[0][0]
+    starting_xyz_position[1] = -repro_traj[1][0]
     starting_xyz_position[2] = repro_traj[2][0]
     starting_xyz_position[3] = -pos_rot_data[4][0]
     starting_xyz_position[4] = pos_rot_data[3][0]
@@ -194,11 +219,13 @@ class MoveGroupPythonInterface(object):
 	#R1 = R.from_quat([pos_rot_data[3][0], pos_rot_data[4][0], pos_rot_data[5][0], pos_rot_data[6][0]])
     #R1 = R.from_quat([pos_rot_data[3][0], pos_rot_data[4][0], pos_rot_data[5][0], pos_rot_data[6][0]])
     #R2 = R.from_quat([pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]])
-    print(pos_rot_data[3][0])
+    #print(pos_rot_data[3][0])
     
     #key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], [pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
+    midpoint = len(pos_rot_data) // 2
     key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], 
-                             [pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
+                             [pos_rot_data[3][0] + 0.25,  pos_rot_data[4][0] - 0.25,  pos_rot_data[5][0] + 0.25,  pos_rot_data[6][0] - 0.25] ])
+                             #[pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
                              #[pos_rot_data[3][1675],  pos_rot_data[4][1675],  pos_rot_data[5][1675],  pos_rot_data[6][1675]], 
                              #[pos_rot_data[3][3020],  pos_rot_data[4][3020],  pos_rot_data[5][3020],  pos_rot_data[6][3020]], 
                              #[pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
@@ -234,23 +261,23 @@ class MoveGroupPythonInterface(object):
     #put each xyz into the waypoints array
     wpose = self.move_group.get_current_pose().pose
     for i in range(1, n_pts):
-      wpose.position.x = ((repro_traj[0][i] + repro_traj[0][i-1]) / 2)#/tf and rviz have x and y opposite signs
-      wpose.position.y = ((repro_traj[1][i] + repro_traj[1][i-1]) / 2)
-      wpose.position.z = ((repro_traj[2][i] + repro_traj[2][i-1]) / 2)
-      cur_R = slerp(np.array([i - 0.5]))
-      cur_quats = cur_R.as_quat()
-      #print(cur_quats)
-      wpose.orientation.x = -cur_quats[0][1]
-      wpose.orientation.y = cur_quats[0][0]
-      wpose.orientation.z = cur_quats[0][3]
-      wpose.orientation.w = -cur_quats[0][2]
+      #wpose.position.x = -((repro_traj[0][i] + repro_traj[0][i-1]) / 2)#/tf and rviz have x and y opposite signs
+      #wpose.position.y = -((repro_traj[1][i] + repro_traj[1][i-1]) / 2)
+      #wpose.position.z = ((repro_traj[2][i] + repro_traj[2][i-1]) / 2)
+      #cur_R = slerp(np.array([i - 0.5]))
+      #cur_quats = cur_R.as_quat()
+      ##print(cur_quats)
+      #wpose.orientation.x = -cur_quats[0][1]
+      #wpose.orientation.y = cur_quats[0][0]
+      #wpose.orientation.z = cur_quats[0][3]
+      #wpose.orientation.w = -cur_quats[0][2]
       
-      waypoints.append(copy.deepcopy(wpose))
+      #waypoints.append(copy.deepcopy(wpose))
     
-    #for i in range(0, n_pts):
+      #for i in range(0, n_pts):
       
-      wpose.position.x = repro_traj[0][i]#/tf and rviz have x and y opposite signs
-      wpose.position.y = repro_traj[1][i]
+      wpose.position.x = -repro_traj[0][i]#/tf and rviz have x and y opposite signs
+      wpose.position.y = -repro_traj[1][i]
       wpose.position.z = repro_traj[2][i]
       #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
       #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
@@ -279,7 +306,7 @@ class MoveGroupPythonInterface(object):
     # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
     (plan, fraction) = self.move_group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
-                                       0.01,       # eef_step
+                                       0.001,       # eef_step
                                        0.0)       # jump_threshold
     # Note: We are just planning, not asking move_group to actually move the robot yet:
     ### TESTING ###
@@ -325,7 +352,7 @@ class MoveGroupPythonInterface(object):
     box_pose.header.frame_id = self.robot.get_planning_frame()
     #box origin (default = {0, 0, 0, 0, 0, 0, 0})
     box_pose.pose.orientation.w = 1.0
-    box_pose.pose.position.z = -0.07
+    box_pose.pose.position.z = -0.06
     self.box_name1 = "table"
     #add box to planning scene and specify dimensions
     self.scene.add_box(self.box_name1, box_pose, size=(10, 10, 0.1))

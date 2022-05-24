@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import numpy as np
 import rospy
 from geometry_msgs.msg import PointStamped
@@ -25,11 +27,31 @@ class Transformer(object):
         out_pt = np.matmul(self.H, in_pt)
         self.publish_data(out_pt) 
     
+class Transformer_Local(object):
+
+    def __init__(self):
+        self.pub = rospy.Publisher('/object/position_local', PointStamped, queue_size=1)
+        self.h = std_msgs.msg.Header()
+        self.msg = PointStamped()
+
+    def publish_data(self, pt):
+        self.h.stamp = rospy.Time.now()
+        self.msg.header = self.h
+        self.msg.point.x = pt[0]
+        self.msg.point.y = pt[1]
+        self.msg.point.z = pt[2]
+        self.pub.publish(self.msg)
+
+    def callback(self, msg):
+        in_pt = np.array([msg.point.x - 320, 240 - msg.point.y, msg.point.z - 250])
+        self.publish_data(in_pt) 
+    
+    
 def transformer():
 
     rospy.init_node('position_transform', anonymous=True)
     
-    tf = Transformer()
+    tf = Transformer_Local()
 
     rospy.Subscriber('/object/position', PointStamped, tf.callback)
 

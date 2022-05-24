@@ -9,6 +9,7 @@ NUM_JOINTS = 6
 
 def read_data(fname):
     hf = h5py.File(fname, 'r')
+    print(list(hf.keys()))
     js = hf.get('joint_state_info')
     joint_time = np.array(js.get('joint_time'))
     joint_pos = np.array(js.get('joint_positions'))
@@ -21,6 +22,7 @@ def read_data(fname):
     tf_pos = np.array(tf.get('transform_positions'))
     tf_rot = np.array(tf.get('transform_orientations'))
     tf_data = [tf_time, tf_pos, tf_rot]
+    print(tf_pos)
     
     wr = hf.get('wrench_info')
     wrench_time = np.array(wr.get('wrench_time'))
@@ -133,7 +135,7 @@ def plot_data(fname):
     return
 
 def main():
-    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2021-11-03 15:09:04.h5'#raw_input('Enter the filename of the .h5 demo: ')
+    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2022-04-05 11:45:11(success,ARbox).h5'#raw_input('Enter the filename of the .h5 demo: ')
     plot_data(filename)
 
 

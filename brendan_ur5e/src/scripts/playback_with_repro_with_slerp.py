@@ -121,7 +121,7 @@ class MoveGroupPythonInterface(object):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
-    filename = '/home/bhertel/catkin_ws/h5 files/bad preprocessed recorded_demo Fri Jul  3 14:36:56 2020.h5'
+    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2022-04-05 11:45:11(success,ARbox).h5'
     repro_fname = '/home/bhertel/catkin_ws/h5 files/36_56/36_56__3D_reproduction.h5'
     #filename = 'h5 files/recorded_demo Tue Jan 21 10:48:49 2020.h5'
     #filename = 'preprocessedrecorded_demo Tue Jan 21 10:48:49 2020.h5'
@@ -173,11 +173,11 @@ class MoveGroupPythonInterface(object):
 #    #plt.xlabel('pos_y')
 #    plt.show()
     
-    repro = h5py.File(repro_fname, 'r')
-    repro_traj = repro.get('JA')
-    pos_rot_data[0] = np.array(repro_traj.get('x')).reshape(np.shape(pos_rot_data[0]))
-    pos_rot_data[1] = np.array(repro_traj.get('y')).reshape(np.shape(pos_rot_data[1]))
-    pos_rot_data[2] = np.array(repro_traj.get('z')).reshape(np.shape(pos_rot_data[2]))
+    #repro = h5py.File(repro_fname, 'r')
+    #repro_traj = repro.get('JA')
+    #pos_rot_data[0] = np.array(repro_traj.get('x')).reshape(np.shape(pos_rot_data[0]))
+    #pos_rot_data[1] = np.array(repro_traj.get('y')).reshape(np.shape(pos_rot_data[1]))
+    #pos_rot_data[2] = np.array(repro_traj.get('z')).reshape(np.shape(pos_rot_data[2]))
     
     print "Press 'Enter' to move to starting position from xyz coords"
     raw_input()
@@ -221,6 +221,8 @@ class MoveGroupPythonInterface(object):
     #rot_y = []
     #rot_z = []
     #rot_w = []
+    
+    pos_rot_data = np.loadtxt('ben_daniel_tlfsd_repro50.txt')
     
     #put each xyz into the waypoints array
     wpose = self.move_group.get_current_pose().pose

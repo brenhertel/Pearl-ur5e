@@ -10,7 +10,9 @@ import std_msgs
 class Sifter(object):
 
     def __init__(self):
-        self.ref_img = cv2.imread('/home/bhertel/Pictures/ccw.png')
+        self.ref_img = cv2.imread('/home/bhertel/Downloads/screwdriver_sift.jpg')
+        rx, ry, _ = np.shape(self.ref_img)
+        self.ref_img = cv2.resize(self.ref_img,(int(rx * 0.3), int(ry * 0.3)))
         self.bridge = CvBridge()
         self.ref_blur = cv2.GaussianBlur(self.ref_img,(5,5),cv2.BORDER_DEFAULT)
         self.num_matches = 15
@@ -19,7 +21,7 @@ class Sifter(object):
         self.keypoints1, self.des1 = self.sift.detectAndCompute(self.ref_blur, None)
         self.bf = cv2.BFMatcher(cv2.NORM_L1, crossCheck=True)
         self.show = False
-        self.pub = rospy.Publisher('/object/position', PointStamped, queue_size=100)
+        self.pub = rospy.Publisher('/object/position', PointStamped, queue_size=1)
         self.h = std_msgs.msg.Header()
         self.msg = PointStamped()
 
@@ -75,7 +77,7 @@ def sifter():
     
     sf = Sifter()
 
-    rospy.Subscriber('/camera/rgb/image_raw', Image, sf.callback)
+    rospy.Subscriber('/camera/rgb/image_raw', Image, sf.callback, queue_size=1)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

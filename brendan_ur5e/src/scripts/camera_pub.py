@@ -31,7 +31,7 @@ def camera_pub():
         rospy.loginfo('Frame read, publishing...')
         pub.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
         #cv2.imshow('frame',frame)
-        #cv2.waitKey(1000)
+        #cv2.waitKey(100)
         #cv2.destroyAllWindows()
         rate.sleep()
         #rospy.Rate(1.0).sleep()
@@ -56,14 +56,17 @@ def camera_save():
     cv2.destroyAllWindows()
     #rate.sleep()
     #rospy.Rate(1.0).sleep()
-    cv2.imwrite("cup.png", frame)
+    cv2.imwrite("screwdriver.png", frame)
     
     cam.release()
 
 def camera_load():
     img = cv2.imread("cup.png")
-    img = img[0:350, :]
+    #img = img[0:350, :]
+    cv2.imshow("img", img)
+    cv2.waitKey(0)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    cv2.destroyAllWindows()
     upper = np.array([180, 255, 255])
     lower = np.array([140, 50, 50])
     img = cv2.inRange(img, lower, upper)

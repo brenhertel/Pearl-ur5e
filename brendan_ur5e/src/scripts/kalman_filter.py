@@ -1,3 +1,5 @@
+#from code presented here: https://arxiv.org/pdf/1204.0375.pdf
+
 import numpy as np
 import matplotlib.pyplot as plt
 
