@@ -1,7 +1,7 @@
 import numpy as np
 import rospy
 from tf.msg import tfMessage
-from tf.transformations import euler_from_quaternion, quaternion_from_euler
+from tf.transformations import euler_from_quaternion, quaternion_from_euler, translation_matrix, quaternion_matrix, concatenate_matrices
 
 #from: https://automaticaddison.com/how-to-convert-a-quaternion-into-euler-angles-in-python/
 def euler_from_quaternion(x, y, z, w):
@@ -71,6 +71,33 @@ class Transformer(object):
             new_msg.transforms[0].transform.translation.z = zp
             
             self.pub.publish(new_msg)
+            
+    def callback2(self, msg):
+        if msg.transforms[0].child_frame_id == 'tool0_controller':
+            orientation_q = msg.transforms[0].transform.rotation
+            translation_mat = translation_matrix((0, self.x_trans, 0))
+            #translation_mat = translation_matrix((msg.transforms[0].transform.translation.x, msg.transforms[0].transform.translation.y, msg.transforms[0].transform.translation.z))
+            
+            #rotation_mat = quaternion_matrix((orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w))
+            rotation_mat = quaternion_matrix((-orientation_q.z, -orientation_q.x, -orientation_q.y, -orientation_q.w))
+            
+            frame_matrix = np.array([[msg.transforms[0].transform.translation.x], [msg.transforms[0].transform.translation.y], [msg.transforms[0].transform.translation.z], [1]])
+            #frame_matrix = np.array([[0], [self.x_trans], [0], [1]])
+            
+            #transform_mat = np.dot(rotation_mat, translation_mat)
+            transform_mat = concatenate_matrices(rotation_mat, translation_mat)
+            #transform_mat = rotation_mat
+            #transform_mat[1,3] = self.x_trans
+            print(transform_mat)
+            new_point = np.matmul(transform_mat, frame_matrix)
+            #print(new_point)
+            
+            new_msg = msg
+            new_msg.transforms[0].transform.translation.x = new_point[0]
+            new_msg.transforms[0].transform.translation.y = new_point[1]
+            new_msg.transforms[0].transform.translation.z = new_point[2]
+            
+            self.pub.publish(new_msg)
         
 def transformer():
 
@@ -78,7 +105,7 @@ def transformer():
     
     trans = Transformer()
     
-    rospy.Subscriber('/tf', tfMessage, trans.callback)
+    rospy.Subscriber('/tf', tfMessage, trans.callback2)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

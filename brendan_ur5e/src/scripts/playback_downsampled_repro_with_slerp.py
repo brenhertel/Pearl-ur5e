@@ -121,7 +121,7 @@ class MoveGroupPythonInterface(object):
     #start planning demo playback by reading data from the demo.h5 file
     
     #ask user for the file which the playback is for
-    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2022-04-05 11:45:11(success,ARbox).h5'
+    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2022-07-05 12:48:33.h5'
     #repro_fname = '/home/bhertel/catkin_ws/h5 files/36_56/36_56__3D_reproduction.h5'
     #filename = 'h5 files/recorded_demo Tue Jan 21 10:48:49 2020.h5'
     #filename = 'preprocessedrecorded_demo Tue Jan 21 10:48:49 2020.h5'
@@ -193,21 +193,26 @@ class MoveGroupPythonInterface(object):
 #    plt.show()
     
     #repro = h5py.File(repro_fname, 'r')
-    repro_traj = np.loadtxt('ben_daniel_tlfsd_repro50.txt')#repro.get('JA')
+    repro_traj = np.transpose(np.loadtxt('flem_repro_picking.txt')) #repro.get('JA')
     print('start')
     print(repro_traj[:, 0])
     print('end')
     print(repro_traj[:, -1])
-    repro_traj[1] = repro_traj[1] - 0.1
-    repro_traj[2] = repro_traj[2] + 0.1
+    #repro_traj[1] = repro_traj[1] - 0.1
+    #repro_traj[2] = repro_traj[2] + 0.1
     #repro_traj = np.transpose(repro_traj)
     (n_dims, n_pts) = np.shape(repro_traj)
+    
+    x_mod = 0.15
+    y_mod = -0.055
+    z_mod = -0.06
+    
     print "Press 'Enter' to move to starting position from xyz coords"
     raw_input()
     starting_xyz_position = np.zeros(7);
-    starting_xyz_position[0] = -repro_traj[0][0]
-    starting_xyz_position[1] = -repro_traj[1][0]
-    starting_xyz_position[2] = repro_traj[2][0]
+    starting_xyz_position[0] = -repro_traj[0][0] + x_mod
+    starting_xyz_position[1] = -repro_traj[1][0] + y_mod
+    starting_xyz_position[2] = repro_traj[2][0] + z_mod
     starting_xyz_position[3] = -pos_rot_data[4][0]
     starting_xyz_position[4] = pos_rot_data[3][0]
     starting_xyz_position[5] = pos_rot_data[6][0]
@@ -220,32 +225,39 @@ class MoveGroupPythonInterface(object):
     #R1 = R.from_quat([pos_rot_data[3][0], pos_rot_data[4][0], pos_rot_data[5][0], pos_rot_data[6][0]])
     #R2 = R.from_quat([pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]])
     #print(pos_rot_data[3][0])
-    
+    (n_joints, og_pts) = np.shape(pos_rot_data)
+    og_moments = [0.0, 0.37, 0.37]
+    moments = [0.0, 0.58, 1.0]
+    true_inds = [int(moments[i] * (og_pts - 1)) for i in range(len(og_moments))]
+    key_inds = [int(moments[i] * (n_pts - 1)) for i in range(len(moments))]
+    key_rots = R.from_quat([ [pos_rot_data[3][ind], pos_rot_data[4][ind], pos_rot_data[5][ind], pos_rot_data[6][ind]] for ind in true_inds])
     #key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], [pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
-    midpoint = len(pos_rot_data) // 2
-    key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], 
-                             [pos_rot_data[3][0] + 0.25,  pos_rot_data[4][0] - 0.25,  pos_rot_data[5][0] + 0.25,  pos_rot_data[6][0] - 0.25] ])
+    #midpoint = len(pos_rot_data) // 2
+    # key_rots = R.from_quat([ [pos_rot_data[3][0],  pos_rot_data[4][0],  pos_rot_data[5][0],  pos_rot_data[6][0]], 
+    #                          [pos_rot_data[3][0] + 0.25,  pos_rot_data[4][0] - 0.25,  pos_rot_data[5][0] + 0.25,  pos_rot_data[6][0] - 0.25] ])
                              #[pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
                              #[pos_rot_data[3][1675],  pos_rot_data[4][1675],  pos_rot_data[5][1675],  pos_rot_data[6][1675]], 
                              #[pos_rot_data[3][3020],  pos_rot_data[4][3020],  pos_rot_data[5][3020],  pos_rot_data[6][3020]], 
                              #[pos_rot_data[3][-1], pos_rot_data[4][-1], pos_rot_data[5][-1], pos_rot_data[6][-1]] ])
     
     print(key_rots.as_quat())
-    ti = 0
-    tf = n_pts - 1
+    print(true_inds)
+    print(key_inds)
+    #ti = 0
+    #tf = n_pts - 1
 	
     #t1 = 23
     #t2 = 67
 	
     #key_rots = np.array([R1, R2])
-    print([ti, tf])
+    #print([ti, tf])
     #key_times = np.array([ti, t1, t2, tf])
-    key_times = np.array([ti, tf])
+    #key_times = np.array([ti, tf])
     
-    slerp = Slerp(key_times, key_rots)
+    slerp = Slerp(key_inds, key_rots)
 
     #record xyz coordinates as a list of waypoints the robot passes through
-    waypoints = []
+    
   
     ### TESTING w/ PREPROCESSING
     #print(pos_rot_data)
@@ -259,26 +271,63 @@ class MoveGroupPythonInterface(object):
     #rot_w = []
     
     #put each xyz into the waypoints array
-    wpose = self.move_group.get_current_pose().pose
-    for i in range(1, n_pts):
-      #wpose.position.x = -((repro_traj[0][i] + repro_traj[0][i-1]) / 2)#/tf and rviz have x and y opposite signs
-      #wpose.position.y = -((repro_traj[1][i] + repro_traj[1][i-1]) / 2)
-      #wpose.position.z = ((repro_traj[2][i] + repro_traj[2][i-1]) / 2)
-      #cur_R = slerp(np.array([i - 0.5]))
-      #cur_quats = cur_R.as_quat()
-      ##print(cur_quats)
-      #wpose.orientation.x = -cur_quats[0][1]
-      #wpose.orientation.y = cur_quats[0][0]
-      #wpose.orientation.z = cur_quats[0][3]
-      #wpose.orientation.w = -cur_quats[0][2]
-      
-      #waypoints.append(copy.deepcopy(wpose))
     
-      #for i in range(0, n_pts):
-      
-      wpose.position.x = -repro_traj[0][i]#/tf and rviz have x and y opposite signs
-      wpose.position.y = -repro_traj[1][i]
-      wpose.position.z = repro_traj[2][i]
+    #wpose = self.move_group.get_current_pose().pose
+    #for i in range(1, n_pts):
+    #
+    #  wpose.position.x = -repro_traj[0][i] + x_mod #/tf and rviz have x and y opposite signs
+    #  wpose.position.y = -repro_traj[1][i] + y_mod
+    #  wpose.position.z = repro_traj[2][i]  + z_mod
+    #  #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
+    #  #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
+    #  #wpose.orientation.z = pos_rot_data[6][i]#rviz rotation z is /tf w
+    #  #wpose.orientation.w = -pos_rot_data[5][i]#rviz rotation w is /tf -z
+    #  cur_R = slerp(np.array([i]))
+    #  cur_quats = cur_R.as_quat()
+    #  #print(cur_quats)
+    #  wpose.orientation.x = -cur_quats[0][1]
+    #  wpose.orientation.y = cur_quats[0][0]
+    #  wpose.orientation.z = cur_quats[0][3]
+    #  wpose.orientation.w = -cur_quats[0][2]
+    #  
+    #  waypoints.append(copy.deepcopy(wpose))
+    #  ### TESTING ###
+    #  #pos_x.append(wpose.position.x)
+    #  #pos_y.append(wpose.position.y)
+    #  #pos_z.append(wpose.position.z)
+    #  #rot_x.append(wpose.orientation.x)
+    #  #rot_y.append(wpose.orientation.y)
+    #  #rot_z.append(wpose.orientation.z)
+    #  #rot_w.append(wpose.orientation.w)
+    # 
+    #print(waypoints[0])
+    #print(waypoints[len(waypoints) - 1])
+    # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
+    #(plan, fraction) = self.move_group.compute_cartesian_path(
+    #                                   waypoints,   # waypoints to follow
+    #                                   0.001,       # eef_step
+    #                                   0.0)       # jump_threshold
+    # Note: We are just planning, not asking move_group to actually move the robot yet:
+    ### TESTING ###
+    #fp = h5py.File ('planned execution.h5', 'w')
+    #demo_name = 'demo1'
+    #pos_arr = np.array([[pos_x], [pos_y], [pos_z], [rot_x], [rot_y], [rot_z], [rot_w]])
+    #dset_pos_rot = fp.create_dataset(demo_name + '/tf_info/pos_rot_data', data=pos_arr)
+    #fp.close()
+    #print('Planning for %f %% of waypoints achieved' % (fraction * 100.0))
+    #print(plan)
+    #return plan, fraction
+    
+    print('Press enter to continue')
+    raw_input()
+    print('Planning leg 1')
+    waypoints = []
+    wpose = self.move_group.get_current_pose().pose
+    for i in range(1, int(0.30* n_pts)):
+    
+      wpose.position.x = -repro_traj[0][i] + x_mod #/tf and rviz have x and y opposite signs
+      wpose.position.y = -repro_traj[1][i] + y_mod
+      wpose.position.z = repro_traj[2][i]  + z_mod
       #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
       #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
       #wpose.orientation.z = pos_rot_data[6][i]#rviz rotation z is /tf w
@@ -292,32 +341,39 @@ class MoveGroupPythonInterface(object):
       wpose.orientation.w = -cur_quats[0][2]
       
       waypoints.append(copy.deepcopy(wpose))
-      ### TESTING ###
-      #pos_x.append(wpose.position.x)
-      #pos_y.append(wpose.position.y)
-      #pos_z.append(wpose.position.z)
-      #rot_x.append(wpose.orientation.x)
-      #rot_y.append(wpose.orientation.y)
-      #rot_z.append(wpose.orientation.z)
-      #rot_w.append(wpose.orientation.w)
- 
-    print(waypoints[0])
-    print(waypoints[len(waypoints) - 1])
-    # We want the Cartesian path to be interpolated at a resolution of 1 mm which is why we will specify 0.001 as the eef_step in Cartesian translation. We will disable the jump threshold by setting it to 0.0, ignoring the check for infeasible jumps in joint space.
     (plan, fraction) = self.move_group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
                                        0.001,       # eef_step
                                        0.0)       # jump_threshold
-    # Note: We are just planning, not asking move_group to actually move the robot yet:
-    ### TESTING ###
-    #fp = h5py.File ('planned execution.h5', 'w')
-    #demo_name = 'demo1'
-    #pos_arr = np.array([[pos_x], [pos_y], [pos_z], [rot_x], [rot_y], [rot_z], [rot_w]])
-    #dset_pos_rot = fp.create_dataset(demo_name + '/tf_info/pos_rot_data', data=pos_arr)
-    #fp.close()
-    print('Planning for %f %% of waypoints achieved' % (fraction * 100.0))
-    #print(plan)
-    return plan, fraction
+    self.move_group.execute(plan, wait=True)
+    print('Press enter to continue')
+    raw_input()
+    print('Planning leg 2')
+    waypoints = []
+    wpose = self.move_group.get_current_pose().pose
+    for i in range(int(0.30* n_pts), n_pts):
+    
+      wpose.position.x = -repro_traj[0][i] + x_mod #/tf and rviz have x and y opposite signs
+      wpose.position.y = -repro_traj[1][i] + y_mod
+      wpose.position.z = repro_traj[2][i]  + z_mod
+      #wpose.orientation.x = -pos_rot_data[4][i]#rviz rotation x is /tf -y
+      #wpose.orientation.y = pos_rot_data[3][i]#rviz rotation y is /tf x
+      #wpose.orientation.z = pos_rot_data[6][i]#rviz rotation z is /tf w
+      #wpose.orientation.w = -pos_rot_data[5][i]#rviz rotation w is /tf -z
+      cur_R = slerp(np.array([i]))
+      cur_quats = cur_R.as_quat()
+      #print(cur_quats)
+      wpose.orientation.x = -cur_quats[0][1]
+      wpose.orientation.y = cur_quats[0][0]
+      wpose.orientation.z = cur_quats[0][3]
+      wpose.orientation.w = -cur_quats[0][2]
+      
+      waypoints.append(copy.deepcopy(wpose))
+    (plan, fraction) = self.move_group.compute_cartesian_path(
+                                       waypoints,   # waypoints to follow
+                                       0.001,       # eef_step
+                                       0.0)       # jump_threshold
+    self.move_group.execute(plan, wait=True)
 
   def display_trajectory(self, plan):
     #ask rviz to display the trajectory
@@ -352,7 +408,7 @@ class MoveGroupPythonInterface(object):
     box_pose.header.frame_id = self.robot.get_planning_frame()
     #box origin (default = {0, 0, 0, 0, 0, 0, 0})
     box_pose.pose.orientation.w = 1.0
-    box_pose.pose.position.z = -0.06
+    box_pose.pose.position.z = -0.04
     self.box_name1 = "table"
     #add box to planning scene and specify dimensions
     self.scene.add_box(self.box_name1, box_pose, size=(10, 10, 0.1))
@@ -364,7 +420,7 @@ class MoveGroupPythonInterface(object):
     box_pose = geometry_msgs.msg.PoseStamped()
     box_pose.header.frame_id = self.robot.get_planning_frame()
     box_pose.pose.orientation.w = 1.0
-    box_pose.pose.position.y = -0.15 # next to the robot
+    box_pose.pose.position.y = -0.2 # next to the robot
     self.box_name2 = "wall"
     self.scene.add_box(self.box_name2, box_pose, size=(10, 0.02, 10))
     return self.wait_for_state_update(self.box_name2, box_is_known=True, timeout=timeout)
@@ -385,14 +441,14 @@ def main():
     raw_input()
     ur5e_arm = MoveGroupPythonInterface()
     #table and wall have to be added in separately--for some reason adding them together didn't work
-    print "Press 'Enter' to add in table"
-    raw_input()
+    #print "Press 'Enter' to add in table"
+    #raw_input()
     ur5e_arm.add_table()
-    print "Press 'Enter' to add in wall"
-    raw_input()
+    #print "Press 'Enter' to add in wall"
+    #raw_input()
     ur5e_arm.add_wall()
-    print "Press 'Enter' to begin planning playback"
-    raw_input()
+    #print "Press 'Enter' to begin planning playback"
+    #raw_input()
     cartesian_plan, fraction = ur5e_arm.plan_cartesian_path()
     print "Press 'Enter' to display planned trajectory"
     raw_input()

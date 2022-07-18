@@ -97,6 +97,8 @@ def plot_tf_data(tf_data):
 	ax.set_ylabel('y')
 	ax.set_zlabel('z')
 	
+	np.savetxt('succ2_demo.txt', tf_data[1])
+	
 def plot_wrench_data(wrench_data):
 	wr_fig, (ax1, ax2) = plt.subplots(2, 1)
 	wr_fig.suptitle('Wrench')
@@ -120,6 +122,7 @@ def plot_gripper_data(gripper_data):
 	gp_fig, ax = plt.subplots(1, 1)
 	gp_fig.suptitle('Gripper')
 	time = gripper_data[0][:, 0] + gripper_data[0][:, 1] * (10.0**-9)
+	time = time - time[0]
 	ax.plot(time, gripper_data[1])
 	ax.set_xlabel('time')
 	ax.set_ylabel('position')
@@ -135,7 +138,7 @@ def plot_data(fname):
     return
 
 def main():
-    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2022-04-05 11:45:11(success,ARbox).h5'#raw_input('Enter the filename of the .h5 demo: ')
+    filename = '/home/bhertel/catkin_ws/src/brendan_ur5e/src/scripts/recorded_demo 2022-07-05 12:48:33.h5'#raw_input('Enter the filename of the .h5 demo: ')
     plot_data(filename)
 
 
