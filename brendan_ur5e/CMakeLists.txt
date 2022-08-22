@@ -65,6 +65,7 @@ find_package(catkin REQUIRED COMPONENTS
  add_message_files(
    FILES
    gripper_pos.msg
+   image_data.msg
 )
 
 ## Generate services in the 'srv' folder
