@@ -1,0 +1,9 @@
+<launch>
+
+  <group ns="brendan_ur5e">
+    <node pkg="brendan_ur5e" name="camera_full_pub" type="camera_full_pub.py"/>
+    <node pkg="brendan_ur5e" name="camera_depth_converter" type="camera_depth_converter.py"/>
+    <node pkg="brendan_ur5e" name="camera_rgb_converter" type="camera_rgb_converter.py"/>
+  </group>
+  
+</launch>
