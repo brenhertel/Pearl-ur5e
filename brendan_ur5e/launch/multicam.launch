@@ -1,0 +1,15 @@
+<launch>
+
+  <group ns="brendan_ur5e">
+    <!-- <node pkg="brendan_ur5e" name="multicam_pub" type="multicam_pub.py"/> -->
+    <node pkg="brendan_ur5e" name="cam1_pub" type="cam1_pub.py"/>
+    <node pkg="brendan_ur5e" name="cam2_pub" type="cam2_pub.py"/>
+    <!-- <node pkg="brendan_ur5e" name="multicam_depth_converter" type="multicam_depth_converter.py"/> -->
+    <node pkg="brendan_ur5e" name="cam1_depth_converter" type="cam1_depth_converter.py"/>
+    <node pkg="brendan_ur5e" name="cam2_depth_converter" type="cam2_depth_converter.py"/>
+    <!-- <node pkg="brendan_ur5e" name="multicam_rgb_converter" type="multicam_rgb_converter.py"/> -->
+    <node pkg="brendan_ur5e" name="cam1_rgb_converter" type="cam1_rgb_converter.py"/>
+    <node pkg="brendan_ur5e" name="cam2_rgb_converter" type="cam2_rgb_converter.py"/>
+  </group>
+  
+</launch>

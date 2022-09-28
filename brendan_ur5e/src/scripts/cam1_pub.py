@@ -20,6 +20,7 @@ sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages')
 # Configure depth and color streams
 pipeline = rs.pipeline()
 config = rs.config()
+config.enable_device('841612070149') #right side of table (desk side)
 
 # Get device product line for setting a supporting resolution
 pipeline_wrapper = rs.pipeline_wrapper(pipeline)
@@ -59,9 +60,9 @@ print(f"streams: {pf.get_streams()}")
 
 
 
-rospy.init_node('camera_full_pub', anonymous=True)
-pub_rgb = rospy.Publisher('/camera/rgb/image_muddy', image_data, queue_size=1)
-pub_depth = rospy.Publisher('/camera/depth/image_muddy', image_data, queue_size=1)
+rospy.init_node('cam1_pub', anonymous=True)
+pub_rgb = rospy.Publisher('/camera1/rgb/image_muddy', image_data, queue_size=1)
+pub_depth = rospy.Publisher('/camera1/depth/image_muddy', image_data, queue_size=1)
 #bridge = CvBridge()
 
 rate = rospy.Rate(30)
