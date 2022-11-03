@@ -11,7 +11,7 @@ from cv_bridge import CvBridge
 class CameraConverter(object):
     
     def __init__(self):
-        self.pub_depth1 = rospy.Publisher('/camera1/depth/image_raw', Image, queue_size=1)
+        self.pub_depth1 = rospy.Publisher('/camera1/depth/image_raw', Image, queue_size=10)
         #self.pub_depth_res = rospy.Publisher('/camera/depth/image_resized', Image, queue_size=1)
         self.bridge = CvBridge()
         #self.height_crop_frac = (1 - 69./87.)/2

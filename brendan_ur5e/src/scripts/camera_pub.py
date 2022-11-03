@@ -43,7 +43,7 @@ def camera_save():
     #pub = rospy.Publisher('/camera/rgb/image_raw', Image, queue_size=100)
     #rospy.init_node('camera_rgb_pub', anonymous=True)
     #bridge = CvBridge()
-    cam = cv2.VideoCapture(2)
+    cam = cv2.VideoCapture(5)
     #rate = rospy.Rate(10)
     i = 0
     while cam.isOpened() and i < 100:
@@ -56,7 +56,7 @@ def camera_save():
     cv2.destroyAllWindows()
     #rate.sleep()
     #rospy.Rate(1.0).sleep()
-    cv2.imwrite("screwdriver.png", frame)
+    cv2.imwrite("chessboard_img.jpg", frame)
     
     cam.release()
 
@@ -100,5 +100,5 @@ def camera_load():
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    camera_pub()
+    camera_save()
 

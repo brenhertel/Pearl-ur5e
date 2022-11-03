@@ -62,7 +62,7 @@ print(f"streams: {pf.get_streams()}")
 
 rospy.init_node('cam1_pub', anonymous=True)
 pub_rgb = rospy.Publisher('/camera1/rgb/image_muddy', image_data, queue_size=1)
-pub_depth = rospy.Publisher('/camera1/depth/image_muddy', image_data, queue_size=1)
+pub_depth = rospy.Publisher('/camera1/depth/image_muddy', image_data, queue_size=10)
 #bridge = CvBridge()
 
 rate = rospy.Rate(30)

@@ -1,0 +1,19 @@
+<launch>
+
+
+  <!-- use argument ip:=<your.robot.ip.address> when lauching this file -->
+  <!-- on robot pendant, press top right menu button (three horizontal lines), click "About" and IP address will be displayed -->
+  <arg name="sim" default="false" />
+  <arg name="ip" unless="$(arg sim)"/>
+  
+  <include file="$(find brendan_ur5e)/launch/brendan_ur5e_gripper.launch"  if="$(arg sim)">
+    <arg name="sim" value="true"/>
+  </include>
+  
+  <include file="$(find brendan_ur5e)/launch/brendan_ur5e_gripper.launch"  unless="$(arg sim)">
+    <arg name="ip" value="$(arg ip)"/>
+  </include>
+  
+  <include file="$(find brendan_ur5e)/launch/multicam.launch"  unless="$(arg sim)" />
+  
+</launch>
